@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="no-js" ng-app="App">
+    <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Marketing University: Entrenate, Certifica tus conocimientos en Marketing Digital</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/css-circle/css/circle.css">
+
+        <script src="angular/angular/angular.min.js"></script>
+        <script src="angular/angular-route/angular-route.min.js"></script>
+
+        <!-- media-queries.js (fallback) -->
+        <!--[if lt IE 9]>
+            <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>           
+        <![endif]-->
+
+        <!--[if lt IE 9]>
+            <script src="dist/html5shiv.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+    <body>
+        
+        <!-- Navbar -->
+
+        <div ng-include="'views/navbar.html'"></div>
+
+        <!-- contenedor Dinamico -->
+
+        <div ng-view id="content-app"></div>
+
+        <!-- footer -->
+
+        <div ng-include="'views/footer.html'"></div>
+
+        <!--  MODAL DE INGRESO  -->
+
+        <div class="modal modal--ingreso fade" id="js-ingreso" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img src="images/logo2.png" alt="" class="img-responsive center-block">
+                    </div>
+                    <div class="modal-body">
+                        <div role="tabpanel">
+                            <ul class="nav nav-tabs nav-justified nav-ingreso" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#registro" aria-controls="registro" role="tab" data-toggle="tab">Regístrate</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#ingreso" aria-controls="ingreso" role="tab" data-toggle="tab">Iniciar Sesión</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="registro">
+                                    <a href="#" class="btn btn-facebook btn-block">
+                                        <span class="icon-facebook margin--r2"></span> 
+                                        Regístrate con facebook
+                                    </a>
+                                    <p class="text text-center text--gris">
+                                        O
+                                    </p>
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control--form" placeholder="Nombre Completo">
+                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico">
+                                            <select id="" class="form-control form-control--form">
+                                                <option value="">Género</option>
+                                            </select>
+                                            <select id="" class="form-control form-control--form">
+                                                <option value="">País</option>
+                                            </select>
+                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña">
+                                        </div>
+                                        <div class="col-xs-12 bg-gris margin--b1">
+                                            <p class="text text--xs text--gris">
+                                                Al hacer clic en “crear una cuenta”, aceptas las Condiciones y confirmas que leíste nuestra Política de datos, incluido el uso de cookies.
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-12 margin--b1">
+                                            <div class="row">
+                                                <a href="perfil.html" class="btn btn-verde btn--lite btn-block text--upper">Crear una cuenta</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="ingreso">
+                                    <a href="#" class="btn btn-facebook btn-block">
+                                        <span class="icon-facebook margin--r2"></span> 
+                                        Ingresa con facebook
+                                    </a>
+                                    <p class="text text-center text--gris">
+                                        O
+                                    </p>
+                                    <form ng-controller="login_api">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userName">
+                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword">
+                                        </div>
+                                        <a class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()">iniciar sesión</a>
+                                        <a class="text text--azul text--sm text-center center-block margin--t1">
+                                            Olvíde mi contraseña
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/loader.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script> 
+        
+        <!--- //// MVC ///// -->
+
+        <!-- App -->
+        <script src="js/main.js"></script>
+        <!-- Controllers -->
+        <script src="controllers/ctrl.js"></script>
+        <!-- Models -->
+        <script src="models/models.js"></script>
+
+
+    </body>
+</html>

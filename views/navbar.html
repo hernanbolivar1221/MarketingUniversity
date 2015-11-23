@@ -1,0 +1,36 @@
+<nav class="col-xs-12 nav-topper" ng-controller="navbar_functions">
+    <div class="container">
+        <div class="row-same-height row-xs-full-height">
+            <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
+                <a href="#/" style="padding-left:0">
+                    <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
+                </a>
+                <div ng-show="menuOpen" class="top-main-menu">
+                    <ul class="nav nav-complete navbar-nav navbar-right">
+                        <li class="active"><a data-toggle="modal" data-target="#js-ingreso">CURSOS</a></li>
+                        <li><a data-toggle="modal" data-target="#js-ingreso">CERTIFICACIONES</a></li>
+                        <li><a data-toggle="modal" data-target="#js-ingreso">BOLSA DE EMPLEO</a></li>
+                        <li><a data-toggle="modal" data-target="#js-ingreso">BIBLIOTECA</a></li>
+                        <li><a data-toggle="modal" data-target="#js-ingreso">PRECIOS</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-3 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
+
+                <div class="row sidebar-contentMenu">
+                    <div class="">
+                        <p class="text text--gris pull-right">
+                            
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso">INGRESAR</a>
+
+                            <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar" ng-click="showMenu()">
+                                <span class="icon-reorder"></span>
+                            </a>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
