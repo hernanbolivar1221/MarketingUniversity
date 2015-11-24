@@ -5,12 +5,7 @@ app.run(function($rootScope) {
 	$rootScope.btnLogout = false;
 });
 
-var counter = 0;
-
-// controller view profile
-app.controller("service", function($scope, serviceEmpty){
-	$scope.info = serviceEmpty.data();
-});
+// config JSON
 
 // Api profile
 app.controller("profile_api",function($scope, $http){
@@ -31,6 +26,10 @@ app.controller("login_api", function($scope, $http){
 	if(localStorage.dataUser){
 		location.href = "#/profile";
 	}
+	
+	// URL Constant
+	jsonData = config;
+
 	$scope.singUp = function(){
 
 		// Fields
@@ -40,12 +39,14 @@ app.controller("login_api", function($scope, $http){
 		// validation fields	
 		$scope.alertFields = false;	
 
-		if(userName == undefined || userPassword == undefined){
+		if(userName == undefined || userPassword == undefined || userName == "" || userPassword == ""){
 			$scope.alertFields = true;	
-		}
+			$scope.alertData = false;
+		}else{
 
 		// ajax for authentication	
-		ajaxAuth($http, userName, userPassword);
+			ajaxAuth($http, $scope,userName, userPassword);
+		}
 	}
 
 	$scope.createAccount = function(){
@@ -55,18 +56,18 @@ app.controller("login_api", function($scope, $http){
 			userEmail = $scope.userEmail;
 
 		// ajax for create account
-		ajaxAuth($http, userNameNew, userPasswordNew,userEmail);
+		ajaxAuth($http, $scope, userNameNew, userPasswordNew,userEmail);
 	}
 
 });
 
 // functions 
 
-function ajaxAuth($http, username, userpassword, email){
-	url = ( !email ? "http://kmelx.com/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : "http://kmelx.com/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email )
+function ajaxAuth($http, $scope, username, userpassword, email){
+	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/json/json_login_dare/?callback=JSON_CALLBACK&name=" + username + "&password=" + userpassword + "&email="+ email )
 	$http.jsonp(url).success(function(response){
 		if(response.status == "ok"){
-			$http.jsonp("http://kmelx.com/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
+			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
 					//console.log(JSON.stringify(respuesta));
 					location.reload();
 					localStorage.dataUser = JSON.stringify(respuesta);
@@ -74,6 +75,8 @@ function ajaxAuth($http, username, userpassword, email){
 					location.href = "#/profile";
 
 				});
+		}else{
+			$scope.alertData = true;	
 		}
 	});
 }

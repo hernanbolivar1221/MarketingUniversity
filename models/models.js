@@ -1,12 +1,3 @@
-// service data profile
-app.service("serviceEmpty", function(){
-    this.data = function(){
-        return {
-        }
-    }
-});
-
-
 
 /*var User = function(userData){
 

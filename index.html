@@ -105,6 +105,7 @@
                                             <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword">
                                         </div>
                                         <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
+                                        <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>
                                         <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
                                         <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>
                                     </form>
@@ -119,7 +120,7 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/loader.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script> 
-        
+        <script src="js/config.json"></script>
         <!--- //// MVC ///// -->
 
         <!-- App -->
