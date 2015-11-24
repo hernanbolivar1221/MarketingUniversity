@@ -55,7 +55,7 @@
                         <img src="images/logo2.png" alt="" class="img-responsive center-block">
                     </div>
                     <div class="modal-body">
-                        <div role="tabpanel">
+                        <div role="tabpanel" ng-controller="login_api">
                             <ul class="nav nav-tabs nav-justified nav-ingreso" role="tablist">
                                 <li role="presentation" class="active">
                                     <a href="#registro" aria-controls="registro" role="tab" data-toggle="tab">Regístrate</a>
@@ -75,15 +75,9 @@
                                     </p>
                                     <form>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Nombre Completo">
-                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico">
-                                            <select id="" class="form-control form-control--form">
-                                                <option value="">Género</option>
-                                            </select>
-                                            <select id="" class="form-control form-control--form">
-                                                <option value="">País</option>
-                                            </select>
-                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña">
+                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew">
+                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail">
+                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew">
                                         </div>
                                         <div class="col-xs-12 bg-gris margin--b1">
                                             <p class="text text--xs text--gris">
@@ -92,7 +86,7 @@
                                         </div>
                                         <div class="col-xs-12 margin--b1">
                                             <div class="row">
-                                                <a href="perfil.html" class="btn btn-verde btn--lite btn-block text--upper">Crear una cuenta</a>
+                                                <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="createAccount()" value="Crear una cuenta">
                                             </div>
                                         </div>
                                     </form>
@@ -105,15 +99,14 @@
                                     <p class="text text-center text--gris">
                                         O
                                     </p>
-                                    <form ng-controller="login_api">
+                                    <form>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userName">
                                             <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword">
                                         </div>
-                                        <a class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()">iniciar sesión</a>
-                                        <a class="text text--azul text--sm text-center center-block margin--t1">
-                                            Olvíde mi contraseña
-                                        </a>
+                                        <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
+                                        <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
+                                        <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>
                                     </form>
                                 </div>
                             </div>

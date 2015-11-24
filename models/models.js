@@ -2,16 +2,13 @@
 app.service("serviceEmpty", function(){
     this.data = function(){
         return {
-            image: 'https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-ash2/v/t1.0-9/601178_3900433867422_162045609_n.jpg?oh=ac2f5f6a05eaaab5dc1d13c4ca7291c7&oe=56F8B9F4&__gda__=1458801069_be0663af3e01bf0b87eba6c3adee8384',
-            name:'Hernan Dario Bolivar',
-            description:'Diseñador web y frontend', 
-            pts: 0
-
         }
     }
 });
 
-var User = function(userData){
+
+
+/*var User = function(userData){
 
     this.username = (userData && userData.username ? userData.username : null);
     this.password = (userData && userData.password ? userData.password : null);
@@ -51,7 +48,5 @@ var User = function(userData){
     this.getFirst_name = function(){
         return this.firstname
     }
-
-
-
 }
+*/
