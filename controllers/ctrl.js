@@ -15,6 +15,10 @@ app.controller("profile_api",function($scope, $http){
 		location.href = "#/";
 	}
 
+    // Jquery
+    	setTimeout(function(){
+       		$(".nav-tabs").find("ul").addClass("nav-perfil");
+    	});
 
 
 });
