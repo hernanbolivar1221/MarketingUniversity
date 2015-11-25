@@ -66,10 +66,10 @@
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="registro">
-                                    <a href="#" class="btn btn-facebook btn-block">
-                                        <span class="icon-facebook margin--r2"></span> 
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                                    <span class="icon-facebook margin--r2"></span> 
                                         Regístrate con facebook
-                                    </a>
+                                    </fb:login-button>
                                     <p class="text text-center text--gris">
                                         O
                                     </p>
@@ -92,10 +92,11 @@
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="ingreso">
-                                    <a href="#" class="btn btn-facebook btn-block">
-                                        <span class="icon-facebook margin--r2"></span> 
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                                    <span class="icon-facebook margin--r2"></span> 
                                         Ingresa con facebook
-                                    </a>
+                                    </fb:login-button>
+
                                     <p class="text text-center text--gris">
                                         O
                                     </p>
@@ -129,7 +130,7 @@
         <script src="controllers/ctrl.js"></script>
         <!-- Models -->
         <script src="models/models.js"></script>
-
+        
 
     </body>
 </html>
