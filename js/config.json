@@ -4,5 +4,5 @@ Object.defineProperty(config, "SERVICE_SERVER", {
 	enumerable : false,
 	configurable : false,
 	writable : false,
-	value : "http://kmelx.com:5000"
+	value : "http://kmelx.com"
 })
