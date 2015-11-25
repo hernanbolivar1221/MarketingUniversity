@@ -64,7 +64,7 @@ app.controller("login_api", function($scope, $http){
 // functions 
 
 function ajaxAuth($http, $scope, username, userpassword, email){
-	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/json/json_login_dare/?callback=JSON_CALLBACK&name=" + username + "&password=" + userpassword + "&email="+ email )
+	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email )
 	$http.jsonp(url).success(function(response){
 		if(response.status == "ok"){
 			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
