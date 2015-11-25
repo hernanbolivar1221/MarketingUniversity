@@ -79,6 +79,8 @@
                                             <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail">
                                             <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew">
                                         </div>
+
+                                        <div class="alert alert-danger text-center" ng-show="alertError"><span id="errorLogin"></span></div>
                                         <div class="col-xs-12 bg-gris margin--b1">
                                             <p class="text text--xs text--gris">
                                                 Al hacer clic en “crear una cuenta”, aceptas las Condiciones y confirmas que leíste nuestra Política de datos, incluido el uso de cookies.
@@ -106,6 +108,7 @@
                                         </div>
                                         <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
                                         <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>
+		
                                         <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
                                         <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>
                                     </form>

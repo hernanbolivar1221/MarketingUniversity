@@ -11,7 +11,10 @@ app.run(function($rootScope) {
 app.controller("profile_api",function($scope, $http){
 
 	if(localStorage.dataUser){
-		$scope.dataUser = JSON.parse(localStorage.dataUser);
+		
+            dataUser = JSON.parse(localStorage.dataUser);
+            dataUser.photo == "" ? dataUser.photo = "images/bullet3.png" : dataUser.photo;
+            $scope.dataUser = dataUser;
 	}else{
 		location.href = "#/";
 	}
@@ -54,7 +57,7 @@ app.controller("login_api", function($scope, $http){
 		var userNameNew = $scope.userNameNew,
 			userPasswordNew = $scope.userPasswordNew,
 			userEmail = $scope.userEmail;
-
+                
 		// ajax for create account
 		ajaxAuth($http, $scope, userNameNew, userPasswordNew,userEmail);
 	}
@@ -76,7 +79,12 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 
 				});
 		}else{
+                    if(response.error != undefined){
+                        $("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
+                        $scope.alertError = true;
+                    }else{
 			$scope.alertData = true;	
+                    }
 		}
 	});
 }
