@@ -1,4 +1,5 @@
 // Scope Goblal
+
 app.run(function($rootScope) {
   	$rootScope.btnSingUp = true;
 	$rootScope.btnLogout = false;
@@ -63,7 +64,7 @@ app.controller("login_api", function($scope, $http){
 // functions 
 
 function ajaxAuth($http, $scope, username, userpassword, email){
-	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/json/json_login_dare/?callback=JSON_CALLBACK&name=" + username + "&password=" + userpassword + "&email="+ email )
+	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email )
 	$http.jsonp(url).success(function(response){
 		if(response.status == "ok"){
 			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
@@ -79,85 +80,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 		}
 	});
 }
-
-
- function statusChangeCallback(response) {
-    if (response.status === 'connected') {
-      FB.login(function(response) {
- }, {scope: 'public_profile,email'});
-      kmeAPI();
-
-    }
-  }
-
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '485045968335965',
-    cookie     : true,   
-                        
-    xfbml      : true,  
-    version    : 'v2.2' 
-  });
-
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-
-  function kmeAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me?fields=name,email', function(response) {
-      client='http://kmelx.com/';
-      var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
-       $.ajax({
-          url: encodeURI(uri),
-          dataType: 'jsonp', 
-          success: function(result){
-          	username=response.email;
-          	username=username.replace("@","");
-          	username=username.replace(".","");
-          	console.log(username);
-            uri=config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username;
-          $.ajax({
-              url: encodeURI(uri),
-              dataType: 'jsonp', 
-              success: function(respuesta){
-					location.reload();
-					localStorage.dataUser = JSON.stringify(respuesta);
-					$(".modal--ingreso").modal("show").toggle();
-					location.href = "#/profile";
-              }, error: function(result){
-              console.log(result);
-              }
-         
-            });
-
-
-
-           		
-       
-    }, error: function(result){
-          console.log(result);
-        }
-         
-  });
-
-
-
-    });
-  }
 
 // controllers additionals
 
