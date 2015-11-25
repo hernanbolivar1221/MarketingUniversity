@@ -1,7 +1,22 @@
 // Scope Goblal
-app.run(function($rootScope) {
+app.run(function($rootScope, $location, $route) {
   	$rootScope.btnSingUp = true;
 	$rootScope.btnLogout = false;
+	/*
+	* TODO: Remove next code when update is ready
+	*/
+	$rootScope.$on('$locationChangeSuccess', function() {
+        $rootScope.actualLocation = $location.path();
+    });        
+
+   $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
+        if($rootScope.actualLocation === newLocation) {
+        	location.href = "#/profile";
+        }
+    });
+   /*
+   * END TODO
+   */
 });
 
 // config JSON
@@ -10,7 +25,9 @@ app.run(function($rootScope) {
 app.controller("profile_api",function($scope, $http){
 
 	if(localStorage.dataUser){
-		$scope.dataUser = JSON.parse(localStorage.dataUser);
+		dataUser = JSON.parse(localStorage.dataUser);
+		dataUser.photo == "" ? dataUser.photo = "images/bullet3.png" : dataUser.photo;
+		$scope.dataUser = dataUser;
 	}else{
 		location.href = "#/";
 	}
@@ -79,7 +96,12 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 
 				});
 		}else{
-			$scope.alertData = true;	
+			if(response.error != undefined){
+				$("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
+				$scope.alertError = true;
+			}else{
+				$scope.alertData = true;	
+			}	
 		}
 	});
 }
@@ -170,14 +192,20 @@ app.controller("navbar_functions", function($scope, $http){
 	$scope.showMenu = function(){
 		$scope.menuOpen = $scope.menuOpen ? false : true;
 	}
-
+	
 	if(localStorage.dataUser){
 		$scope.btnSingUp = false;
 		$scope.btnLogout = true;
+		$scope.hideMenu = true;
+		
+	}else{
+		$scope.hideMenu = false;
 	}
+	
 
 	$scope.logout = function(){
 		localStorage.clear();
+		location.href = "#/";
 		location.reload();
 		//
 		//TODO: create on KME a service to logout
@@ -187,6 +215,16 @@ app.controller("navbar_functions", function($scope, $http){
 		});*/
 	}
 
+});
+
+
+app.controller("footer", function($scope){
+
+	if(localStorage.dataUser){	
+		$scope.subscription = false;
+	}else{
+		$scope.subscription = true;
+	}
 });
 
 

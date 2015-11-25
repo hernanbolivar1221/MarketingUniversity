@@ -515,7 +515,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-perfil__top > a > img{border:2px solid #3874b8;max-width:130px}
 .sidebar-footer__top{background:#accce6;padding-bottom:1em;padding-top:1em; z-index: 2;}
 .sidebar-footer__top--internas{background:#fff}
-.sidebar-footer__bottom{background:#dadada;padding-bottom:1em;padding-top:1em;}
+.sidebar-footer__bottom{background:#dadada;padding-bottom:1em;padding-top:1em; z-index: 2;}
 .sidebar-footer__bottom:after{background:url("../images/footer-left.png") 0 0;top:-106px;content:'';display:block;height:213px;position:absolute;left:2em;width:181px;z-index:1}
 .sidebar-footer__bottom:before{background:url("../images/footer-right.png") 0 0;top:-176px;content:'';display:block;height:213px;position:absolute;right:2em;width:181px;z-index:1}
 .sidebar-footer__bottom2{background:#dadada;padding-bottom:1em;padding-top:1em;}
@@ -748,7 +748,9 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 	top: 50%;
 	margin-top: -.5em !important;
 }
-
+.container-soon{position: absolute; width: 95%; padding-top: 25px;}
+.coming_soon{ background:url("../images/Fondo_modal.png") no-repeat center; height:408px; text-align: center; background-size: contain;}
+.coming_soon p{padding-top: 150px; font-size: 2em; color: #FFF;}
 
 .vertical-middle{vertical-align:middle}
 .display-table{display:table;height:100%}
