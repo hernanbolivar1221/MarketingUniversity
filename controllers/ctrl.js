@@ -79,13 +79,30 @@ app.controller("login_api", function($scope, $http){
 		ajaxAuth($http, $scope, userNameNew, userPasswordNew,userEmail);
 	}
 
+
 });
+function sendRegisterNotification(){
+    subject = config.TEMPLATES.registerTemplate.subject;
+    template = config.TEMPLATES.registerTemplate.template;
+    body = config.TEMPLATES.registerTemplate.body;
+    from = config.TEMPLATES.registerTemplate.from; 
+    url = config.SERVICE_SERVER + "/api/send_email/?callback=JSON_CALLBACK&subject="+subject+"&body="+body+"&from="+from+"&email="+email+";&template="+template;
+    $http.jsonp(url).success(function(respuesta){
+    });
 
+}
 // functions 
-
 function ajaxAuth($http, $scope, username, userpassword, email){
-	url = ( !email ? config.SERVICE_SERVER +"/api/json/json_login_dare/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword : config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email )
+	if(!email){
+	    url = config.SERVICE_SERVER + "/api/json/json_login_dare/?calback=JSON_CALLBACK&username="+username+"&password="+userpassword;
+	    register=false;
+	}else{
+
+	    url =  config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email;
+	    register = true;
+	}
 	$http.jsonp(url).success(function(response){
+		
 		if(response.status == "ok"){
 			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
 					//console.log(JSON.stringify(respuesta));
@@ -95,6 +112,12 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 					location.href = "#/profile";
 
 				});
+		    if(register){
+                        sendRegisterNotification();
+                        register = false;
+		    }else{
+                    }
+
 		}else{
 			if(response.error != undefined){
 				$("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
@@ -103,7 +126,7 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 				$scope.alertData = true;	
 			}	
 		}
-	});
+		});
 }
 
 
@@ -143,7 +166,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 
 
   function kmeAPI() {
-    console.log('Welcome!  Fetching your information.... ');
     FB.api('/me?fields=name,email', function(response) {
       client='http://kmelx.com/';
       var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
@@ -154,7 +176,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
           	username=response.email;
           	username=username.replace("@","");
           	username=username.replace(".","");
-          	console.log(username);
             uri=config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username;
           $.ajax({
               url: encodeURI(uri),
@@ -165,7 +186,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";
               }, error: function(result){
-              console.log(result);
               }
          
             });
@@ -175,7 +195,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
            		
        
     }, error: function(result){
-          console.log(result);
         }
          
   });
@@ -214,6 +233,7 @@ app.controller("navbar_functions", function($scope, $http){
 			console.log(response);
 		});*/
 	}
+
 
 });
 
