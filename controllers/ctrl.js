@@ -81,18 +81,18 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 }
 
 
- function statusChangeCallback(response) {
+ function statusChangeCallback(response,IsNew) {
     if (response.status === 'connected') {
       FB.login(function(response) {
  }, {scope: 'public_profile,email'});
-      kmeAPI();
+      kmeAPI(IsNew);
 
     }
   }
 
-  function checkLoginState() {
+  function checkLoginState(IsNew) {
     FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
+      statusChangeCallback(response,IsNew);
     });
   }
 
@@ -116,25 +116,29 @@ function ajaxAuth($http, $scope, username, userpassword, email){
   }(document, 'script', 'facebook-jssdk'));
 
 
-  function kmeAPI() {
-    console.log('Welcome!  Fetching your information.... ');
+  function kmeAPI(IsNew) {
     FB.api('/me?fields=name,email', function(response) {
-      client='http://kmelx.com/';
-      var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
+    	username=response.email;
+        username=username.replace("@","");
+       	username=username.replace(".","");
+      if (IsNew==true){
+      	var uri=config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + username + "&email="+ response.email;
+      }else{
+      	var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
+      }
+      
        $.ajax({
           url: encodeURI(uri),
           dataType: 'jsonp', 
           success: function(result){
-          	username=response.email;
-          	username=username.replace("@","");
-          	username=username.replace(".","");
-          	console.log(username);
+          	console.log(result);
+          	console.log(uri);
             uri=config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username;
           $.ajax({
               url: encodeURI(uri),
               dataType: 'jsonp', 
               success: function(respuesta){
-					location.reload();
+					
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";

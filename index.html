@@ -66,7 +66,7 @@
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="registro">
-                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState(true);">
                                     <span class="icon-facebook margin--r2"></span> 
                                         Regístrate con facebook
                                     </fb:login-button>
@@ -92,7 +92,7 @@
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="ingreso">
-                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState(false);">
                                     <span class="icon-facebook margin--r2"></span> 
                                         Ingresa con facebook
                                     </fb:login-button>
