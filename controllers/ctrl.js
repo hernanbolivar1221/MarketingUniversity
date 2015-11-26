@@ -36,7 +36,6 @@ app.controller("profile_api",function($scope, $http){
     	setTimeout(function(){
        		$(".nav-tabs").find("ul").addClass("nav-perfil");
     	});
-        console.log($scope);
 
 
 });
@@ -80,7 +79,6 @@ app.controller("login_api", function($scope, $http){
 		ajaxAuth($http, $scope, userNameNew, userPasswordNew,userEmail);
 	}
 
-        console.log($scope);
 
 });
 function sendRegisterNotification(){
@@ -168,7 +166,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 
 
   function kmeAPI() {
-    console.log('Welcome!  Fetching your information.... ');
     FB.api('/me?fields=name,email', function(response) {
       client='http://kmelx.com/';
       var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
@@ -179,7 +176,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
           	username=response.email;
           	username=username.replace("@","");
           	username=username.replace(".","");
-          	console.log(username);
             uri=config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username;
           $.ajax({
               url: encodeURI(uri),
@@ -190,7 +186,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";
               }, error: function(result){
-              console.log(result);
               }
          
             });
@@ -200,7 +195,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
            		
        
     }, error: function(result){
-          console.log(result);
         }
          
   });
@@ -240,7 +234,6 @@ app.controller("navbar_functions", function($scope, $http){
 		});*/
 	}
 
-        console.log($scope);
 
 });
 
