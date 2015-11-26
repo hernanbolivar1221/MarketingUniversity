@@ -81,13 +81,14 @@ app.controller("login_api", function($scope, $http){
 
 
 });
-function sendRegisterNotification(){
+function sendRegisterNotification($http,email){
     subject = config.TEMPLATES.registerTemplate.subject;
     template = config.TEMPLATES.registerTemplate.template;
     body = config.TEMPLATES.registerTemplate.body;
     from = config.TEMPLATES.registerTemplate.from; 
     url = config.SERVICE_SERVER + "/api/send_email/?callback=JSON_CALLBACK&subject="+subject+"&body="+body+"&from="+from+"&email="+email+";&template="+template;
     $http.jsonp(url).success(function(respuesta){
+    	console.log(respuesta);
     });
 
 }
@@ -106,14 +107,14 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 		if(response.status == "ok"){
 			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
 					//console.log(JSON.stringify(respuesta));
-					location.reload();
+					//location.reload();
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";
 
 				});
 		    if(register){
-                        sendRegisterNotification();
+                        sendRegisterNotification($http,email);
                         register = false;
 		    }else{
                     }
@@ -130,18 +131,18 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 }
 
 
- function statusChangeCallback(response) {
+ function statusChangeCallback(response,register) {
     if (response.status === 'connected') {
       FB.login(function(response) {
  }, {scope: 'public_profile,email'});
-      kmeAPI();
+      kmeAPI(register);
 
     }
   }
 
-  function checkLoginState() {
+  function checkLoginState(register) {
     FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
+      statusChangeCallback(response,register);
     });
   }
 
@@ -165,7 +166,8 @@ function ajaxAuth($http, $scope, username, userpassword, email){
   }(document, 'script', 'facebook-jssdk'));
 
 
-  function kmeAPI() {
+  function kmeAPI(register) {
+  	console.log(register);
     FB.api('/me?fields=name,email', function(response) {
       client='http://kmelx.com/';
       var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
@@ -173,6 +175,22 @@ function ajaxAuth($http, $scope, username, userpassword, email){
           url: encodeURI(uri),
           dataType: 'jsonp', 
           success: function(result){
+          	if(register){
+                        subject = config.TEMPLATES.registerTemplate.subject;
+                        template = config.TEMPLATES.registerTemplate.template;
+                        body = config.TEMPLATES.registerTemplate.body;
+                        from = config.TEMPLATES.registerTemplate.from; 
+                        url = config.SERVICE_SERVER + "/api/send_email/?callback=JSON_CALLBACK&subject="+subject+"&body="+body+"&from="+from+"&email="+response.email+";&template="+template;
+                        $.ajax({
+                        url: encodeURI(url),
+                        dataType: 'jsonp', 
+                        success: function(respuesta){
+              	        console.log("usuario registrado exitosamente");
+                        }
+                        });
+		    }
+          	 
+
           	username=response.email;
           	username=username.replace("@","");
           	username=username.replace(".","");
@@ -223,15 +241,14 @@ app.controller("navbar_functions", function($scope, $http){
 	
 
 	$scope.logout = function(){
+		
+		
+		$http.jsonp("http://kmelx.com/api/json_logout/").success(function(response){
+			console.log(response);
+		});
 		localStorage.clear();
 		location.href = "#/";
 		location.reload();
-		//
-		//TODO: create on KME a service to logout
-		/**
-		$http.post("http://kmelx.com/api/json_logout/").success(function(response){
-			console.log(response);
-		});*/
 	}
 
 
