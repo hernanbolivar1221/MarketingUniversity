@@ -127,7 +127,7 @@ function sendRegisterNotification($http,email){
 // functions 
 function ajaxAuth($http, $scope, username, userpassword, email){
 	if(!email){
-	    url = config.SERVICE_SERVER + "/api/json/json_login_dare/?calback=JSON_CALLBACK&username="+username+"&password="+userpassword;
+	    url = config.SERVICE_SERVER + "/api/json/json_login_dare/?callback=JSON_CALLBACK&username="+username+"&password="+userpassword;
 	    register=false;
 	}else{
 
