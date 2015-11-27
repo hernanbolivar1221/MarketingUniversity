@@ -236,12 +236,3 @@ app.controller("footer", function($scope){
 		$scope.subscription = true;
 	}
 });
-
-
-
-
-
-
-
-
-
