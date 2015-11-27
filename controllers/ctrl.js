@@ -68,6 +68,40 @@ app.controller("login_api", function($scope, $http){
 			ajaxAuth($http, $scope,userName, userPassword);
 		}
 	}
+	 $scope.FBLogin = function (register) {
+	 	FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+        FB.api('/me?fields=name,email', function (response) {
+        	        username=response.email;
+          	        username=username.replace("@","");
+          	        username=username.replace(".","");
+          	        if (register){
+                    ajaxRegister($http, $scope,username, response.email,response.email);
+          	        }else{
+          	        ajaxAuth($http, $scope,username, response.email);	
+          	        }
+                    
+                    });
+        }
+        else {
+        FB.login(function (response) {
+                if (response.authResponse) {
+                    console.log('Welcome!  Fetching your information.... ');
+                    FB.api('/me?fields=name,email', function (response) {
+                        console.log(response);
+                    });
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            },{scope: 'email'});
+        }
+        });
+
+
+
+
+            
+        }
 
 	$scope.createAccount = function(){
 		// Fields
@@ -96,6 +130,7 @@ function sendRegisterNotification($http,email){
 function ajaxAuth($http, $scope, username, userpassword, email){
 	if(!email){
 	    url = config.SERVICE_SERVER + "/api/json/json_login_dare/?calback=JSON_CALLBACK&username="+username+"&password="+userpassword;
+	    console.log(url);
 	    register=false;
 	}else{
 
@@ -129,98 +164,36 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 		}
 		});
 }
-
-
- function statusChangeCallback(response,register) {
-    if (response.status === 'connected') {
-      FB.login(function(response) {
- }, {scope: 'public_profile,email'});
-      kmeAPI(register);
-
-    }
-  }
-
-  function checkLoginState(register) {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response,register);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '485045968335965',
-    cookie     : true,   
-                        
-    xfbml      : true,  
-    version    : 'v2.2' 
-  });
-
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-
-  function kmeAPI(register) {
-  	console.log(register);
-    FB.api('/me?fields=name,email', function(response) {
-      client='http://kmelx.com/';
-      var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?username='+response.email+'&name='+ response.name +'&password='+response.email;
-       $.ajax({
-          url: encodeURI(uri),
-          dataType: 'jsonp', 
-          success: function(result){
-          	if(register){
-                        subject = config.TEMPLATES.registerTemplate.subject;
-                        template = config.TEMPLATES.registerTemplate.template;
-                        body = config.TEMPLATES.registerTemplate.body;
-                        from = config.TEMPLATES.registerTemplate.from; 
-                        url = config.SERVICE_SERVER + "/api/send_email/?callback=JSON_CALLBACK&subject="+subject+"&body="+body+"&from="+from+"&email="+response.email+";&template="+template;
-                        $.ajax({
-                        url: encodeURI(url),
-                        dataType: 'jsonp', 
-                        success: function(respuesta){
-              	        console.log("usuario registrado exitosamente");
-                        }
-                        });
-		    }
-          	 
-
-          	username=response.email;
-          	username=username.replace("@","");
-          	username=username.replace(".","");
-            uri=config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username;
-          $.ajax({
-              url: encodeURI(uri),
-              dataType: 'jsonp', 
-              success: function(respuesta){
+function ajaxRegister($http, $scope, username, userpassword, email){
+	    url =  config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email;
+	    register = true;
+	$http.jsonp(url).success(function(response){
+		if(response.status == "ok"){
+			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
+					//console.log(JSON.stringify(respuesta));
 					location.reload();
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";
-              }, error: function(result){
-              }
-         
-            });
 
+				});
+		    if(register){
+                        sendRegisterNotification($http,email);
+                        register = false;
+		    }else{
+                    }
 
+		}else{
+			if(response.error != undefined){
+				$("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
+				$scope.alertError = true;
+			}else{
+				$scope.alertData = true;	
+			}	
+		}
+		});
+}
 
-           		
-       
-    }, error: function(result){
-        }
-         
-  });
-
-
-
-    });
-  }
 
 // controllers additionals
 
