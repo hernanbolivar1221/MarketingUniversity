@@ -106,10 +106,11 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 		if(response.status == "ok"){
 			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
 					//console.log(JSON.stringify(respuesta));
-					location.reload();
+
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
-					location.href = "#/profile";
+   					location.href = "#/profile";
+					location.reload();
 
 				});
 		    if(register){
