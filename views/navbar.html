@@ -2,9 +2,7 @@
     <div class="container">
         <div class="row-same-height row-xs-full-height">
             <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
-                <a href="#/" style="padding-left:0">
                     <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
-                </a>
                 <div ng-show="menuOpen" class="top-main-menu">
                     <ul class="nav nav-complete navbar-nav navbar-right">
                         <li class="active"><a data-toggle="modal" data-target="#js-ingreso">CURSOS</a></li>
@@ -24,7 +22,7 @@
                             <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-show="btnSingUp">INGRESAR</a>
                             <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="btnLogout" ng-click="logout()">SALIR</a>
 
-                            <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar" ng-click="showMenu()">
+                            <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
                                 <span class="icon-reorder"></span>
                             </a>
 

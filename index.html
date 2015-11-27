@@ -19,6 +19,9 @@
 
         <script src="angular/angular/angular.min.js"></script>
         <script src="angular/angular-route/angular-route.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
+        <script src="ui-bootstrap/ui-bootstrap-custom-0.13.4.js"></script>
+        <script src="ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.js"></script>
 
         <!-- media-queries.js (fallback) -->
         <!--[if lt IE 9]>
@@ -66,7 +69,7 @@
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="registro">
-                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState(true);">
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" style="margin-left: 24%">
                                     <span class="icon-facebook margin--r2"></span> 
                                         Regístrate con facebook
                                     </fb:login-button>
@@ -79,6 +82,7 @@
                                             <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail">
                                             <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew">
                                         </div>
+                                        <div class="alert alert-danger text-center" ng-show="alertError"><span id="errorLogin"></span></div>
                                         <div class="col-xs-12 bg-gris margin--b1">
                                             <p class="text text--xs text--gris">
                                                 Al hacer clic en “crear una cuenta”, aceptas las Condiciones y confirmas que leíste nuestra Política de datos, incluido el uso de cookies.
@@ -92,7 +96,7 @@
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="ingreso">
-                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState(false);">
+                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" style="margin-left: 24%">
                                     <span class="icon-facebook margin--r2"></span> 
                                         Ingresa con facebook
                                     </fb:login-button>
@@ -102,13 +106,13 @@
                                     </p>
                                     <form>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userName">
+                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userName">
                                             <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword">
                                         </div>
                                         <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
                                         <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>
                                         <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
-                                        <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>
+                                        <!-- <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>  -->
                                     </form>
                                 </div>
                             </div>
@@ -130,7 +134,6 @@
         <script src="controllers/ctrl.js"></script>
         <!-- Models -->
         <script src="models/models.js"></script>
-        
 
     </body>
 </html>
