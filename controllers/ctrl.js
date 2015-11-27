@@ -181,10 +181,10 @@ function ajaxAuth($http, $scope, username, userpassword, email){
               url: encodeURI(uri),
               dataType: 'jsonp', 
               success: function(respuesta){
-					location.reload();
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
 					location.href = "#/profile";
+					location.reload();
               }, error: function(result){
               }
          
