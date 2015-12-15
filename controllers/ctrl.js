@@ -236,6 +236,111 @@ app.controller("footer", function($scope){
 });
 
 
+// controller  for Courses 
+
+app.controller("coursesPublic", function($scope, $timeout){
+
+	$scope.scroll = function(){
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);		
+	}
+
+	var jsonCoursePublic = [
+	{ 
+		nameCourse: "Intro al Marketing Digital",
+		description: "Aprende e Interioriza los 10 principales conceptos básicos del Marketing y la Comunicación Digital.",
+		imageCourse: "images/Marketing-Digital-101.png",
+		timeDuration: "10 Horas",
+		previwLink: "",
+		tutor: "Nathalia Plaza",
+		imageTutor: "images/profesor-nathalia-plaza.jpg",
+		score: 5
+	},
+	{
+		nameCourse: "Estrategia Digital",
+		description: "Aprende a planear una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.",
+		imageCourse: "images/Estrategia-Marketing-Digital.png",
+		timeDuration: "20 Horas",
+		previwLink: "",
+		tutor: "Alexander Londoño",
+		imageTutor: "images/profesor-alex-londono.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Facebook Marketing",
+		description: "Aprende a usar Facebook como herramienta para incrementar las ventas y retener tus clientes.",
+		imageCourse: "images/Facebook-Marketing.png",
+		timeDuration: "40 Horas",
+		previwLink: "",
+		tutor: "Guillermo Enciso",
+		imageTutor: "images/profesor-juan-diaz.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Google Adwords",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/googleAdw.jpg",
+		timeDuration: "40 Horas",
+		previwLink: "",
+		tutor: "Andrés Escobar",
+		imageTutor: "images/avatar.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Email Marketing",
+		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
+		imageCourse: "images/Email-Marketing.png",
+		timeDuration: "45 Minutos",
+		previwLink: "",
+		tutor: "Andrés Escobar",
+		imageTutor: "images/avatar.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "E-Commerce",
+		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
+		imageCourse: "images/e-commerce-2.png",
+		timeDuration: "45 Minutos",
+		previwLink: "",
+		tutor: "Juan Díaz",
+		imageTutor: "images/profesor-juan-diaz.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Analítica Web",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/Web-Analytics-2.png",
+		timeDuration: "45 minutos",
+		previwLink: "",
+		tutor: "Sergio Arboleda",
+		imageTutor: "images/profesor-manuel-bolanos.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Video Marketing",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/Video-Marketing-2.png",
+		timeDuration: "20 Horas",
+		previwLink: "",
+		tutor: "Vanessa Galvis",
+		imageTutor: "images/profesor-vanessa-galvis.jpg",
+		score: 5
+
+	}];
+
+
+	$scope.dataCoursesPublic = jsonCoursePublic ;
+
+});
+
+
 
 
 

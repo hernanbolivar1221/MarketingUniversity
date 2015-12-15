@@ -13,6 +13,9 @@ app.config(function($routeProvider){
 		.when('/profile', {
 			templateUrl: 'views/profile.html'
 		})
+		.when('/allCoursesPublic', {
+			templateUrl: 'views/allCoursesPublic.html'
+		})
 		.otherwise({ 
 			redirectTo: '/' 
 		});
