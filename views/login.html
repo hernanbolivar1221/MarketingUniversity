@@ -13,14 +13,14 @@
             adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
         </p>
         <p class="text-center margin--t2">
-            <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
+            <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
         </p>
 
         <div class="clearfix"></div>
 
         <div class="col-lg-10 col-lg-offset-1 col-xs-12 sidebar-bloqs1 margin--t2 display-table">
             <div class="row display-row">
-                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell" ng-controller="coursesPublic">
+                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Entrénate
                     </h1>
@@ -35,11 +35,11 @@
                         ayudarte a desarrollar habilidades 
                         especificas en muy corto tiempo.
                     </p>
-                    <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn-gosh btn-lg margin--t1">
+                    <a href="" class="btn btn-gosh btn-lg margin--t1">
                         Buscar Cursos
                     </a>
                 </div>
-                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell" ng-controller="certificates">
+                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Certifícate
                     </h1>
@@ -92,7 +92,7 @@
                 Nuestros cursos están diseñados para desarrollar competencias en las áreas del Marketing con mayor demanda laboral
             </p>
         </div>
-        <div class="col-xs-12 margin--t2" ng-controller="coursesPublic">
+        <div class="col-xs-12 margin--t2">
 
             <!-- Courses Public -->
         
@@ -101,12 +101,12 @@
                     <div class="col-xs-12 sidebar-bloqs2">
                         <div class="row sidebar-imageCurso">
                             <a ng-href="">
-                                <img ng-src="{{coursePublic.imageCourse}}" class="img-responsive">
+                                <img ng-src="{{coursePublic.image}}" class="img-course">
                             </a>
                             <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img ng-src="{{coursePublic.imageTutor}}" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco">
-                                    {{coursePublic.tutor}}
+                                <img ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image">
+                                <span class="text text--blanco bg-nameTutor">
+                                    {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
                                 </span>
                             </div>
                             <div class="col-xs-12 sidebar-imageCurso__qualy">
@@ -118,15 +118,15 @@
                             </div>
                         </div>
                         <h3 class="text text--gris text--md text--bold margin--t2">
-                            {{coursePublic.nameCourse}}
+                            {{coursePublic.name}}
                         </h3>
                         <p class="text text--sm text--gris_cla margin--t1">
                             {{coursePublic.description}}
                         </p>
                         <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span> {{coursePublic.timeDuration}}
+                            <span class="icon-time"></span><span> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
                         </p>
-                        <a  ng-href="#courseDetails?id=1" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
                             MÁS INFORMACIÓN
                         </a>
                     </div>

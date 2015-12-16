@@ -8,13 +8,15 @@ app.config(function($routeProvider){
 
 	$routeProvider
 		.when('/', {
-			templateUrl: 'views/login.html'
+			templateUrl: 'views/login.html',
+			controller: 'main'
 		})
 		.when('/profile', {
 			templateUrl: 'views/profile.html'
 		})
-		.when('/courseDetails', {
-			templateUrl: 'views/courseDetail.html'
+		.when('/course/:uuid/details', {
+			templateUrl: 'views/courseDetail.html',
+			controller : "courseDetails"
 		})
 		.when('/allCertificates', {
 			templateUrl: 'views/allCertificates.html'
