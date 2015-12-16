@@ -223,6 +223,13 @@ app.controller("navbar_functions", function($scope, $http){
 	}
 
 
+	$scope.activeMenu = function(event){
+		$(event.target).parent().siblings().removeClass("active");
+		$(event.target).parent().addClass("active");
+
+	}
+
+
 });
 
 
@@ -240,10 +247,11 @@ app.controller("footer", function($scope){
 
 app.controller("coursesPublic", function($scope, $timeout){
 
-	$scope.scroll = function(){
+	$scope.seeCoursePublic = function(){
+
 		$timeout(function(){
 			$('html,body').animate({scrollTop: 0}, 1000);
-		},100);		
+		},100);
 	}
 
 	var jsonCoursePublic = [
@@ -340,6 +348,30 @@ app.controller("coursesPublic", function($scope, $timeout){
 
 });
 
+app.controller("certificates", function($scope, $timeout){
+	$scope.seeCertificate = function(){
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);
+	}
+});
+
+
+app.controller("detailsJobs", function($scope, $timeout){
+
+	$scope.scrollAnchorBtn = function(event){
+		var value = $(event.target).attr("value");
+		$('html, body').animate({scrollTop: $("#"+value).offset().top}, 1000);
+
+	}
+
+
+	$scope.seeDeatailsJobs = function(){
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);
+	}
+});
 
 
 

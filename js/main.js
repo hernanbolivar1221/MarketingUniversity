@@ -13,8 +13,20 @@ app.config(function($routeProvider){
 		.when('/profile', {
 			templateUrl: 'views/profile.html'
 		})
-		.when('/allCoursesPublic', {
-			templateUrl: 'views/allCoursesPublic.html'
+		.when('/courseDetails', {
+			templateUrl: 'views/courseDetail.html'
+		})
+		.when('/allCertificates', {
+			templateUrl: 'views/allCertificates.html'
+		})
+		.when('/allCertificates', {
+			templateUrl: 'views/allCertificates.html'
+		})
+		.when('/jobs', {
+			templateUrl: 'views/bagJobs.html'
+		})
+		.when('/detailsJobs', {
+			templateUrl: 'views/detailsJobs.html'
 		})
 		.otherwise({ 
 			redirectTo: '/' 

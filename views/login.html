@@ -13,14 +13,14 @@
             adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
         </p>
         <p class="text-center margin--t2">
-            <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg" data-toggle="modal" data-target="#js-ingreso">EMPIEZA AHORA</a>
+            <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
         </p>
 
         <div class="clearfix"></div>
 
         <div class="col-lg-10 col-lg-offset-1 col-xs-12 sidebar-bloqs1 margin--t2 display-table">
             <div class="row display-row">
-                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell">
+                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell" ng-controller="coursesPublic">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Entrénate
                     </h1>
@@ -35,11 +35,11 @@
                         ayudarte a desarrollar habilidades 
                         especificas en muy corto tiempo.
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn-gosh btn-lg margin--t1">
                         Buscar Cursos
                     </a>
                 </div>
-                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell">
+                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell" ng-controller="certificates">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Certifícate
                     </h1>
@@ -54,7 +54,7 @@
                         del marketing digital con mayor 
                         demanda laboral en Latino América
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCertificates" ng-click="seeCertificate()"class="btn btn-gosh btn-lg margin--t1">
                         Ver Certificados Disponibles
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                         de empleo de más de 100 Agencias de 
                         Publicidad y Comunicación Digital
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#jobs" class="btn btn-gosh btn-lg margin--t1">
                         Ver Ofertas de Empleo
                     </a>
                 </div>
@@ -126,7 +126,7 @@
                         <p class="text text--azul_cla text--lite margin--t1">
                             <span class="icon-time"></span> {{coursePublic.timeDuration}}
                         </p>
-                        <a  ng-href="#" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                        <a  ng-href="#courseDetails?id=1" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
                             MÁS INFORMACIÓN
                         </a>
                     </div>
@@ -136,7 +136,7 @@
             <div class="clearfix"></div>
             
             <div class="col-xs-12 margin--t3 margin--b3 text-center">
-                <a ng-href="#allCoursesPublic" ng-click="scroll()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
+                <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
                     <span class="text--upper">ver todos los cursos</span>
                 </a>
             </div>
