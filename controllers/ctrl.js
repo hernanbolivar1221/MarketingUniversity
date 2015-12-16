@@ -40,13 +40,33 @@ app.controller("profile_api",function($scope, $http){
 
 });
 
+function getPublicCourses($http, limit){
+    var url = config.SERVICE_SERVER + '/api/getPublicCourses/?callback=JSON_CALLBACK&limit='+(limit ? limit : 4);
+    $http.jsonp(encodeURI(url)).success(function(response){
+        console.log(response);
+    })
+    .error(function(data, status, headers, config){
+        console.log(data, status, headers, config);
+    });
+}
+function getAllCourses($http){
+    var url = config.SERVICE_SERVER+'"/lms/courses/json/fetch_available_courses/?callback=JSON_CALLBACK';
+    $http.jsonp(url).success(function(response){
+    })
+    .error(function(data, status, headers, config){
+        console.log("GET ERROR", data, status, headers, config);
+    })
+    
+}
+
+
 // Api Login
 var user = null;
 app.controller("login_api", function($scope, $http){
 	if(localStorage.dataUser){
 		location.href = "#/profile";
 	}
-	
+        getPublicCourses($http);	
 	// URL Constant
 	jsonData = config;
 
@@ -161,6 +181,14 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 			}	
 		}
 		});
+}
+
+function getMyCourses(){
+
+}
+
+function getCourseDetails(uuid){
+
 }
 
 
@@ -372,11 +400,6 @@ app.controller("detailsJobs", function($scope, $timeout){
 		},100);
 	}
 });
-
-
-
-
-
 
 
 
