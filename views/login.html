@@ -13,14 +13,14 @@
             adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
         </p>
         <p class="text-center margin--t2">
-            <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg" data-toggle="modal" data-target="#js-ingreso">EMPIEZA AHORA</a>
+            <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
         </p>
 
         <div class="clearfix"></div>
 
         <div class="col-lg-10 col-lg-offset-1 col-xs-12 sidebar-bloqs1 margin--t2 display-table">
             <div class="row display-row">
-                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell">
+                <div class="col-xs-4 sidebar-naranja sidebar-bloqs display-cell" ng-controller="coursesPublic">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Entrénate
                     </h1>
@@ -35,11 +35,11 @@
                         ayudarte a desarrollar habilidades 
                         especificas en muy corto tiempo.
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn-gosh btn-lg margin--t1">
                         Buscar Cursos
                     </a>
                 </div>
-                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell">
+                <div class="col-xs-4 sidebar-verde sidebar-bloqs display-cell" ng-controller="certificates">
                     <h1 class="text text--nunito text--xxxxlg text--upper text--blanco text-center text--xbold text--space1">
                         Certifícate
                     </h1>
@@ -54,7 +54,7 @@
                         del marketing digital con mayor 
                         demanda laboral en Latino América
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCertificates" ng-click="seeCertificate()"class="btn btn-gosh btn-lg margin--t1">
                         Ver Certificados Disponibles
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                         de empleo de más de 100 Agencias de 
                         Publicidad y Comunicación Digital
                     </p>
-                    <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#jobs" class="btn btn-gosh btn-lg margin--t1">
                         Ver Ofertas de Empleo
                     </a>
                 </div>
@@ -92,17 +92,21 @@
                 Nuestros cursos están diseñados para desarrollar competencias en las áreas del Marketing con mayor demanda laboral
             </p>
         </div>
-        <div class="col-xs-12 margin--t2">
+        <div class="col-xs-12 margin--t2" ng-controller="coursesPublic">
+
+            <!-- Courses Public -->
         
             <div class="row">
-                <div class="col-lg-3 col-xs-6 margin--t1">
+                <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in dataCoursesPublic | limitTo: 4">
                     <div class="col-xs-12 sidebar-bloqs2">
                         <div class="row sidebar-imageCurso">
-                            <a href=""><img src="images/Marketing-Digital-101.png" alt="" class="img-responsive center-block"></a>
+                            <a ng-href="">
+                                <img ng-src="{{coursePublic.imageCourse}}" class="img-responsive">
+                            </a>
                             <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img src="images/profesor-nathalia-plaza.jpg" alt="" class="img-circle sidebar-imageCurso__image">
+                                <img ng-src="{{coursePublic.imageTutor}}" alt="" class="img-circle sidebar-imageCurso__image">
                                 <span class="text text--blanco">
-                                    Nathalia Plaza
+                                    {{coursePublic.tutor}}
                                 </span>
                             </div>
                             <div class="col-xs-12 sidebar-imageCurso__qualy">
@@ -114,112 +118,16 @@
                             </div>
                         </div>
                         <h3 class="text text--gris text--md text--bold margin--t2">
-                            Intro al Marketing Digital
+                            {{coursePublic.nameCourse}}
                         </h3>
                         <p class="text text--sm text--gris_cla margin--t1">
-                            Aprende e Interioriza los 10 principales conceptos básicos del Marketing y la Comunicación Digital.
+                            {{coursePublic.description}}
                         </p>
                         <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span> 10 Horas
+                            <span class="icon-time"></span> {{coursePublic.timeDuration}}
                         </p>
-                        <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            SUSCRÍBETE
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-xs-6 margin--t1">
-                    <div class="col-xs-12 sidebar-bloqs2">
-                        <div class="row sidebar-imageCurso">
-                            <a href=""><img src="images/Estrategia-Marketing-Digital.png" alt="" class="img-responsive center-block"></a>
-                            <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img src="images/profesor-alex-londono.jpg" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco">
-                                    Alexander Londoño
-                                </span>
-                            </div>
-                            <div class="col-xs-12 sidebar-imageCurso__qualy">
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                            </div>
-                        </div>
-                        <h3 class="text text--gris text--md text--bold margin--t2">
-                            Estrategia Digital
-                        </h3>
-                        <p class="text text--sm text--gris_cla margin--t1">
-                            Aprende a planear una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.
-                        </p>
-                        <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span> 20 Horas
-                        </p>
-                        <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            SUSCRÍBETE
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-xs-6 margin--t1">
-                    <div class="col-xs-12 sidebar-bloqs2">
-                        <div class="row sidebar-imageCurso">
-                            <a href=""><img src="images/Facebook-Marketing.png" alt="" class="img-responsive center-block"></a>
-                            <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img src="images/profesor-juan-diaz.jpg" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco">
-                                    Guillermo Enciso
-                                </span>
-                            </div>
-                            <div class="col-xs-12 sidebar-imageCurso__qualy">
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star-o"></span>
-                            </div>
-                        </div>
-                        <h3 class="text text--gris text--md text--bold margin--t2">
-                            Facebook Marketing 
-                        </h3>
-                        <p class="text text--sm text--gris_cla margin--t1">
-                            Aprende a usar Facebook como herramienta para incrementar las ventas y retener tus clientes.
-                        </p>
-                        <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span> 40 Horas
-                        </p>
-                        <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            SUSCRÍBETE
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-xs-6 margin--t1">
-                    <div class="col-xs-12 sidebar-bloqs2">
-                        <div class="row sidebar-imageCurso">
-                            <a href=""><img src="images/googleAdw.jpg" alt="" class="img-responsive center-block"></a>
-                            <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img src="images/avatar.jpg" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco">
-                                    Andrés Escobar
-                                </span>
-                            </div>
-                            <div class="col-xs-12 sidebar-imageCurso__qualy">
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star-o"></span>
-                            </div>
-                        </div>
-                        <h3 class="text text--gris text--md text--bold margin--t2">
-                            Google Adwords 
-                        </h3>
-                        <p class="text text--sm text--gris_cla margin--t1">
-                             Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords
-                        </p>
-                        <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span> 40 Horas
-                        </p>
-                        <a data-toggle="modal" data-target="#js-ingreso" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            SUSCRÍBETE
+                        <a  ng-href="#courseDetails?id=1" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                            MÁS INFORMACIÓN
                         </a>
                     </div>
                 </div>
@@ -228,7 +136,7 @@
             <div class="clearfix"></div>
             
             <div class="col-xs-12 margin--t3 margin--b3 text-center">
-                <a data-toggle="modal" data-target="#js-ingreso" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
+                <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
                     <span class="text--upper">ver todos los cursos</span>
                 </a>
             </div>
