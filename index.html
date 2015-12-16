@@ -80,9 +80,9 @@
                                     </p>
                                     <form>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew">
-                                            <input type="text" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail">
-                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew">
+                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew" required>
+                                            <input type="email" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail" required>
+                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew" required>
                                         </div>
                                         <div class="alert alert-danger text-center" ng-show="alertError"><span id="errorLogin"></span></div>
                                         <div class="col-xs-12 bg-gris margin--b1">
@@ -109,8 +109,8 @@
                                     </p>
                                     <form>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userName">
-                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword">
+                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userName" required>
+                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword" required>
                                         </div>
                                         <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
                                         <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>

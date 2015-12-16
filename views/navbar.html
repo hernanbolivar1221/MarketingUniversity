@@ -5,11 +5,11 @@
                     <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
                 <div ng-show="menuOpen" class="top-main-menu">
                     <ul class="nav nav-complete navbar-nav navbar-right">
-                        <li class="active"><a data-toggle="modal" data-target="#js-ingreso">CURSOS</a></li>
-                        <li><a data-toggle="modal" data-target="#js-ingreso">CERTIFICACIONES</a></li>
-                        <li><a data-toggle="modal" data-target="#js-ingreso">BOLSA DE EMPLEO</a></li>
-                        <li><a data-toggle="modal" data-target="#js-ingreso">BIBLIOTECA</a></li>
-                        <li><a data-toggle="modal" data-target="#js-ingreso">PRECIOS</a></li>
+                        <li class="active"><a ng-href="#allCoursesPublic" ng-click="activeMenu($event)">CURSOS</a></li>
+                        <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
+                        <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
+                        <li><a href="">BIBLIOTECA</a></li>
+                        <li><a href="">PRECIOS</a></li>
                     </ul>
                 </div>
             </div>

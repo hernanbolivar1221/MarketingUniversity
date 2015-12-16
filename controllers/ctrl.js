@@ -40,13 +40,33 @@ app.controller("profile_api",function($scope, $http){
 
 });
 
+function getPublicCourses($http, limit){
+    var url = config.SERVICE_SERVER + '/api/getPublicCourses/?callback=JSON_CALLBACK&limit='+(limit ? limit : 4);
+    $http.jsonp(encodeURI(url)).success(function(response){
+        console.log(response);
+    })
+    .error(function(data, status, headers, config){
+        console.log(data, status, headers, config);
+    });
+}
+function getAllCourses($http){
+    var url = config.SERVICE_SERVER+'"/lms/courses/json/fetch_available_courses/?callback=JSON_CALLBACK';
+    $http.jsonp(url).success(function(response){
+    })
+    .error(function(data, status, headers, config){
+        console.log("GET ERROR", data, status, headers, config);
+    })
+    
+}
+
+
 // Api Login
 var user = null;
 app.controller("login_api", function($scope, $http){
 	if(localStorage.dataUser){
 		location.href = "#/profile";
 	}
-	
+        getPublicCourses($http);	
 	// URL Constant
 	jsonData = config;
 
@@ -163,6 +183,14 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 		});
 }
 
+function getMyCourses(){
+
+}
+
+function getCourseDetails(uuid){
+
+}
+
 
   function kmeAPI($http, $scope,username,name,email,register) {
       var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?callback=JSON_CALLBACK&username='+email+'&name='+ name +'&password='+username;
@@ -223,6 +251,13 @@ app.controller("navbar_functions", function($scope, $http){
 	}
 
 
+	$scope.activeMenu = function(event){
+		$(event.target).parent().siblings().removeClass("active");
+		$(event.target).parent().addClass("active");
+
+	}
+
+
 });
 
 
@@ -236,10 +271,135 @@ app.controller("footer", function($scope){
 });
 
 
+// controller  for Courses 
+
+app.controller("coursesPublic", function($scope, $timeout){
+
+	$scope.seeCoursePublic = function(){
+
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);
+	}
+
+	var jsonCoursePublic = [
+	{ 
+		nameCourse: "Intro al Marketing Digital",
+		description: "Aprende e Interioriza los 10 principales conceptos básicos del Marketing y la Comunicación Digital.",
+		imageCourse: "images/Marketing-Digital-101.png",
+		timeDuration: "10 Horas",
+		previwLink: "",
+		tutor: "Nathalia Plaza",
+		imageTutor: "images/profesor-nathalia-plaza.jpg",
+		score: 5
+	},
+	{
+		nameCourse: "Estrategia Digital",
+		description: "Aprende a planear una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.",
+		imageCourse: "images/Estrategia-Marketing-Digital.png",
+		timeDuration: "20 Horas",
+		previwLink: "",
+		tutor: "Alexander Londoño",
+		imageTutor: "images/profesor-alex-londono.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Facebook Marketing",
+		description: "Aprende a usar Facebook como herramienta para incrementar las ventas y retener tus clientes.",
+		imageCourse: "images/Facebook-Marketing.png",
+		timeDuration: "40 Horas",
+		previwLink: "",
+		tutor: "Guillermo Enciso",
+		imageTutor: "images/profesor-juan-diaz.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Google Adwords",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/googleAdw.jpg",
+		timeDuration: "40 Horas",
+		previwLink: "",
+		tutor: "Andrés Escobar",
+		imageTutor: "images/avatar.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Email Marketing",
+		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
+		imageCourse: "images/Email-Marketing.png",
+		timeDuration: "45 Minutos",
+		previwLink: "",
+		tutor: "Andrés Escobar",
+		imageTutor: "images/avatar.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "E-Commerce",
+		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
+		imageCourse: "images/e-commerce-2.png",
+		timeDuration: "45 Minutos",
+		previwLink: "",
+		tutor: "Juan Díaz",
+		imageTutor: "images/profesor-juan-diaz.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Analítica Web",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/Web-Analytics-2.png",
+		timeDuration: "45 minutos",
+		previwLink: "",
+		tutor: "Sergio Arboleda",
+		imageTutor: "images/profesor-manuel-bolanos.jpg",
+		score: 5
+
+	},
+	{
+		nameCourse: "Video Marketing",
+		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
+		imageCourse: "images/Video-Marketing-2.png",
+		timeDuration: "20 Horas",
+		previwLink: "",
+		tutor: "Vanessa Galvis",
+		imageTutor: "images/profesor-vanessa-galvis.jpg",
+		score: 5
+
+	}];
 
 
+	$scope.dataCoursesPublic = jsonCoursePublic ;
+
+});
+
+app.controller("certificates", function($scope, $timeout){
+	$scope.seeCertificate = function(){
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);
+	}
+});
 
 
+app.controller("detailsJobs", function($scope, $timeout){
+
+	$scope.scrollAnchorBtn = function(event){
+		var value = $(event.target).attr("value");
+		$('html, body').animate({scrollTop: $("#"+value).offset().top}, 1000);
+
+	}
+
+
+	$scope.seeDeatailsJobs = function(){
+		$timeout(function(){
+			$('html,body').animate({scrollTop: 0}, 1000);
+		},100);
+	}
+});
 
 
 
