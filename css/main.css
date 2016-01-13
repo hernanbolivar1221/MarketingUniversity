@@ -503,7 +503,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-section4{padding-bottom:2em;padding-top:5em}
 .sidebar-imageCurso{position:relative;}
 .sidebar-imageCurso__nombre{position:absolute;bottom:-1em}
-.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:70px}
+.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:70px; height:70px;}
 .sidebar-imageCurso__qualy{color:#fff;position:absolute;top:1em}
 .sidebar-add__montain{position:relative;}
 .sidebar-add__montain:after{background:url("../images/spoiler1-r.png") 0 0;bottom:-120px;content:'';display:block;height:176px;position:absolute;right:0;width:599px;z-index:1}
@@ -769,6 +769,10 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .col-xs-full-height{height:100%}
 .row-same-height{display:table;width:100%;table-layout:fixed}
 .col-xs-height{display:table-cell;float:none !important}
+
+.bg-nameTutor{background: rgba(0, 0, 0, 0.42); padding: 3px 25px;}
+.img-course {width:100%; height:158px;}
+
 @media (min-width: 768px){.col-sm-height{display:table-cell;float:none !important}
 .row-sm-full-height{height:100%}
 .col-sm-full-height{height:100%}

@@ -43,10 +43,10 @@ app.controller("profile_api",function($scope, $http){
 function getPublicCourses($http, limit){
     var url = config.SERVICE_SERVER + '/api/getPublicCourses/?callback=JSON_CALLBACK&limit='+(limit ? limit : 4);
     $http.jsonp(encodeURI(url)).success(function(response){
-        console.log(response);
+        //console.log(response);
     })
     .error(function(data, status, headers, config){
-        console.log(data, status, headers, config);
+        //console.log(data, status, headers, config);
     });
 }
 function getAllCourses($http){
@@ -66,7 +66,7 @@ app.controller("login_api", function($scope, $http){
 	if(localStorage.dataUser){
 		location.href = "#/profile";
 	}
-        getPublicCourses($http);	
+       // getPublicCourses($http);	
 	// URL Constant
 	jsonData = config;
 
@@ -270,109 +270,46 @@ app.controller("footer", function($scope){
 	}
 });
 
-
 // controller  for Courses 
 
-app.controller("coursesPublic", function($scope, $timeout){
+app.controller("main", function($scope, $http){
 
-	$scope.seeCoursePublic = function(){
+	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1';
+		$http.jsonp(encodeURI(url)).success(function(response){
+			$scope.dataCoursesPublic = response;
+		})
+    	.error(function(data, status, headers, config){
+        	console.log(data, status, headers, config);
+    	});
+});
 
-		$timeout(function(){
-			$('html,body').animate({scrollTop: 0}, 1000);
-		},100);
-	}
-
-	var jsonCoursePublic = [
-	{ 
-		nameCourse: "Intro al Marketing Digital",
-		description: "Aprende e Interioriza los 10 principales conceptos básicos del Marketing y la Comunicación Digital.",
-		imageCourse: "images/Marketing-Digital-101.png",
-		timeDuration: "10 Horas",
-		previwLink: "",
-		tutor: "Nathalia Plaza",
-		imageTutor: "images/profesor-nathalia-plaza.jpg",
-		score: 5
-	},
-	{
-		nameCourse: "Estrategia Digital",
-		description: "Aprende a planear una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.",
-		imageCourse: "images/Estrategia-Marketing-Digital.png",
-		timeDuration: "20 Horas",
-		previwLink: "",
-		tutor: "Alexander Londoño",
-		imageTutor: "images/profesor-alex-londono.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "Facebook Marketing",
-		description: "Aprende a usar Facebook como herramienta para incrementar las ventas y retener tus clientes.",
-		imageCourse: "images/Facebook-Marketing.png",
-		timeDuration: "40 Horas",
-		previwLink: "",
-		tutor: "Guillermo Enciso",
-		imageTutor: "images/profesor-juan-diaz.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "Google Adwords",
-		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
-		imageCourse: "images/googleAdw.jpg",
-		timeDuration: "40 Horas",
-		previwLink: "",
-		tutor: "Andrés Escobar",
-		imageTutor: "images/avatar.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "Email Marketing",
-		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
-		imageCourse: "images/Email-Marketing.png",
-		timeDuration: "45 Minutos",
-		previwLink: "",
-		tutor: "Andrés Escobar",
-		imageTutor: "images/avatar.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "E-Commerce",
-		description: "Aprende e interioriza los 10 principales conceptos y estrateguas básicas del Marketing Digital.",
-		imageCourse: "images/e-commerce-2.png",
-		timeDuration: "45 Minutos",
-		previwLink: "",
-		tutor: "Juan Díaz",
-		imageTutor: "images/profesor-juan-diaz.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "Analítica Web",
-		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
-		imageCourse: "images/Web-Analytics-2.png",
-		timeDuration: "45 minutos",
-		previwLink: "",
-		tutor: "Sergio Arboleda",
-		imageTutor: "images/profesor-manuel-bolanos.jpg",
-		score: 5
-
-	},
-	{
-		nameCourse: "Video Marketing",
-		description: "Aprende a crear campañas de manera profesional en 8 pasos en la plataforma de Google Adwords",
-		imageCourse: "images/Video-Marketing-2.png",
-		timeDuration: "20 Horas",
-		previwLink: "",
-		tutor: "Vanessa Galvis",
-		imageTutor: "images/profesor-vanessa-galvis.jpg",
-		score: 5
-
-	}];
+app.controller("coursesPublic", function($scope){
 
 
-	$scope.dataCoursesPublic = jsonCoursePublic ;
+});
+
+// controller  for Details 
+
+app.controller("courseDetails", function($http, $scope, $routeParams){
+	
+	var dataSessionInitial,
+		dataSessionFinal;
+
+	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1&uuid=' + $routeParams.uuid;
+		$http.jsonp(encodeURI(url)).success(function(response){
+			$scope.dataDetails = response[0];
+			$scope.dataSessionDates = []
+			for (var i = 0; i < response[0].sessions.length; i++) {
+				session = response[0].sessions[i];
+				init = new Date(session.initial_date);
+				end = new Date(session.final_date);
+				$scope.dataSessionDates.push(init.toDateString() + " - " + end.toDateString());
+			};
+			
+		})
+    	.error(function(data, status, headers, config){
+        	console.log(data, status, headers, config);
+    	});
 
 });
 
