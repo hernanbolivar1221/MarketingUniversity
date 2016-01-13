@@ -6,19 +6,17 @@
                 CURSO POR DEMANDA
             </span></br>
             <h1 class="text text--azul_mid text--xxxxlg text--xbold margin--b0 text-space1 text--upper">
-                Estrategia en Marketing Digital
+               {{dataDetails.name}}
             </h1>
             <p class="text text--md text--gris text-space1 margin--t1">
-                Este curso busca brindar a los participantes el conocimiento y las herramientas que ayuden o fortalezcan la construcción de estrategias de mercadeo en medios digitales que impacten positivamente sus objetivos estratégicos de negocio.
+                {{dataDetails.description}}
             </p>
             <a href="#" class="btn btn--academy2 btn-rojo btn-xlg text--upper margin--t1 margin--b1" data-toggle="modal" data-target="#js-ingreso">
                  Inscríbete
             </a>
         </div>
         <div class="col-xs-5">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe src="https://embed-ssl.ted.com/talks/lang/es/seth_godin_on_the_tribes_we_lead.html" class="embed-responsive-item" width="500" height="315" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-            </div>
+            <img ng-src="{{dataDetails.image}}" alt="" class="img-responsive">
         </div>
     </div>
 </section>
@@ -29,12 +27,7 @@
             <h2 class="text text--azul_mid text--xxxlg text--xbold margin--b05 text-space1">
                 Acerca del Curso
             </h2>
-            <p class="text text--gris">
-                En un mundo cada vez más digital, los profesionales en mercadeo, comunicaciones y empresarios tiene el gran reto de integrar los medios digitales a su estrategia global de negocio y para lograrlo deben tener clara la ruta que deben seguir para realmente aportar al cumplimiento general de los objetivos estratégicos de sus compañías.
-            </p>
-            <p class="text text--gris">
-                El objetivo principal de este curso es brindarle el conocimiento y herramientas necesarias para que usted pueda construir una ruta digital para su marca, negocio o empresa que incluya adecuadamente las estrategias, tácticas y medios digitales que le ayudarán en el cumpliento de sus objetivos estratégicos de mercadeo y comunicación.
-            </p>
+            <p class="text text--gris"> {{dataDetails.about}} </p>
             <h3 class="text text--lg text--xbold margin--b1 text-space1 margin--t1">
                 Competencias a desarrollar:
             </h3>
@@ -42,53 +35,29 @@
                 Al finalizar este curso usted estará en capacidad de:
             </p>
             <ol class="list-normal text text--gris margin--t1">
-                <li>
-                    Conocer e Identificar las diferentes estrategias, medios y tácticas digitales que son adecuadas para su negocio y le aporten al cumplimiento de sus objetivos de mercadeo y comunicación.
-                </li>
-                <li>
-                    Conocer y entender cómoConocer e Identificar las diferentes estrategias, medios y tácticas digitales de acuerdo a la naturaleza del mismo (Consumo Masivo, Retail, B2B, B2C, etc).
-                </li>
-                <li>
-                    Conocer e Identificar las diferentes estrategias, medios y tácticas digitales que le ayudarán a medir el desempeño de las estrategias digitales ejecutadas.
+                <li ng-repeat="competence in dataDetails.competencies">
+                    {{competence.description}}
                 </li>
             </ol>
             <h2 class="text text--azul_mid text--xxxlg text--xbold margin--b05 margin--t1 text-space1">
                 Temario
             </h2>
-            <p class="text text--gris text--xbold">
-                Este curso se divide en 4 módulos semanales así:
+            <p class="text text--gris text--xbold" >
+                Este curso se divide en {{dataDetails.modules.length}}
+                <span ng-if="dataDetails.modules.length > 1">módulos semanales así</span>
+                <span ng-if="dataDetails.modules.length == 1">módulo</span>:
             </p>
             <ul class="list-items margin--t1 text text--gris">
-                <li>
-                    <span class="text--bold">Semana 1:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. lorem ipsum dolor
-                </li>
-                <li>
-                    <span class="text--bold">Semana 2:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. lorem ipsum dolor lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. lorem ipsum dolor
-                </li>
-                <li>
-                    <span class="text--bold">Semana 3:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
-                </li>
-                <li>
-                    <span class="text--bold">Semana 4:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. lorem ipsum dolor lorem ipsum dolor sit amet, consectetur adipiscing 
+                <li ng-repeat="module in dataDetails.modules">
+                    <span class="text--bold">{{module.name}}:</span> {{module.description}}
                 </li>
             </ul>
             <h3 class="text text--lg text--xbold margin--b1 text-space1 margin--t1">
                 Preguntas que podrá resolver después de completar el curso:
             </h3>
-            <ul class="list-lite text text--bold text--gris">
-                <li>
-                    ¿Cómo Empezar en Marketing Digital?    
-                </li>
-                <li>
-                    ¿Por qué necesito integrar una estrategia digital en mi negocio?     
-                </li>
-                <li>
-                    ¿Cuáles son las estrategias y medios digitales adecuados para mi negocio de acuerdo a mis objetivos?    
-                </li>
-                <li>
-                    ¿Cuáles son los indicadores o KPIs relevantes a los cuales les debe hacer seguimiento?    
-                </li>
-            </ul>
+            <p>
+                {{dataDetails.goals}}
+            </p>
 
             <hr class="sep sep--gris sep--lg">
 
@@ -96,23 +65,18 @@
                 Profesores:
             </h3>
 
-            <div class="row">
+            <div class="row" ng-repeat="tutorData in dataDetails.tutors">
                 <div class="col-xs-2 vertical-middle">
-                    <img src="images/avatar.jpg" alt="" class="img-circle sidebar-imageCurso__image img-responsive">
+                    <img ng-src="{{tutorData.avatar}}" alt="" class="img-circle sidebar-imageCurso__image img-responsive">
                 </div>
                 <div class="col-xs-10 vertical-middle">
                     <p class="text text--azul text--xbold text--md margin--t05 margin--b0">
-                        Andrés Escobar
+                        {{tutorData.first_name}} {{tutorData.last_name}}
                     </p>
-                    <p class="text text--gris text--sm margin--t0">
-                        CEO Existaya.com Agencia Digital, Empresario y Profesor Universitario.
-                    </p>
-                    
+                    <p class="text text--gris text--sm margin--t0"> {{tutorData.jobtitle}}</p>
                 </div>
                 <div class="col-xs-12">
-                    <p class="text text--gris text--lite">
-                        Ingeniero de Sistemas con énfasis en administración e informática, Director General de Existaya.com Agencia Digital, Google Advertising Professional (GAP).  Google Analytics Individual Qualification (IQ). Docente en Marketing Online y Programación Web en la Universidad ICESI. Conferencista y Consultor con más de 8 años de experiencia en Marketing Online, Miembro de IAB Colombia (Internet Advertising Bureau).
-                    </p>
+                    <p class="text text--gris text--lite"> {{tutorData.about}} </p>
                 </div>
             </div>
         </div>
@@ -121,9 +85,7 @@
                 Sesiones
             </h3>
             <div class="form-group">
-                <select class="form-control">
-                    <option>Abr. 15 - May. 10 / 2015</option>
-                </select>
+                <select class="form-control" ng-model="initial_dates" ng-options="item for item in dataSessionDates"></select>
             </div>
 
             <div class="clearfix"></div><hr class="sep sep--gris sep--xs">

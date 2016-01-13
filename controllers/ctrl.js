@@ -1,5 +1,3 @@
-var testData;
-
 // Scope Goblal
 app.run(function($rootScope, $location, $route) {
   	$rootScope.btnSingUp = true;
@@ -272,37 +270,47 @@ app.controller("footer", function($scope){
 	}
 });
 
+// controller  for Courses 
 
 app.controller("main", function($scope, $http){
 
 	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1';
 		$http.jsonp(encodeURI(url)).success(function(response){
 			$scope.dataCoursesPublic = response;
-			testData = response;
 		})
     	.error(function(data, status, headers, config){
         	console.log(data, status, headers, config);
     	});
 });
-
-
-// controller  for Courses 
 
 app.controller("coursesPublic", function($scope){
 
 
 });
 
+// controller  for Details 
+
 app.controller("courseDetails", function($http, $scope, $routeParams){
 	
+	var dataSessionInitial,
+		dataSessionFinal;
+
 	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1&uuid=' + $routeParams.uuid;
 		$http.jsonp(encodeURI(url)).success(function(response){
-			$scope.dataDetails = response;
+			$scope.dataDetails = response[0];
+			$scope.dataSessionDates = []
+			for (var i = 0; i < response[0].sessions.length; i++) {
+				session = response[0].sessions[i];
+				init = new Date(session.initial_date);
+				end = new Date(session.final_date);
+				$scope.dataSessionDates.push(init.toDateString() + " - " + end.toDateString());
+			};
 			
 		})
     	.error(function(data, status, headers, config){
         	console.log(data, status, headers, config);
     	});
+
 });
 
 app.controller("certificates", function($scope, $timeout){
