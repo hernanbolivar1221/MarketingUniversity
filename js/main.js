@@ -15,7 +15,7 @@ app.config(function($routeProvider){
 			templateUrl: 'views/profile.html'
 		})
 		.when('/course/:uuid/details', {
-			templateUrl: 'views/courseDetail.html',
+			templateUrl: 'views/details.html',
 			controller : "courseDetails"
 		})
 		.when('/allCourses', {
