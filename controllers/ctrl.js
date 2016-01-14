@@ -331,7 +331,6 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1&uuid=' + $routeParams.uuid;
 		$http.jsonp(encodeURI(url)).success(function(response){
 			$scope.dataDetails = response[0];
-			console.log($scope.dataDetails);
 			$scope.dataSessionDates = []
 			for (var i = 0; i < response[0].sessions.length; i++) {
 				session = response[0].sessions[i];
@@ -342,7 +341,7 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 			
 		})
     	.error(function(data, status, headers, config){
-        	console.log(data, status, headers, config);
+          console.log(data, status, headers, config);
     	});	
 
 });
@@ -373,12 +372,15 @@ app.directive('cDetails', [function () {
 		restrict: 'EA',
 		templateUrl: 'views/courseDetail.html',
 		link: function (scope, element, attrs) {
-			console.log(scope.data);
-
-			//document.querySelector("#courseAbout").innerHTML = scope.dataDetails;
+                  interval = setInterval(function(){
+                    if(scope.data != ""){
+                      clearInterval(interval);
+		      document.querySelector("#courseAbout").innerHTML = scope.data;
+                    }  
+                  });
 		},
 		scope:{
-			data: '@about'
+		  data: '@about'
 		}
 
 	};
