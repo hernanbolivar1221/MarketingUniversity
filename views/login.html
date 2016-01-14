@@ -13,7 +13,7 @@
             adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
         </p>
         <p class="text-center margin--t2">
-            <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
+            <a ng-href="#allCourses" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
         </p>
 
         <div class="clearfix"></div>
@@ -35,7 +35,7 @@
                         ayudarte a desarrollar habilidades 
                         especificas en muy corto tiempo.
                     </p>
-                    <a href="" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCourses" class="btn btn-gosh btn-lg margin--t1">
                         Buscar Cursos
                     </a>
                 </div>
@@ -54,7 +54,7 @@
                         del marketing digital con mayor 
                         demanda laboral en Latino América
                     </p>
-                    <a ng-href="#allCertificates" ng-click="seeCertificate()"class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCertificates" class="btn btn-gosh btn-lg margin--t1">
                         Ver Certificados Disponibles
                     </a>
                 </div>
@@ -103,11 +103,16 @@
                             <a ng-href="">
                                 <img ng-src="{{coursePublic.image}}" class="img-course">
                             </a>
-                            <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco bg-nameTutor">
-                                    {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
-                                </span>
+                            <div class="sidebar-imageCurso__nombre">
+                                <div class="col-md-4">
+                                    <img ng-if="coursePublic.tutors[0].avatar != null" ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
+                                    <img ng-if="coursePublic.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div ng-if="coursePublic.tutors[0].first_name != '' && coursePublic.tutors[0].last_name != ''" class="text text--blanco bg-nameTutor">
+                                        {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-xs-12 sidebar-imageCurso__qualy">
                                 <span class="icon-star"></span>
@@ -120,15 +125,13 @@
                         <h3 class="text text--gris text--md text--bold margin--t2">
                             {{coursePublic.name}}
                         </h3>
-                        <p class="text text--sm text--gris_cla margin--t1">
-                            {{coursePublic.description}}
+                        <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="coursePublic.description" data-ellipsis>
+                        
                         </p>
                         <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span><span> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
+                            <span class="icon-time"></span><span ng-if="coursePublic.duration != null"> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
                         </p>
-                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            MÁS INFORMACIÓN
-                        </a>
+                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
                     </div>
                 </div>
             </div>
@@ -136,7 +139,7 @@
             <div class="clearfix"></div>
             
             <div class="col-xs-12 margin--t3 margin--b3 text-center">
-                <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
+                <a ng-href="#allCourses" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
                     <span class="text--upper">ver todos los cursos</span>
                 </a>
             </div>
@@ -274,7 +277,7 @@
     </div>
 </section>
 
-<section class="col-xs-12 sidebar-section3 sidebar-blanco">
+<section ng-if="false" class="col-xs-12 sidebar-section3 sidebar-blanco">
     <div class="container">
         <h1 class="text text--xxxlg text--azul_mid text-center text--xbold">
             CONTAMOS CON MÁS DE 100 AGENCIAS<br>
