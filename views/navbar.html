@@ -2,10 +2,12 @@
     <div class="container">
         <div class="row-same-height row-xs-full-height">
             <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
-                    <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
+                    <a ng-href="#/"> 
+                        <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
+                    </a>
                 <div ng-show="menuOpen" class="top-main-menu">
                     <ul class="nav nav-complete navbar-nav navbar-right">
-                        <li class="active"><a ng-href="#allCoursesPublic" ng-click="activeMenu($event)">CURSOS</a></li>
+                        <li class="active"><a ng-href="#allCourses" ng-click="activeMenu($event)">CURSOS</a></li>
                         <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
                         <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
                         <li><a href="">BIBLIOTECA</a></li>

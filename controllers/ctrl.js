@@ -221,9 +221,42 @@ function getCourseDetails(uuid){
 		});
   }
 
-// controllers additionals
+/////////////////////////////////////// -- SERVICES --- ///////////////////////////////////////
+
+// Factory for Ajax Courses ---------------------------------------------------------------------
+
+app.factory('coursesGet', ['$http',function($http) {
+
+	var objData = {};
+	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1';
+	objData.getData = function(){
+		return $http.jsonp(encodeURI(url));
+	}
+
+	return objData;
+
+}]);
+
+// Factory for Animation Top ---------------------------------------------------------------------
+
+app.factory('scrolltop', [function () {
+	
+	return function scrollTop(){
+		$('html,body').animate({scrollTop: 0}, 1000);
+	};
+}])
+
+
+
+
+
+
+/////////////////////////////////////// -- CONTROLLERS --- ///////////////////////////////////////
+    
+// controller  Navbar  ---------------------------------------------------------------------
 
 app.controller("navbar_functions", function($scope, $http){
+
 	$scope.menuOpen = false;
 	$scope.showMenu = function(){
 		$scope.menuOpen = $scope.menuOpen ? false : true;
@@ -240,26 +273,23 @@ app.controller("navbar_functions", function($scope, $http){
 	
 
 	$scope.logout = function(){
-		
-		
 		$http.jsonp(config.SERVICE_SERVER+"/api/json_logout/").success(function(response){
-			
-		});
-		    localStorage.clear();
-		    location.href = "#/";
-		    location.reload();
-	}
 
+		});
+
+		localStorage.clear(); 
+		location.href = "#/"; 
+		location.reload();
+	}
 
 	$scope.activeMenu = function(event){
 		$(event.target).parent().siblings().removeClass("active");
 		$(event.target).parent().addClass("active");
 
 	}
-
-
 });
 
+// controller  Footer  ---------------------------------------------------------------------
 
 app.controller("footer", function($scope){
 
@@ -270,28 +300,31 @@ app.controller("footer", function($scope){
 	}
 });
 
-// controller  for Courses 
+// controller  Login ---------------------------------------------------------------------
 
-app.controller("main", function($scope, $http){
+app.controller("main", function($scope, coursesGet){
 
-	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1';
-		$http.jsonp(encodeURI(url)).success(function(response){
-			$scope.dataCoursesPublic = response;
-		})
-    	.error(function(data, status, headers, config){
-        	console.log(data, status, headers, config);
-    	});
+	coursesGet.getData().success(function(response){
+		$scope.dataCoursesPublic = response;
+	});    
 });
 
-app.controller("coursesPublic", function($scope){
+// controller All Courses ---------------------------------------------------------------------
 
-
+app.controller("allCourses", function($scope, scrolltop, coursesGet){
+	scrolltop();
+	coursesGet.getData().success(function(response){
+		$scope.coursesall = response;
+	});  
 });
 
-// controller  for Details 
 
-app.controller("courseDetails", function($http, $scope, $routeParams){
+// controller for Details Courses --------------------------------------------------------
+
+app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop){
 	
+	scrolltop();
+
 	var dataSessionInitial,
 		dataSessionFinal;
 
@@ -309,32 +342,25 @@ app.controller("courseDetails", function($http, $scope, $routeParams){
 		})
     	.error(function(data, status, headers, config){
         	console.log(data, status, headers, config);
-    	});
+    	});	
 
 });
 
-app.controller("certificates", function($scope, $timeout){
-	$scope.seeCertificate = function(){
-		$timeout(function(){
-			$('html,body').animate({scrollTop: 0}, 1000);
-		},100);
-	}
+// controller all Certificates ---------------------------------------------------------------------
+
+app.controller("certificates", function($scope, scrolltop){
+	scrolltop();
 });
 
+// controller Jobs ---------------------------------------------------------------------
 
-app.controller("detailsJobs", function($scope, $timeout){
-
+app.controller("detailsJobs", function($scope, scrolltop){
+	scrolltop();
+	// scroll from tab 
 	$scope.scrollAnchorBtn = function(event){
 		var value = $(event.target).attr("value");
 		$('html, body').animate({scrollTop: $("#"+value).offset().top}, 1000);
 
-	}
-
-
-	$scope.seeDeatailsJobs = function(){
-		$timeout(function(){
-			$('html,body').animate({scrollTop: 0}, 1000);
-		},100);
 	}
 });
 

@@ -13,47 +13,50 @@
     </div>
 </section>
 
-<section class="col-xs-12 sidebar-section2 sidebar-section2--cursos sidebar-blanco" ng-controller="coursesPublic">
+<section class="col-xs-12 sidebar-section2 sidebar-section2--cursos sidebar-blanco">
     <div class="container">
         <div class="col-xs-12 margin--tn5">
             <div class="row">
 
-                <!-- courses public -->
-                    <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in dataCoursesPublic">
-                        <div class="col-xs-12 sidebar-bloqs2">
-                            <div class="row sidebar-imageCurso">
-                                <a ng-href="">
-                                    <img ng-src="{{coursePublic.imageCourse}}" class="img-responsive">
-                                </a>
-                                <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                    <img ng-src="{{coursePublic.imageTutor}}" alt="" class="img-circle sidebar-imageCurso__image">
-                                    <span class="text text--blanco">
-                                        {{coursePublic.tutor}}
-                                    </span>
+                <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in coursesall">
+                    <div class="col-xs-12 sidebar-bloqs2">
+                        <div class="row sidebar-imageCurso">
+                            <a ng-href="">
+                                <img ng-src="{{coursePublic.image}}" class="img-course">
+                            </a>
+                            <div class="sidebar-imageCurso__nombre">
+                                <div class="col-md-4">
+                                    <img ng-if="coursePublic.tutors[0].avatar != null" ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
+                                    <img ng-if="coursePublic.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
                                 </div>
-                                <div class="col-xs-12 sidebar-imageCurso__qualy">
-                                    <span class="icon-star"></span>
-                                    <span class="icon-star"></span>
-                                    <span class="icon-star"></span>
-                                    <span class="icon-star"></span>
-                                    <span class="icon-star"></span>
+                                <div class="col-md-8">
+                                    <div ng-if="coursePublic.tutors[0].first_name != '' && coursePublic.tutors[0].last_name != ''" class="text text--blanco bg-nameTutor">
+                                        {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
+                                    </div>
                                 </div>
                             </div>
-                            <h3 class="text text--gris text--md text--bold margin--t2">
-                                {{coursePublic.nameCourse}}
-                            </h3>
-                            <p class="text text--sm text--gris_cla margin--t1">
-                                {{coursePublic.description}}
-                            </p>
-                            <p class="text text--azul_cla text--lite margin--t1">
-                                <span class="icon-time"></span> {{coursePublic.timeDuration}}
-                            </p>
-                            <a  ng-href="#allCoursesPublic" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                                MÁS INFORMACIÓN
-                            </a>
+                            <div class="col-xs-12 sidebar-imageCurso__qualy">
+                                <span class="icon-star"></span>
+                                <span class="icon-star"></span>
+                                <span class="icon-star"></span>
+                                <span class="icon-star"></span>
+                                <span class="icon-star"></span>
+                            </div>
                         </div>
+                        <h3 class="text text--gris text--md text--bold margin--t2">
+                            {{coursePublic.name}}
+                        </h3>
+                        <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="coursePublic.description" data-ellipsis>
+                        
+                        </p>
+                        <p class="text text--azul_cla text--lite margin--t1">
+                            <span class="icon-time"></span><span ng-if="coursePublic.duration != null"> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
+                        </p>
+                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
                     </div>
-                <!-- end courses public ..... -->
+                </div>
+                
+            </div>
 
             </div>
         </div>

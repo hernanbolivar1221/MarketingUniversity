@@ -1,6 +1,6 @@
 // ---------------------- script Nuevosmedios ------------------------------
 
-var app = angular.module('App', ['ngRoute','ngAnimate','ui.bootstrap']);
+var app = angular.module('App', ['ngRoute','ngAnimate','ui.bootstrap','dibari.angular-ellipsis']);
 
 // -- rutas en Angular
 
@@ -18,11 +18,13 @@ app.config(function($routeProvider){
 			templateUrl: 'views/courseDetail.html',
 			controller : "courseDetails"
 		})
-		.when('/allCertificates', {
-			templateUrl: 'views/allCertificates.html'
+		.when('/allCourses', {
+			templateUrl: 'views/allCoursesPublic.html',
+			controller: "allCourses"
 		})
 		.when('/allCertificates', {
-			templateUrl: 'views/allCertificates.html'
+			templateUrl: 'views/allCertificates.html',
+			controller: "certificates"
 		})
 		.when('/jobs', {
 			templateUrl: 'views/bagJobs.html'
