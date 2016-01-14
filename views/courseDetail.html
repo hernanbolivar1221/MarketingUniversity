@@ -27,7 +27,8 @@
             <h2 class="text text--azul_mid text--xxxlg text--xbold margin--b05 text-space1">
                 Acerca del Curso
             </h2>
-            <p class="text text--gris" id="courseAbout">{{about}}</p>
+
+            <c-details about="{{dataDetails.about}}"></c-details>
             <h3 class="text text--lg text--xbold margin--b1 text-space1 margin--t1">
                 Competencias a desarrollar:
             </h3>
@@ -55,9 +56,7 @@
             <h3 class="text text--lg text--xbold margin--b1 text-space1 margin--t1">
                 Preguntas que podrá resolver después de completar el curso:
             </h3>
-            <p>
-                {{dataDetails.goals}}
-            </p>
+                <c-goals goals="{{dataDetails.goals}}"></c-goals>
 
             <hr class="sep sep--gris sep--lg">
 

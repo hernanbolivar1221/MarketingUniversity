@@ -370,7 +370,7 @@ app.controller("detailsJobs", function($scope, scrolltop){
 app.directive('cDetails', [function () {
 	return {
 		restrict: 'EA',
-		templateUrl: 'views/courseDetail.html',
+		template :  '<p class="text text--gris" id="courseAbout">{{about}}</p>',
 		link: function (scope, element, attrs) {
                   interval = setInterval(function(){
                     if(scope.data != ""){
@@ -380,7 +380,31 @@ app.directive('cDetails', [function () {
                   });
 		},
 		scope:{
-		  data: '@about'
+		  data: '@about',
+                  name: "@name",
+                  description : "@description",
+                  image : "@image",
+                  competencies : "@competencies",
+                  dataDetails : "@dataDetails",
+		}
+
+	};
+}])
+
+app.directive('cGoals', [function () {
+	return {
+		restrict: 'EA',
+		template :  '<p id="dataGoals">{{about}}</p>',
+		link: function (scope, element, attrs) {
+                  interval = setInterval(function(){
+                    if(scope.goals != ""){
+                      clearInterval(interval);
+		      document.querySelector("#dataGoals").innerHTML = scope.goals;
+                    }  
+                  });
+		},
+		scope:{
+                  goals : "@goals",
 		}
 
 	};
