@@ -15,7 +15,8 @@
 		<div class="row">
 			<div class="col-xs-6">
 				<p class="text text--xbold text--gris_osc text--md">
-					Duración del curso: <br> {{data.duration}}
+					Duración del curso: <br>
+                                        <c-duration initial="{{data.sessions[0].initial_date}}" final="{{data.sessions[0].final_date}}"></c-duration>
 				</p>
 			</div>
 			<div class="col-xs-6">

@@ -423,4 +423,38 @@ app.directive('cGoals', [function () {
 
 	};
 }]);
+app.directive('cDuration', [function(){
+    return {
+        restrict : 'EA',
+        template : '<p id="courseDuration"></p>',
+        link : function(scope, element, attrs){
+            collection = [scope.initial, scope.final];
+            scope.$watchCollection('collection', function(newValue, oldValue){
+                date1 = new Date(scope.initial);
+                date2 = new Date(scope.final);
+                Date.daysBetween = function( date1, date2 ) {
+                    //Get 1 day in milliseconds
+                    var one_day=1000*60*60*24;
+                    // Convert both dates to milliseconds
+                    var date1_ms = date1.getTime();
+                    var date2_ms = date2.getTime();
+                    // Calculate the difference in milliseconds
+                    var difference_ms = date2_ms - date1_ms;
+                    // Convert back to days and return
+                    return Math.round(difference_ms/one_day); 
+                }
+                duration = Date.daysBetween(date1, date2);
+                //date1 = date1.toLocaleString().split(",")[0].split("/");
+                //date2 = date2.toLocaleString().split(",")[0].split("/");
+                text = duration > 7 ? { 'value' : Math.round(duration/7,0), 'text' : 'Semanas'} :  { 'value' : duration, 'text' : 'Días'};
+                document.querySelector("#courseDuration").innerHTML = text.value + " " + text.text;
+            });
+        },
+        scope : {
+            initial : '@initial',
+            final : '@final',
+            
+        }
+    }    
+}]);
 
