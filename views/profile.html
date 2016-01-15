@@ -106,26 +106,16 @@
                 <!-- Tab Angular boostrap -->
                 <tabset class="nav-tabs">
                     <tab heading="Iniciados">
-                        <div class="container-soon">
-                            <div class="coming_soon">
-                                <p>Próximamente en Febrero 2016</p>
-                            </div>
-                        </div>
-                        <img src="images/tap1.jpg" class="img-responsive" alt="">
+                        <div ng-include="'views/courses/blockMyCourses.html'"></div>
                     </tab>
                     <tab heading="Recomendados">
-                        <div class="container-soon">
-                            <div class="coming_soon">
-                                <p>Próximamente en Febrero 2016</p>
-                            </div>
-                        </div>
-                        <img src="images/tap2.jpg" class="img-responsive" alt="">
+
+                        <div ng-include="'views/courses/blockCatalog.html'"></div>
+                        
                     </tab>
                     <tab heading="Próximamente">
                         <div class="well">
-                            <div class="coming_soon">
-                                <p>Próximamente en Febrero 2016</p>
-                            </div>
+                            <p>Próximamente</p>
                         </div>
                     </tab>
                 </tabset>

@@ -352,6 +352,22 @@ app.controller("certificates", function($scope, scrolltop){
 	scrolltop();
 });
 
+// controller My Courses ---------------------------------------------------------------------
+
+app.controller("myCourses", function($scope){
+	$scope.dataMyCourses = [
+			{
+				name: 'Estrategía en Marketing Digital',
+				image: 'images/Estrategia-Marketing-Digital.png',
+				description: 'Aprende a diseñar y estructurar una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.',
+				duration: '4 semanas',
+				score: 50,
+				time: 40
+
+			}
+	];
+});
+
 // controller Jobs ---------------------------------------------------------------------
 
 app.controller("detailsJobs", function($scope, scrolltop){
@@ -382,7 +398,7 @@ app.directive('cDetails', [function () {
 		}
 
 	};
-}])
+}]);
 
 app.directive('cGoals', [function () {
 	return {
@@ -398,5 +414,5 @@ app.directive('cGoals', [function () {
 		}
 
 	};
-}])
+}]);
 

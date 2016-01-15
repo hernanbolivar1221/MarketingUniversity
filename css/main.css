@@ -795,3 +795,6 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 /* nm */
 
 .textDescription {max-height: 50px; margin: 0 auto; overflow: hidden;}
+.container-MyCourses { border: 1px solid #ccc; overflow: hidden; padding: 10px 0; border-radius: 10px; margin-top: 10px;}
+
+

@@ -1,0 +1,53 @@
+<div ng-controller="myCourses">
+<div class="container-MyCourses" ng-repeat="data in dataMyCourses">
+	<div class="col-xs-12">
+		<h2 class="text text--xlg text--gris_osc text--xbold">
+			{{data.name}}
+		</h2>
+	</div>
+	<div class="col-xs-4">
+		<img ng-src="{{data.image}}" alt="" class="img-responsive pull-left">
+	</div>
+	<div class="col-xs-6">
+		<p class="text text--lite text--gris">
+			{{data.description}}
+		</p>
+		<div class="row">
+			<div class="col-xs-6">
+				<p class="text text--xbold text--gris_osc text--md">
+					Duración del curso: <br> {{data.duration}}
+				</p>
+			</div>
+			<div class="col-xs-6">
+				<div class="text text--azul_osc text--md text-right">
+					<span class="icon-star"></span>
+					<span class="icon-star"></span>
+					<span class="icon-star"></span>
+					<span class="icon-star"></span>
+					<span class="icon-star"></span>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<a href="" class="btn btn-verde btn-lg btn-regular"> comenzar clase </a>
+	</div>
+	<div class="col-xs-2 text-center">
+		<div class="c100 center p50 center-block">
+			<span>{{data.score}} %</span>
+			<div class="slice">
+				<div class="bar"></div>
+				<div class="fill"></div>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<p class="text text--lite text--gris margin--b0 margin--t2">
+			Horas de estudio:<br>
+			<span class="text--xbold">
+				{{data.time}} Horas
+			</span>
+		</p>
+	</div>
+</div>
+</div>
