@@ -372,20 +372,13 @@ app.directive('cDetails', [function () {
 		restrict: 'EA',
 		template :  '<p class="text text--gris" id="courseAbout">{{about}}</p>',
 		link: function (scope, element, attrs) {
-                  interval = setInterval(function(){
-                    if(scope.data != ""){
-                      clearInterval(interval);
+                  scope.$watch("data", function(){
+                    
 		      document.querySelector("#courseAbout").innerHTML = scope.data;
-                    }  
                   });
 		},
 		scope:{
 		  data: '@about',
-                  name: "@name",
-                  description : "@description",
-                  image : "@image",
-                  competencies : "@competencies",
-                  dataDetails : "@dataDetails",
 		}
 
 	};
@@ -396,11 +389,8 @@ app.directive('cGoals', [function () {
 		restrict: 'EA',
 		template :  '<p id="dataGoals">{{about}}</p>',
 		link: function (scope, element, attrs) {
-                  interval = setInterval(function(){
-                    if(scope.goals != ""){
-                      clearInterval(interval);
+                  scope.$watch("goals", function(){
 		      document.querySelector("#dataGoals").innerHTML = scope.goals;
-                    }  
                   });
 		},
 		scope:{
