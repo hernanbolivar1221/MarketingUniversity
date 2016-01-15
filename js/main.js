@@ -32,6 +32,9 @@ app.config(function($routeProvider){
 		.when('/detailsJobs', {
 			templateUrl: 'views/detailsJobs.html'
 		})
+		.when('/course/:uuid/simple', {
+			templateUrl: 'views/courses/simpleCourse.html'
+		})
 		.otherwise({ 
 			redirectTo: '/' 
 		});
