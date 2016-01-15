@@ -228,9 +228,9 @@ function getCourseDetails(uuid){
 app.factory('coursesGet', ['$http',function($http) {
 
 	var objData = {};
-	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1';
-	objData.getData = function(){
-		return $http.jsonp(encodeURI(url));
+	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&';
+	objData.getData = function(parameter){
+		return $http.jsonp(encodeURI(url + parameter + '=1'));
 	}
 
 	return objData;
@@ -304,7 +304,7 @@ app.controller("footer", function($scope){
 
 app.controller("main", function($scope, coursesGet){
 
-	coursesGet.getData().success(function(response){
+	coursesGet.getData('public').success(function(response){
 		$scope.dataCoursesPublic = response;
 	});    
 });
@@ -313,7 +313,7 @@ app.controller("main", function($scope, coursesGet){
 
 app.controller("allCourses", function($scope, scrolltop, coursesGet){
 	scrolltop();
-	coursesGet.getData().success(function(response){
+	coursesGet.getData('public').success(function(response){
 		$scope.coursesall = response;
 	});  
 });
@@ -354,7 +354,14 @@ app.controller("certificates", function($scope, scrolltop){
 
 // controller My Courses ---------------------------------------------------------------------
 
-app.controller("myCourses", function($scope){
+app.controller("myCourses", function($scope, coursesGet){
+
+	coursesGet.getData('me').success(function(response){
+		$scope.dataMyCourses = response;
+	}); 
+
+
+	/*
 	$scope.dataMyCourses = [
 			{
 				name: 'Estrategía en Marketing Digital',
@@ -366,6 +373,7 @@ app.controller("myCourses", function($scope){
 
 			}
 	];
+	*/
 });
 
 // controller Jobs ---------------------------------------------------------------------
