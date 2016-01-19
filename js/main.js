@@ -33,7 +33,8 @@ app.config(function($routeProvider){
 			templateUrl: 'views/detailsJobs.html'
 		})
 		.when('/course/:uuid/simple', {
-			templateUrl: 'views/courses/simpleCourse.html'
+			templateUrl: 'views/courses/simpleCourse.html',
+			controller: 'simpleCourse'
 		})
 		.otherwise({ 
 			redirectTo: '/' 

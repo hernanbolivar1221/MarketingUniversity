@@ -359,22 +359,16 @@ app.controller("myCourses", function($scope, coursesGet){
 	coursesGet.getData('me').success(function(response){
 		$scope.dataMyCourses = response;
 	}); 
-
-
-	/*
-	$scope.dataMyCourses = [
-			{
-				name: 'Estrategía en Marketing Digital',
-				image: 'images/Estrategia-Marketing-Digital.png',
-				description: 'Aprende a diseñar y estructurar una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.',
-				duration: '4 semanas',
-				score: 50,
-				time: 40
-
-			}
-	];
-	*/
 });
+
+app.controller('simpleCourse', ['$scope','coursesGet', function ($scope, coursesGet) {
+
+	coursesGet.getData('me').success(function(response){
+		$scope.dataSimpleCourses = response;
+	});
+	
+}]);
+
 
 // controller Jobs ---------------------------------------------------------------------
 
@@ -527,5 +521,46 @@ app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
             username : '@username',
         }
     }        
-}])
+}]);
+
+app.directive('tabsSimpleCourse', [function () {
+	return {
+		restrict: 'EA',
+		template: '<div>' +
+					 '<div class="col-md-2">' +
+						'<ul class="list-unstyled cus">' +
+                			'<li ng-repeat="items in tabs">' +
+                    		   '<a href="" ng-click="items.active = true">{{items.name}}</a>' +
+                			'</li>' +
+            			'</ul>' +
+					 '</div>' +
+					 '<div class="col-md-10">' +
+						'<tabset>' + 
+                			'<tab ng-repeat="tab in tabs" heading="" active="tab.active">' +
+                				'<div ng-include="' + "'" + 'views/courses/blockMyCourses.html' + "'" + '">' + '</div>' +
+                			'</tab>' +
+          				'</tabset>' +
+					 '</div>' +			
+				   '</div>',
+
+		link: function (scope, elm, attrs) {
+
+			scope.tabs = [
+							{name: 'Salón de Clase', active:true, template:'tab1.html' }, 
+							{name: 'Sobre el Curso',active:false, template:'tab2.html'}, 
+							{name: 'Recursos',active:false, template:'tab3.html'}, 
+							{name: 'Foros',active:false, template:'tab4.html'}, 
+							{name: 'Evaluaciones',active:false, template:'tab5.html'}, 
+							{name: 'Profesores',active:false, template:'tab6.html'}
+                         ];
+
+            setTimeout(function(){
+           	   elm.find("").css("background", "red");
+            },1300);             	
+ 			
+                  
+		}
+	};
+}]);
+
 
