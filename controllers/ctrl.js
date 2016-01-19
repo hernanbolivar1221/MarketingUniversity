@@ -237,6 +237,15 @@ app.factory('coursesGet', ['$http',function($http) {
 
 }]);
 
+app.factory('getCourse', ['$http',function($http) {
+    return {
+        dataStudent : function(uuid){
+            var url = config.SERVICE_SERVER + '/api/course/'+ uuid +'/dataStudent/?callback=JSON_CALLBACK&';
+            var response = $http.jsonp(encodeURI(url));
+            return response;    
+        }
+    }    
+}]);
 // Factory for Animation Top ---------------------------------------------------------------------
 
 app.factory('scrolltop', [function () {
@@ -245,10 +254,6 @@ app.factory('scrolltop', [function () {
 		$('html,body').animate({scrollTop: 0}, 1000);
 	};
 }])
-
-
-
-
 
 
 /////////////////////////////////////// -- CONTROLLERS --- ///////////////////////////////////////
@@ -361,12 +366,12 @@ app.controller("myCourses", function($scope, coursesGet){
 	}); 
 });
 
-app.controller('simpleCourse', ['$scope','coursesGet', function ($scope, coursesGet) {
-
-	coursesGet.getData('me').success(function(response){
-		$scope.dataSimpleCourses = response;
-	});
-	
+app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse', function ($http, $scope, $routeParams, getCourse) {
+    var response = getCourse.dataStudent($routeParams.uuid);
+    response.success(function(data){
+        $scope.dataSimpleCourse = data;
+        console.log(data);
+    });
 }]);
 
 
