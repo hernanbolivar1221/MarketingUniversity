@@ -457,4 +457,75 @@ app.directive('cDuration', [function(){
         }
     }    
 }]);
+app.factory('sessionsFactory', function(){
+    return {
+        inscribe : function(uuid, user_id, session_id){
+            console.log(uuid, username, session_id); 
+                   
+        },
+        firstAvailable : function(sessions){
+            _aux = null;
+            now = new Date();
+            for(session of sessions){
+                    
+                if(now < session.initial_date){
+                    if(_aux && session.initial_date < _aux.initial_date){
+                        _aux = session;
+                    }
+                }
+            }
+            return _aux;
+        }
+    }     
+});
+app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
+    return {
+        restrict : "EA",
+        template : '<a href="" class="btn btn--academy2 btn-rojo btn-xlg text--upper margin--t1 margin--b1"  id="buttonCourse"></a>',
+        link : function(scope, element, attrs){
+            scope.$watch("sessions", function(){
+
+                sessions = scope.sessions
+                try{
+                    has_session = false;
+                    sessions = JSON.parse(sessions);
+                    button = document.querySelector("#buttonCourse");
+                    for(session of sessions){
+                        if(session.score != null){
+                            has_session = true;
+                        }
+                    }
+                    if(has_session){
+                        button.href = '#/course/'+scope.uuid+'/simple';
+                        button.classList.add('btn-success');
+                        button.classList.remove('btn-rojo');
+                        button.innerHTML = "Ingresar";
+                    }else{
+                        uuid = scope.uuid;
+                        session_available = sessionsFactory.firstAvailable(sessions);
+                        if(!session_available){
+                            button.classList.add("hidden");
+                        }
+                        console.log(session_available);
+                        username = dataUser.username;
+                        button.innerHTML = "Inscribete";
+                        button.onclick = function(){
+                            sessionsFactory.inscribe(uuid, dataUser.username, session_available); 
+                        }
+                        
+                        
+                    }
+
+                }catch(err){
+                    //console.log(sessions);
+                }
+            });
+        },
+        scope : {
+            sessions : '@sessions',
+            uuid : '@uuid',
+            username : '@username',
+        }
+    }        
+}])
 
