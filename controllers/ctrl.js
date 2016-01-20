@@ -528,12 +528,12 @@ app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
     }        
 }]);
 
-app.directive('tabsSimpleCourse', [function () {
+app.directive('tabsCustom', [function () {
 	return {
 		restrict: 'EA',
 		template: '<div>' +
-					 '<div class="col-md-2">' +
-						'<ul class="list-unstyled cus">' +
+					 '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' +
+						'<ul class="list-unstyled menuTab">' +
                 			'<li ng-repeat="items in tabs">' +
                     		   '<a href="" ng-click="items.active = true">{{items.name}}</a>' +
                 			'</li>' +
@@ -548,7 +548,7 @@ app.directive('tabsSimpleCourse', [function () {
 					 '</div>' +			
 				   '</div>',
 
-		link: function (scope, elm, attrs) {
+		link: function (scope, element, attrs) {
 
 			scope.tabs = [
 							{name: 'Salón de Clase', active:true, template:'tab1.html' }, 
@@ -559,9 +559,13 @@ app.directive('tabsSimpleCourse', [function () {
 							{name: 'Profesores',active:false, template:'tab6.html'}
                          ];
 
-            setTimeout(function(){
-           	   elm.find("").css("background", "red");
-            },1300);             	
+            var loadBar = setInterval(function(){
+            	var nav = document.querySelector("ul.nav-tabs");
+            	nav.remove();  
+            	if(nav.length == null){
+            		clearInterval(loadBar);
+            	}
+            },100);       	
  			
                   
 		}
