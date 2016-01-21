@@ -792,9 +792,19 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 }@media screen and (max-width:768px){body{font-size:12px}
 }
 
-/* nm */
+/* nuevos medios */
 
 .textDescription {max-height: 50px; margin: 0 auto; overflow: hidden;}
 .container-MyCourses { border: 1px solid #ccc; overflow: hidden; padding: 10px 0; border-radius: 10px; margin-top: 10px;}
-.menuTab li { display: block; padding: 1em; position: relative; text-decoration: none;}
-.menuTab li a { color: #626262; display: block; padding: 1em; position: relative; text-decoration: none;}
+.menuTab li { padding: 1em; border-bottom: 1px solid #CCC}
+.menuTab li a { color: #626262;text-decoration: none;}
+.sidebar-contenidoCurso { padding-right: 0; padding-left: 0;}
+.tabActive {background:#3874b8; color:#FFF !important;}
+.tabActive a {color:#FFF !important;}
+
+#tabModule ul.nav-tabs { width: 100%; border-bottom: 0;}
+#tabModule ul.nav-tabs li a { border: none; border-bottom: 3px solid #cbcbcb; color: #4f4f4f; font-weight: 700; text-align: left;}
+#tabModule ul.nav-tabs li a:hover { background:#f5f5f5;}
+#tabModule ul.nav-tabs li.active a { background: #f5f5f5; border: none; border-bottom: 3px solid #6e8e2d; color: #6e8e2d;}
+
+.descriptionSmall { color: #929292; font-size: 0.85em; font-weight: 300;}

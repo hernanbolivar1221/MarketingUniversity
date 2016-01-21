@@ -388,6 +388,189 @@ app.controller("detailsJobs", function($scope, scrolltop){
 });
 
 
+
+app.controller('aPiFake', ['$scope', function ($scope) {
+	$scope.val = "Hola Mundo";
+	$scope.dataFake = [
+					{
+						name: 'Modulo Introducción',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 2", 
+									content:  [
+												{
+													name: "content 2.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 3", 
+									content:  [
+												{
+													name: "content 3.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.3", 
+													subcontent: ""
+												} 
+										]
+								},
+						],
+						active: true
+						
+					},
+					{
+						name: 'Modulo Secundario 2',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 2", 
+									content:  [
+												{
+													name: "content 2.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 3", 
+									content:  [
+												{
+													name: "content 3.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.3", 
+													subcontent: ""
+												} 
+										]
+								},
+						],
+						active: false
+						
+					},
+					{
+						name: 'Modulo Tercero',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 2", 
+									content:  [
+												{
+													name: "content 2.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 3", 
+									content:  [
+												{
+													name: "content 3.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.3", 
+													subcontent: ""
+												} 
+										]
+								},
+						],
+						active: false
+						
+					}
+	];
+
+}]);
+
+
 /////////////////////////////////////// -- DIRECTIVES --- ///////////////////////////////////////
 
 app.directive('cDetails', [function () {
@@ -532,33 +715,65 @@ app.directive('tabsCustom', [function () {
 	return {
 		restrict: 'EA',
 		template: '<div>' +
-					 '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' +
-						'<ul class="list-unstyled menuTab">' +
-                			'<li ng-repeat="items in tabs">' +
-                    		   '<a href="" ng-click="items.active = true">{{items.name}}</a>' +
-                			'</li>' +
-            			'</ul>' +
-					 '</div>' +
-					 '<div class="col-md-10">' +
+					'<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
+						'<ul class="list-unstyled menuTab">' + 
+							'<li ng-repeat="items in tabs" ng-class="{tabActive: items.active}">' + 
+								'<i class="{{items.icon}} "></i>' + 
+								'<a href="" ng-click="items.active = true">{{items.name}}</a>' +
+							'</li>' + 
+						'</ul>' + 
+					'</div>' + 
+					'<div class="col-md-10">' + 
 						'<tabset>' + 
-                			'<tab ng-repeat="tab in tabs" heading="" active="tab.active">' +
-                				'<div ng-include="' + "'" + 'views/courses/blockMyCourses.html' + "'" + '">' + '</div>' +
-                			'</tab>' +
-          				'</tabset>' +
-					 '</div>' +			
-				   '</div>',
-
+							'<tab ng-repeat="tab in tabs" heading="" active="tab.active">' +
+								'<ng-include src="tab.template"></ng-include>' + 
+							'</tab>' + 
+						'</tabset>' + 
+					'</div>' + 
+				  '</div>',
 		link: function (scope, element, attrs) {
 
-			scope.tabs = [
-							{name: 'Salón de Clase', active:true, template:'tab1.html' }, 
-							{name: 'Sobre el Curso',active:false, template:'tab2.html'}, 
-							{name: 'Recursos',active:false, template:'tab3.html'}, 
-							{name: 'Foros',active:false, template:'tab4.html'}, 
-							{name: 'Evaluaciones',active:false, template:'tab5.html'}, 
-							{name: 'Profesores',active:false, template:'tab6.html'}
-                         ];
+			var urlTemplate = 'views/simpleCourse/';
 
+			scope.tabs = [
+							{
+								name: ' Salón de Clase', 
+								icon: 'fa fa-desktop fa-fw', 
+								active:true, 
+								template: urlTemplate + 'tab1.html' 
+							},
+							{
+								name: ' Sobre el Curso',
+								icon: 'fa fa-book fa-fw', 
+								active:false, 
+								template: urlTemplate + 'tab2.html'
+							}, 
+							{
+								name: ' Recursos', 
+								icon: 'fa fa-bars fa-fw fa-rotate-90', 
+								active:false, 
+								template: urlTemplate + 'tab3.html'
+							}, 
+							{
+								name: ' Foros', 
+								icon: 'fa fa-comments-o fa-fw', 
+								active:false, 
+								template: urlTemplate + 'tab4.html'
+							}, 
+							{
+								name: ' Evaluaciones',
+								icon: 'fa fa-check-square-o fa-fw', 
+								active:false, 
+								template: urlTemplate + 'tab5.html'
+							}, 
+							{
+								name: ' Profesores',
+								icon: 'fa fa-user fa-fw', 
+								active:false, 
+								template: urlTemplate + 'tab6.html'
+							}
+                         ];   
+                         
             var loadBar = setInterval(function(){
             	var nav = document.querySelector("ul.nav-tabs");
             	nav.remove();  
@@ -572,4 +787,23 @@ app.directive('tabsCustom', [function () {
 	};
 }]);
 
+
+app.directive('descriptionTab', [function () {
+	return {
+		restrict: 'AE',
+		trasclude: true,
+		link: function (scope, element, iAttrs) {
+
+			scope.$watch("description", function(newValue, oldValue){
+				if(newValue != ""){
+					var elemento = element.find("a");
+					elemento.append("<br><span class='descriptionSmall'>" + scope.description + "</span>");
+				}
+			});				
+		},	
+		scope: {
+			description: '@'
+		}
+	}
+}]);
 

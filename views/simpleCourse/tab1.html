@@ -1,0 +1,47 @@
+<!-- CONTENIDO SALON DE CLASES -->
+<div id="salon">
+    <div class="col-xs-12">
+        <div class="row" ng-controller="aPiFake">
+
+            <div id="tabModule" ng-init="activeValue=true"  description-tab description="{{dataSimpleCourse.course.name | lowercase}}">
+                <tabset justified="true">
+                    <tab ng-repeat="item in dataFake" heading="{{item.name}}" active="item.active">
+                        <!-- Controlador progreso lección -->
+                                                <div class="col-xs-12 list-simple">
+                                                    <ul class="nav nav-pills nav-pills--setps nav-justified" style="margin-top: 15px; margin-bottom: 15px;">
+                                                        <li class="visited active">
+                                                            <a href="#leccion1-step1" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li class="visited">
+                                                            <a href="#leccion1-step2" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li class="visited">
+                                                            <a href="#leccion1-step3" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li class="visited">
+                                                            <a href="#leccion1-step4" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li class="visited">
+                                                            <a href="#leccion1-step5" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#leccion1-step6" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#leccion1-step7" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#leccion1-step8" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#leccion1-step9" aria-controls="leccion1-step1" role="tab" data-toggle="tab"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                    </tab>
+                </tabset>
+            </div>
+                                    
+        </div>
+    </div>
+</div>
