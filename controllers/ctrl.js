@@ -446,8 +446,7 @@ app.controller('aPiFake', ['$scope', function ($scope) {
 												} 
 										]
 								},
-						],
-						active: true
+						]
 						
 					},
 					{
@@ -486,26 +485,8 @@ app.controller('aPiFake', ['$scope', function ($scope) {
 													subcontent: ""
 												} 
 										]
-								},
-								{
-									name: "content 3", 
-									content:  [
-												{
-													name: "content 3.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.3", 
-													subcontent: ""
-												} 
-										]
-								},
-						],
-						active: false
+								}
+						]
 						
 					},
 					{
@@ -527,43 +508,8 @@ app.controller('aPiFake', ['$scope', function ($scope) {
 													subcontent: ""
 												} 
 										]
-								},
-								{
-									name: "content 2", 
-									content:  [
-												{
-													name: "content 2.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.3", 
-													subcontent: ""
-												} 
-										]
-								},
-								{
-									name: "content 3", 
-									content:  [
-												{
-													name: "content 3.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.3", 
-													subcontent: ""
-												} 
-										]
-								},
-						],
-						active: false
+								}
+						]
 						
 					}
 	];
@@ -711,7 +657,7 @@ app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
     }        
 }]);
 
-app.directive('tabsCustom', [function () {
+app.directive('tabsCustomVertical', [function () {
 	return {
 		restrict: 'EA',
 		template: '<div>' +
@@ -791,13 +737,14 @@ app.directive('tabsCustom', [function () {
 app.directive('descriptionTab', [function () {
 	return {
 		restrict: 'AE',
-		trasclude: true,
-		link: function (scope, element, iAttrs) {
+		link: function (scope, element, attrs) {
 
 			scope.$watch("description", function(newValue, oldValue){
 				if(newValue != ""){
-					var elemento = element.find("a");
-					elemento.append("<br><span class='descriptionSmall'>" + scope.description + "</span>");
+
+					var contentDescription = "<br><span class='descriptionSmall'>" + scope.description + "</span>";
+					// using Jquery
+					element.find("ul:first").find("a").append(contentDescription);
 				}
 			});				
 		},	
@@ -805,5 +752,30 @@ app.directive('descriptionTab', [function () {
 			description: '@'
 		}
 	}
+}]);
+
+app.directive('tabsCustomHorizontal', [function () {
+	return {
+		restrict: 'EA',
+		transclude: true,
+		template:   '<tabset justified="true" type="pills">' +
+    					'<tab ng-repeat="subItem in item.submodule" heading="">' +
+    						'<div ng-transclude></div>' +
+    					'</tab>' +
+  					'</tabset>',
+
+        link: function(scope, element, attrs){
+
+        	var ulElement = element.find("ul");
+
+        	var timeLoadElement = setInterval(function(){
+        		if(ulElement.length != 0 ){
+        			ulElement.addClass("nav-pills--setps");
+        			clearInterval(timeLoadElement);
+        		}
+        	});
+
+        }
+	}	
 }]);
 
