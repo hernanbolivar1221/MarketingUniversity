@@ -146,14 +146,14 @@ function sendRegisterNotification($http,email){
 }
 // functions 
 function ajaxAuth($http, $scope, username, userpassword, email){
-	if(!email){
-	    url = config.SERVICE_SERVER + "/api/json/json_login_dare/?callback=JSON_CALLBACK&username="+username+"&password="+userpassword;
-	    register=false;
-	}else{
+    if(!email){
+        url = config.SERVICE_SERVER + "/api/json/json_login_dare/?callback=JSON_CALLBACK&username="+username+"&password="+userpassword;
+        register=false;
+    }else{
 
-	    url =  config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email;
-	    register = true;
-	}
+        url =  config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email;
+        register = true;
+    }
 	$http.jsonp(url).success(function(response){
 		
 		if(response.status == "ok"){
@@ -336,6 +336,7 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 	var url = config.SERVICE_SERVER + '/api/courses/?callback=JSON_CALLBACK&public=1&uuid=' + $routeParams.uuid;
 		$http.jsonp(encodeURI(url)).success(function(response){
 			$scope.dataDetails = response[0];
+            console.log($scope.dataDetails);
 			$scope.dataSessionDates = []
 			for (var i = 0; i < response[0].sessions.length; i++) {
 				session = response[0].sessions[i];
@@ -521,7 +522,27 @@ app.controller('aPiFake', ['$scope', function ($scope) {
 
 
 /////////////////////////////////////// -- DIRECTIVES --- ///////////////////////////////////////
+app.directive('competenciesList', [function(){
+    return {
+        restrict : 'EA',
+        template : '<ol id="competenciesList" class="list-normal text text--gris margin--t1"></ol>',
+        link : function(scope, element, attrs){
 
+            competencies = [];
+            list = document.querySelector("#competenciesList");
+            console.log(list);
+            for(competence in scope.data){
+                competencies[competence] = document.createElement("li");
+                competencies[competence].innerHTML = scope.data[competence].description;
+                list.appendChild(compentecies[competence]);
+            }
+            
+        },
+        scope : {
+            data : '@'    
+        }
+    }   
+}])
 app.directive('cDetails', [function () {
 	return {
 		restrict: 'EA',
@@ -549,7 +570,7 @@ app.directive('cGoals', [function () {
                   });
 		},
 		scope:{
-                  goals : "@goals",
+            goals : "@goals",
 		}
 
 	};

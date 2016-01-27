@@ -36,7 +36,9 @@
             <p class="text text--gris text--xbold">
                 Al finalizar este curso usted estará en capacidad de:
             </p>
-            <ol class="list-normal text text--gris margin--t1">
+            <competencies-list data="{{dataDetails.competencies}}"></competencies-list>
+            <ol class="list-normal text text--gris margin--t1 hidden">
+                
                 <li ng-repeat="competence in dataDetails.competencies">
                     {{competence.description}}
                 </li>
