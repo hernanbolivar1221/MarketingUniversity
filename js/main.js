@@ -1,6 +1,6 @@
 // ---------------------- script Nuevosmedios ------------------------------
 
-var app = angular.module('App', ['ngRoute','ngAnimate','ui.bootstrap','dibari.angular-ellipsis']);
+var app = angular.module('App', ['ngRoute','ngAnimate','ui.bootstrap','dibari.angular-ellipsis','truncate']);
 
 // -- rutas en Angular
 

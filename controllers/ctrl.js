@@ -667,7 +667,17 @@ app.directive('descriptionTab', [function () {
 
 					var contentDescription = "<br><span class='descriptionSmall'>" + scope.description + "</span>";
 					// using Jquery
-					element.find("ul:first").find("a").append(contentDescription);
+                    
+                    var timeInterval = setInterval(function(){
+                        var elementFind =  $(".description-module").find("ul:first").find("a");    
+                        if($(".descriptionSmall").length != 0){
+                            clearInterval(timeInterval);
+                        }else{
+                          elementFind.append(contentDescription);      
+                        }
+                    },500);
+
+
 				}
 			});				
 		},	
