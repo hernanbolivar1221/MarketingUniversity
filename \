@@ -50,6 +50,26 @@ app.controller("profile_api",function($scope, $http){
 
 });
 
+function getPublicCourses($http, limit){
+    var url = config.SERVICE_SERVER + '/api/getPublicCourses/?callback=JSON_CALLBACK&limit='+(limit ? limit : 4);
+    $http.jsonp(encodeURI(url)).success(function(response){
+        //console.log(response);
+    })
+    .error(function(data, status, headers, config){
+        //console.log(data, status, headers, config);
+    });
+}
+function getAllCourses($http){
+    var url = config.SERVICE_SERVER+'"/lms/courses/json/fetch_available_courses/?callback=JSON_CALLBACK';
+    $http.jsonp(url).success(function(response){
+    })
+    .error(function(data, status, headers, config){
+        console.log("GET ERROR", data, status, headers, config);
+    })
+    
+}
+
+
 // Api Login
 var user = null;
 app.controller("login_api", function($scope, $http){
@@ -124,7 +144,55 @@ app.controller("login_api", function($scope, $http){
 
 
 });
+function sendRegisterNotification($http,email){
+    subject = config.TEMPLATES.registerTemplate.subject;
+    template = config.TEMPLATES.registerTemplate.template;
+    body = config.TEMPLATES.registerTemplate.body;
+    from = config.TEMPLATES.registerTemplate.from; 
+    url = config.SERVICE_SERVER + "/api/send_email/?callback=JSON_CALLBACK&subject="+subject+"&body="+body+"&from="+from+"&email="+email+";&template="+template;
+    $http.jsonp(url).success(function(respuesta){
+    });
+
+}
 // functions 
+function ajaxAuth($http, $scope, username, userpassword, email){
+    if(!email){
+        url = config.SERVICE_SERVER + "/api/json/json_login_dare/?callback=JSON_CALLBACK&username="+username+"&password="+userpassword;
+        register=false;
+    }else{
+
+        url =  config.SERVICE_SERVER+"/api/registerNew/?callback=JSON_CALLBACK&username=" + username + "&password=" + userpassword + "&email="+ email;
+        register = true;
+    }
+	$http.jsonp(url).success(function(response){
+		
+		if(response.status == "ok"){
+			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
+					//console.log(JSON.stringify(respuesta));
+
+					localStorage.dataUser = JSON.stringify(respuesta);
+					$(".modal--ingreso").modal("show").toggle();
+   					location.href = "#/profile";
+					location.reload();
+
+				});
+		    if(register){
+                        sendRegisterNotification($http,email);
+                        register = false;
+		    }else{
+                    }
+
+		}else{
+			if(response.error != undefined){
+				$("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
+				$scope.alertError = true;
+			}else{
+				$scope.alertData = true;	
+			}	
+		}
+		});
+}
+
 function getMyCourses(){
 
 }
@@ -133,6 +201,35 @@ function getCourseDetails(uuid){
 
 }
 
+
+  function kmeAPI($http, $scope,username,name,email,register) {
+      var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?callback=JSON_CALLBACK&username='+email+'&name='+ name +'&password='+username;
+      $http.jsonp(encodeURI(uri)).success(function(response){
+		if(response.status == "logged"){
+			$http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username).success(function(respuesta){
+					//console.log(JSON.stringify(respuesta));
+					localStorage.dataUser = JSON.stringify(respuesta);
+					$(".modal--ingreso").modal("show").toggle();
+   					location.href = "#/profile";
+					location.reload();
+
+				});
+		    if(register){
+                        sendRegisterNotification($http,email);
+                        register = false;
+		    }else{
+                    }
+
+		}else{
+			if(response.error != undefined){
+				$("#errorLogin").html(" Nombre de usuario o correo ya existen. <br> + <br>"+ response.error);
+				$scope.alertError = true;
+			}else{
+				$scope.alertData = true;	
+			}	
+		}
+		});
+  }
 
 /////////////////////////////////////// -- SERVICES --- ///////////////////////////////////////
 
@@ -254,17 +351,14 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 				session = response[0].sessions[i];
 				init = new Date(session.initial_date);
 				end = new Date(session.final_date);
-				$scope.dataSessionDates.push({
-                    "dates" : init.toDateString() + " - " + end.toDateString(),
-                    "initial_date" : session.initial_date,
-                    "final_date" : session.final_date
-                });
-
-		};
+				$scope.dataSessionDates.push(init.toDateString() + " - " + end.toDateString());
+			};
+			
 		})
     	.error(function(data, status, headers, config){
           console.log(data, status, headers, config);
     	});	
+
 });
 
 // controller all Certificates ---------------------------------------------------------------------
@@ -284,40 +378,10 @@ app.controller("myCourses", function($scope, coursesGet){
 
 app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse', function ($http, $scope, $routeParams, getCourse) {
     var response = getCourse.dataStudent($routeParams.uuid);
-
-    // - - - - -
-
-        function split_array_for_slides(array, n){
-        	response = [];
-        	aux_array = [];
-        	for(var i = 0; i <  array.length; i++){
-        		if(aux_array.length < n){
-        			aux_array.push(array[i]);
-        		}else{
-        			response.push(aux_array);
-        			aux_array = [];
-        			aux_array.push(array[i])
-        		}
-        	}
-        	if(aux_array.length > 0){
-        		response.push(aux_array);
-        	}
-        	return response;
-        }
-
-
     response.success(function(data){
         $scope.dataSimpleCourse = data;
-        console.log($scope.dataSimpleCourse);
-
-        dataModules = $scope.dataSimpleCourse.modules;
-       	$scope.simpleItems = split_array_for_slides(dataModules,4);
-       	console.log($scope.simpleItems);
+        console.log(data);
     });
-
-    // carousel
-	$scope.intervalTime = 0;
-
 }]);
 
 
@@ -335,7 +399,227 @@ app.controller("detailsJobs", function($scope, scrolltop){
 
 
 
+app.controller('aPiFake', ['$scope', function ($scope) {
+	$scope.val = "Hola Mundo";
+	$scope.dataFake = [
+					{
+						name: 'Semana 1: Estrategia Digital',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 2", 
+									content:  [
+												{
+													name: "content 2.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 3", 
+									content:  [
+												{
+													name: "content 3.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 3.3", 
+													subcontent: ""
+												} 
+										]
+								}
+						],
+						score: 50
+						
+					},
+					{
+						name: 'Semana 2: TI y CIO en el mundo digital',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								},
+								{
+									name: "content 2", 
+									content:  [
+												{
+													name: "content 2.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 2.3", 
+													subcontent: ""
+												} 
+										]
+								}
+						],
+						score: 80
+						
+					},
+					{
+						name: 'Semana 3: Dirigir el Balance',
+						submodule: [
+								{
+									name: "content 1", 
+									content:  [
+												{
+													name: "content 1.1", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.2", 
+													subcontent: ""
+												}, 
+												{
+													name: "content 1.3", 
+													subcontent: ""
+												} 
+										]
+								}
+						],
+						score: 20
+						
+					}
+	];
+
+}]);
+
+
 /////////////////////////////////////// -- DIRECTIVES --- ///////////////////////////////////////
+app.directive('competenciesList', [function(){
+    return {
+        restrict : 'EA',
+        template : '<ol id="competenciesList" class="list-normal text text--gris margin--t1"></ol>',
+        link : function(scope, element, attrs){
+
+            competencies = [];
+            list = document.querySelector("#competenciesList");
+            for(competence in scope.data){
+                competencies[competence] = document.createElement("li");
+                competencies[competence].innerHTML = scope.data[competence].description;
+                list.appendChild(compentecies[competence]);
+            }
+            
+        },
+        scope : {
+            data : '@'    
+        }
+    }   
+}])
+app.directive('cDetails', [function () {
+	return {
+		restrict: 'EA',
+		template :  '<p class="text text--gris" id="courseAbout">{{about}}</p>',
+		link: function (scope, element, attrs) {
+                  scope.$watch("data", function(){
+                    
+		      document.querySelector("#courseAbout").innerHTML = scope.data;
+                  });
+		},
+		scope:{
+		  data: '@about',
+		}
+
+	};
+}]);
+
+app.directive('cGoals', [function () {
+	return {
+		restrict: 'EA',
+		template :  '<p id="dataGoals">{{about}}</p>',
+		link: function (scope, element, attrs) {
+                  scope.$watch("goals", function(){
+		      document.querySelector("#dataGoals").innerHTML = scope.goals;
+                  });
+		},
+		scope:{
+            goals : "@goals",
+		}
+
+	};
+}]);
+app.directive('cDuration', [function(){
+    return {
+        restrict : 'EA',
+        template : '<p id="courseDuration"></p>',
+        link : function(scope, element, attrs){
+
+            /**
+            collection = [scope.initial, scope.final];
+            scope.$watchCollection('collection', function(newValue, oldValue){
+                date1 = new Date(scope.initial);
+                date2 = new Date(scope.final);
+                Date.daysBetween = function( date1, date2 ) {
+                    //Get 1 day in milliseconds
+                    var one_day=1000*60*60*24;
+                    // Convert both dates to milliseconds
+                    var date1_ms = date1.getTime();
+                    var date2_ms = date2.getTime();
+                    // Calculate the difference in milliseconds
+                    var difference_ms = date2_ms - date1_ms;
+                    // Convert back to days and return
+                    return Math.round(difference_ms/one_day); 
+                }
+                duration = Date.daysBetween(date1, date2);
+                //date1 = date1.toLocaleString().split(",")[0].split("/");
+                //date2 = date2.toLocaleString().split(",")[0].split("/");
+                text = duration > 7 ? { 'value' : Math.round(duration/7,0), 'text' : 'Semanas'} :  { 'value' : duration, 'text' : 'Días'};
+                document.querySelector("#courseDuration").innerHTML = text.value + " " + text.text;
+            });
+            *//
+        },
+        scope : {
+            initial : '@initial',
+            final : '@final',
+            
+        }
+    }    
+}]);
 app.factory('sessionsFactory', function(){
     return {
         inscribe : function(uuid, user_id, session_id){
@@ -385,7 +669,6 @@ app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
                         if(!session_available){
                             button.classList.add("hidden");
                         }
-                        console.log(session_available);
                         username = dataUser.username;
                         button.innerHTML = "Inscribete";
                         button.onclick = function(){
@@ -484,7 +767,42 @@ app.directive('tabsCustomVertical', [function () {
 	};
 }]);
 
-
+app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $routeParams){
+    return {
+        restrict : 'EA',
+        template : `<div class="row" ng-repeat='value in values | limitTo:3'>
+                        <div class="col-xs-12 sidebar-blanco sidebar-section" data="{{value}}" test="value">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-3 vertical-middle">
+                                        <img src="{{value.avatar}}" alt="" class="img-circle sidebar-imageCurso__image img-responsive" pagespeed_url_hash="155287408" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                    </div>
+                                    <div class="col-xs-9 vertical-middle">
+                                        <p class="text text--azul margin--t1">
+                                            {{value.username}}
+                                            <br>
+                                            <span class="text--gris">{{ value.jobtitle }}</span>
+                                        </p>
+                                    </div>
+                                </div
+                            </div>
+                            <div class="col-xs-12 margin--t1">
+                                <p class="text text--lite text--sm">
+                                    {{value.comment}}
+                                </p>
+                            </div>  
+                        </div>
+                    </div>`,
+        link : function(scope, element, attrs){
+            $http.jsonp(config.SERVICE_SERVER + '/api/community/?callback=JSON_CALLBACK&uuid='+$routeParams.uuid).success(function(response){
+                scope.values = response;    
+            });
+        },
+        scope : {
+            data : '@'    
+        }
+    }    
+}])
 app.directive('descriptionTab', [function () {
 	return {
 		restrict: 'AE',
@@ -510,12 +828,12 @@ app.directive('tabsCustomHorizontal', [function () {
 		restrict: 'EA',
 		transclude: true,
 		template:   '<tabset justified="true" type="pills">' +
-    					'<tab ng-repeat="subItem in item.submodules" heading="">' +
+    					'<tab ng-repeat="subItem in item.submodule" heading="">' +
                             '<div class="col-md-8"></div>'+
                             '<div class="col-md-4 sidebar-right text-center">' +
-                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{item.position + 1}} </p>' +
-                                    '<div class="c100 center p{{item.percentage_done}} center-block">' +
-                                        '<span>{{item.percentage_done}}%</span>' +
+                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{dataFake.length}} </p>' +
+                                    '<div class="c100 center p{{item.score}} center-block">' +
+                                        '<span>{{item.score}}%</span>' +
                                         '<div class="slice">' +
                                             '<div class="bar"></div>' +
                                             '<div class="fill"></div>' +
@@ -523,7 +841,7 @@ app.directive('tabsCustomHorizontal', [function () {
                                     '</div>' +
                                     '<div class="clearfix"></div>' +
                                     '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
-                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
+                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> 80 </p>' +
                                     '<div class="clearfix"></div>' +
                                     '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">' +
                                         'Realizar Evaluación' +
