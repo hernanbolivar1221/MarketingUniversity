@@ -369,10 +369,40 @@ app.controller("myCourses", function($scope, coursesGet){
 
 app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse', function ($http, $scope, $routeParams, getCourse) {
     var response = getCourse.dataStudent($routeParams.uuid);
+
+    // - - - - -
+
+        function split_array_for_slides(array, n){
+        	response = [];
+        	aux_array = [];
+        	for(var i = 0; i <  array.length; i++){
+        		if(aux_array.length < n){
+        			aux_array.push(array[i]);
+        		}else{
+        			response.push(aux_array);
+        			aux_array = [];
+        			aux_array.push(array[i])
+        		}
+        	}
+        	if(aux_array.length > 0){
+        		response.push(aux_array);
+        	}
+        	return response;
+        }
+
+
     response.success(function(data){
         $scope.dataSimpleCourse = data;
-        console.log(data);
+        console.log($scope.dataSimpleCourse);
+
+        dataModules = $scope.dataSimpleCourse.modules;
+       	$scope.simpleItems = split_array_for_slides(dataModules,4);
+       	console.log($scope.simpleItems);
     });
+
+    // carousel
+	$scope.intervalTime = 0;
+
 }]);
 
 
@@ -388,137 +418,6 @@ app.controller("detailsJobs", function($scope, scrolltop){
 	}
 });
 
-
-
-app.controller('aPiFake', ['$scope', function ($scope) {
-	$scope.val = "Hola Mundo";
-	$scope.dataFake = [
-					{
-						name: 'Semana 1: Estrategia Digital',
-						submodule: [
-								{
-									name: "content 1", 
-									content:  [
-												{
-													name: "content 1.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.3", 
-													subcontent: ""
-												} 
-										]
-								},
-								{
-									name: "content 2", 
-									content:  [
-												{
-													name: "content 2.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.3", 
-													subcontent: ""
-												} 
-										]
-								},
-								{
-									name: "content 3", 
-									content:  [
-												{
-													name: "content 3.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 3.3", 
-													subcontent: ""
-												} 
-										]
-								}
-						],
-						score: 50
-						
-					},
-					{
-						name: 'Semana 2: TI y CIO en el mundo digital',
-						submodule: [
-								{
-									name: "content 1", 
-									content:  [
-												{
-													name: "content 1.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.3", 
-													subcontent: ""
-												} 
-										]
-								},
-								{
-									name: "content 2", 
-									content:  [
-												{
-													name: "content 2.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 2.3", 
-													subcontent: ""
-												} 
-										]
-								}
-						],
-						score: 80
-						
-					},
-					{
-						name: 'Semana 3: Dirigir el Balance',
-						submodule: [
-								{
-									name: "content 1", 
-									content:  [
-												{
-													name: "content 1.1", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.2", 
-													subcontent: ""
-												}, 
-												{
-													name: "content 1.3", 
-													subcontent: ""
-												} 
-										]
-								}
-						],
-						score: 20
-						
-					}
-	];
-
-}]);
 
 
 /////////////////////////////////////// -- DIRECTIVES --- ///////////////////////////////////////
@@ -783,12 +682,12 @@ app.directive('tabsCustomHorizontal', [function () {
 		restrict: 'EA',
 		transclude: true,
 		template:   '<tabset justified="true" type="pills">' +
-    					'<tab ng-repeat="subItem in item.submodule" heading="">' +
+    					'<tab ng-repeat="subItem in item.submodules" heading="">' +
                             '<div class="col-md-8"></div>'+
                             '<div class="col-md-4 sidebar-right text-center">' +
-                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{dataFake.length}} </p>' +
-                                    '<div class="c100 center p{{item.score}} center-block">' +
-                                        '<span>{{item.score}}%</span>' +
+                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{item.position + 1}} </p>' +
+                                    '<div class="c100 center p{{item.percentage_done}} center-block">' +
+                                        '<span>{{item.percentage_done}}%</span>' +
                                         '<div class="slice">' +
                                             '<div class="bar"></div>' +
                                             '<div class="fill"></div>' +
@@ -796,7 +695,7 @@ app.directive('tabsCustomHorizontal', [function () {
                                     '</div>' +
                                     '<div class="clearfix"></div>' +
                                     '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
-                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> 80 </p>' +
+                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
                                     '<div class="clearfix"></div>' +
                                     '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">' +
                                         'Realizar Evaluación' +

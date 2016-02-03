@@ -1,22 +1,29 @@
 <!-- CONTENIDO SALON DE CLASES -->
 <div id="salon">
     <div class="col-xs-12">
-        <div class="row" ng-controller="aPiFake">
+        <div class="row">
 
             <div id="tabModule" description-tab description-active="true" description="{{dataSimpleCourse.course.name | lowercase}}">
-                <tabset justified="true" id="tabModule-Menu">
-                    <tab ng-repeat="item in dataFake" heading="{{item.name}}" active="$first">
-
-                        <!-- Controlador progreso lección -->
-                            <div class="col-xs-12 list-simple">
-
-                                <!-- Tabs Simple Content  / ver directiva -->
+                    
+                <!-- carousell -->   
                 
-                                <tabs-custom-horizontal></tabs-custom-horizontal>
+                <carousel interval="intervalTime" class="carousel--tabsDetalle">
+                    <slide ng-repeat="slide in simpleItems" active="slide.active">
+                        <tabset justified="true" id="tabModule-Menu">
+                            <tab ng-repeat="item in slide" heading="{{item.module_name}}" active="$first">
 
-                            </div>
-                    </tab>
-                </tabset>
+                                <!-- Controlador progreso lección -->
+                                <div class="col-xs-12 list-simple">
+
+                                    <!-- Tabs Simple Content  / ver directiva -->
+
+                                    <tabs-custom-horizontal></tabs-custom-horizontal>
+
+                                </div>
+                            </tab>
+                        </tabset>
+                    </slide>
+                </carousel> 
             </div>
                                     
         </div>
