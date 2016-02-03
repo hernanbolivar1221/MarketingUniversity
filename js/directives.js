@@ -26,6 +26,7 @@ app.directive("buttonCourse", ['sessionsFactory', function(sessionsFactory){
                         if(!session_available){
                             button.classList.add("hidden");
                         }
+                        console.log(session_available);
                         username = dataUser.username;
                         button.innerHTML = "Inscribete";
                         button.onclick = function(){
@@ -124,6 +125,79 @@ app.directive('tabsCustomVertical', [function () {
 	};
 }]);
 
+
+app.directive('descriptionTab', [function () {
+	return {
+		restrict: 'AE',
+		link: function (scope, element, attrs) {
+
+			scope.$watch("description", function(newValue, oldValue){
+				if(newValue != ""){
+
+					var contentDescription = "<br><span class='descriptionSmall'>" + scope.description + "</span>";
+					// using Jquery
+                    
+                    var timeInterval = setInterval(function(){
+                        var elementFind =  $(".description-module").find("ul:first").find("a");    
+                        if($(".descriptionSmall").length != 0){
+                            clearInterval(timeInterval);
+                        }else{
+                          elementFind.append(contentDescription);      
+                        }
+                    },500);
+
+
+				}
+			});				
+		},	
+		scope: {
+			description: '@'
+		}
+	}
+}]);
+
+app.directive('tabsCustomHorizontal', [function () {
+	return {
+		restrict: 'EA',
+		transclude: true,
+		template:   '<tabset justified="true" type="pills">' +
+    					'<tab ng-repeat="subItem in item.submodules" heading="">' +
+                            '<div class="col-md-8"></div>'+
+                            '<div class="col-md-4 sidebar-right text-center">' +
+                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{item.position + 1}} </p>' +
+                                    '<div class="c100 center p{{item.percentage_done}} center-block">' +
+                                        '<span>{{item.percentage_done}}%</span>' +
+                                        '<div class="slice">' +
+                                            '<div class="bar"></div>' +
+                                            '<div class="fill"></div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="clearfix"></div>' +
+                                    '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
+                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
+                                    '<div class="clearfix"></div>' +
+                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">' +
+                                        'Realizar Evaluación' +
+                                    '</a>' +
+                            '</div>' +
+    					'</tab>' +
+  					'</tabset>',
+
+        link: function(scope, element, attrs){
+
+        	var ulElement = element.find("ul");
+
+        	var timeLoadElement = setInterval(function(){
+        		if(ulElement.length != 0 ){
+        			ulElement.addClass("nav-pills--setps");
+        			clearInterval(timeLoadElement);
+        		}
+        	});
+
+        }
+	}	
+}]);
+
 app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $routeParams){
     return {
         restrict : 'EA',
@@ -160,68 +234,6 @@ app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $route
         }
     }    
 }])
-app.directive('descriptionTab', [function () {
-	return {
-		restrict: 'AE',
-		link: function (scope, element, attrs) {
-
-			scope.$watch("description", function(newValue, oldValue){
-				if(newValue != ""){
-
-					var contentDescription = "<br><span class='descriptionSmall'>" + scope.description + "</span>";
-					// using Jquery
-					element.find("ul:first").find("a").append(contentDescription);
-				}
-			});				
-		},	
-		scope: {
-			description: '@'
-		}
-	}
-}]);
-
-app.directive('tabsCustomHorizontal', [function () {
-	return {
-		restrict: 'EA',
-		transclude: true,
-		template:   '<tabset justified="true" type="pills">' +
-    					'<tab ng-repeat="subItem in item.submodule" heading="">' +
-                            '<div class="col-md-8"></div>'+
-                            '<div class="col-md-4 sidebar-right text-center">' +
-                               	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{dataFake.length}} </p>' +
-                                    '<div class="c100 center p{{item.score}} center-block">' +
-                                        '<span>{{item.score}}%</span>' +
-                                        '<div class="slice">' +
-                                            '<div class="bar"></div>' +
-                                            '<div class="fill"></div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="clearfix"></div>' +
-                                    '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
-                                    '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> 80 </p>' +
-                                    '<div class="clearfix"></div>' +
-                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">' +
-                                        'Realizar Evaluación' +
-                                    '</a>' +
-                            '</div>' +
-    					'</tab>' +
-  					'</tabset>',
-
-        link: function(scope, element, attrs){
-
-        	var ulElement = element.find("ul");
-
-        	var timeLoadElement = setInterval(function(){
-        		if(ulElement.length != 0 ){
-        			ulElement.addClass("nav-pills--setps");
-        			clearInterval(timeLoadElement);
-        		}
-        	});
-
-        }
-	}	
-}]);
-
 app.directive('competenciesList', [function(){
     return {
         restrict : 'EA',
