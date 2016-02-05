@@ -156,13 +156,28 @@ app.directive('descriptionTab', [function () {
 	}
 }]);
 
-app.directive('tabsCustomHorizontal', [function () {
+app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
 	return {
 		restrict: 'EA',
-		transclude: true,
 		template:   '<tabset justified="true" type="pills">' +
     					'<tab ng-repeat="subItem in item.submodules" heading="">' +
-                            '<div class="col-md-8"></div>'+
+                            '<div class="col-md-8">'+
+                                '<div ng-bind-html="parseHtml(subItem.contents[0].text)"></div>'+
+                                '<table class="table table--recursos margin--t2">'+
+                                    '<tbody>'+
+                                        '<tr>'+
+                                            '<th>Recursos: Lecturas Recomendadas</th>'+
+                                            '<th>Autor</th>'+
+                                            '<th>Acción</th>'+
+                                        '</tr>'+
+                                        '<tr ng-repeat="itemResource in subItem.contents">'+
+                                            '<td ng-hide="$first">{{itemResource.content_name}}</td>'+ 
+                                            '<td ng-hide="$first">{{itemResource.content_description}}</td>'+ 
+                                            '<td ng-hide="$first" class="linkResource" ng-bind-html="parseHtml(itemResource.text)"></td>'+ 
+                                        '</tr>'+
+                                    '</tbody>'+
+                                '</table>'+    
+                            '</div>'+    
                             '<div class="col-md-4 sidebar-right text-center">' +
                                	'<p class="text text--lite text--gris margin--b1 margin--t05 text--xbold"> Progreso Lección {{item.position + 1}} </p>' +
                                     '<div class="c100 center p{{item.percentage_done}} center-block">' +
@@ -176,7 +191,7 @@ app.directive('tabsCustomHorizontal', [function () {
                                     '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
                                     '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
                                     '<div class="clearfix"></div>' +
-                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">' +
+                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="" ng-click="modalOpen()">' +
                                         'Realizar Evaluación' +
                                     '</a>' +
                             '</div>' +
@@ -192,8 +207,23 @@ app.directive('tabsCustomHorizontal', [function () {
         			ulElement.addClass("nav-pills--setps");
         			clearInterval(timeLoadElement);
         		}
+               
         	});
 
+            var intervalLoad = setInterval(function(){
+                var linkA = $(".linkResource").find("a");
+                linkA.text("Ver Recurso").addClass("btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper");
+                if(linkA.length != 0){
+                    clearInterval(intervalLoad);
+                }
+            },500);
+
+
+
+            scope.parseHtml =  function(html){
+                return $sce.trustAsHtml(html);
+            }
+                
         }
 	}	
 }]);

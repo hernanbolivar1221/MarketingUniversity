@@ -282,7 +282,7 @@ app.controller("myCourses", function($scope, coursesGet){
 	}); 
 });
 
-app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse', function ($http, $scope, $routeParams, getCourse) {
+app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal', function ($http, $scope, $routeParams, getCourse, $modal) {
     var response = getCourse.dataStudent($routeParams.uuid);
 
     // - - - - -
@@ -317,6 +317,29 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse', f
 
     // carousel
 	$scope.intervalTime = 0;
+
+    //modal
+
+    $scope.modalOpen = function(size){
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'myModalTest.html',
+            controller: 'modalInstanceCtrl',
+            size: size,
+            resolve:{
+                items: function(){
+                    return "Mi modal";
+                }
+            }
+        });
+    }
+
+}]);
+
+
+app.controller('modalInstanceCtrl', ['$scope','$modalInstance', 'items', function ($scope, $modalInstance, items) {
+    
+    $scope.text2 = items;
 
 }]);
 
