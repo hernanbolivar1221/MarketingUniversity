@@ -58,7 +58,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span class="label label-naranja text--md">
-                                        0
+                                        {{dataProfileCourse.length}}
                                     </span>
                                 </td>
                             </tr>
@@ -77,48 +77,181 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <span class="icon-tag text--gris text--md"></span>
-                                </td>
-                                <td>
-                                    <p class="text text--xbold text--gris_osc margin--t0">
-                                        Aplicaciones Empleos
-                                    </p>
-                                </td>
-                                <td class="text-right">
-                                    <span class="label label-azul text--md">
-                                        0
-                                    </span>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="col-xs-9">
-                <h1 class="text text--lite text--lg margin--t2 text--gris">
-                    Mis Cursos
-                </h1>
+            
+                <!-- Cursos -->
 
-                <div class="clearfix"></div>
+                <div ng-show="displayMenu_0">
 
-                <!-- Tab Angular boostrap -->
-                <tabset class="nav-tabs">
-                    <tab heading="Iniciados">
-                        <div ng-include="'views/courses/blockMyCourses.html'"></div>
-                    </tab>
-                    <tab heading="Recomendados">
+                    <h1 class="text text--lite text--lg margin--t2 text--gris">
+                        Mis Cursos
+                    </h1>
 
-                        <div ng-include="'views/courses/blockCatalog.html'"></div>
-                        
-                    </tab>
-                    <tab heading="Próximamente">
-                        <div class="well">
-                            <p>Próximamente</p>
+                    <div class="clearfix"></div>
+
+                    <tabset class="nav-tabs">
+                        <tab heading="Iniciados">
+                            <div ng-include="'views/courses/blockMyCourses.html'"></div>
+                        </tab>
+                        <tab heading="Recomendados">
+                            <h1 class="text text--xxlg text--azul_mid text--upper text--xbold margin--t1">
+                                encuentra el curso ideal para ti
+                            </h1> 
+                            <hr>   
+                            <div ng-include="'views/courses/blockCatalog.html'"></div>
+                        </tab>
+                        <tab heading="Próximamente">
+                            <div class="well">
+                                <p>Próximamente</p>
+                            </div>
+                        </tab>
+                    </tabset>
+
+                </div>
+                <!-- Certificaciones -->
+
+                <div ng-show="displayMenu_1">
+
+
+                    <h1 class="text text--lite text--lg margin--t2 text--gris">
+                        Certificaciones
+                    </h1>
+
+                    <div class="clearfix"></div>
+
+                    <tabset class="nav-tabs">
+                        <tab heading="En Curso">
+                             <div class="panel panel-default margin--t2">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h2 class="text text--xlg text--gris_osc text--xbold">
+                                                Estrategía en Marketing Digital
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <img src="images/xCertification.jpg" alt="" class="img-responsive pull-left">
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <p class="text text--lite text--gris">
+                                                Aprende a diseñar y estructurar una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <p class="text text--xbold text--gris_osc text--md">
+                                                        En proceso
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                            <div class="c100 center p50 center-block">
+                                                <span>50%</span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <p class="text text--lite text--gris margin--b0 margin--t2">
+                                                Horas de estudio:<br>
+                                                <span class="text--xbold">
+                                                    40 Horas
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Terminadas">
+                            <div class="panel panel-default margin--t2">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <h2 class="text text--xlg text--gris_osc text--xbold">
+                                                Estrategía en Marketing Digital
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <img src="images/xCertification.jpg" alt="" class="img-responsive pull-left">
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <p class="text text--lite text--gris">
+                                                Aprende a diseñar y estructurar una estrategia de Marketing Digital partiendo de los objetivos estratégicos de tu negocio.
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <a href="#" class="btn btn-verde btn-regular">
+                                                        Descargar PDF
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-2 text-center">
+                                            <div class="c100 center p100 center-block">
+                                                <span>100%</span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <p class="text text--lite text--gris margin--b0 margin--t2">
+                                                Aprobada<br>
+                                                <span class="text--xbold">
+                                                    80/100
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+
+                </div>
+
+                <!-- Recursos Favoritos -->
+
+                <div ng-show="displayMenu_2">
+                    <h1 class="text text--lite text--lg margin--t2 text--gris">
+                        Recursos Favoritos
+                    </h1>
+
+                    <div class="clearfix"></div>
+
+                    <div class="panel panel-default margin--t2">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h2 class="text text--xlg text--gris_osc text--xbold">
+                                        Facebook Marketing
+                                    </h2>
+                                </div>
+                                <div class="col-xs-4">
+                                    <img src="images/xResources.jpg" height="413" width="720" alt="" class="img-responsive pull-left" pagespeed_url_hash="2068656069" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                </div>
+                                <div class="col-xs-8">
+                                    <p class="text text--lite text--gris">
+                                        Aprende a usar Facebook como herramienta para incrementar el alcance de tu estrategia digital impactando las ventas y retención de tus clientes.
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <p class="text text--xbold text--gris_osc text--md">
+                                                Lectura
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </tab>
-                </tabset>
+                    </div>
+
             </div>
 
         </div>

@@ -1,5 +1,5 @@
 <nav class="col-xs-12 nav-topper" ng-controller="navbar_functions">
-    <div class="container">
+    <div class="container" ng-init="algo()">
         <div class="row-same-height row-xs-full-height">
             <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
                     <a ng-href="#/"> 
@@ -10,10 +10,19 @@
                         <li class="active"><a ng-href="#allCourses" ng-click="activeMenu($event)">CURSOS</a></li>
                         <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
                         <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
-                        <li><a href="">BIBLIOTECA</a></li>
-                        <li><a href="">PRECIOS</a></li>
                     </ul>
                 </div>
+                <ul controller="profile_api" ng-show="menuCourse" class="nav nav-pills nav-interno pull-left" role="tablist">
+                    <li class="{{menuActive_0}}">
+                        <a href="" ng-click="changeItem(0)">Mis cursos</a>
+                    </li>
+                    <li class="{{menuActive_1}}">
+                        <a href="" ng-click="changeItem(1)">Certificaciones</a>
+                    </li>
+                    <li class="{{menuActive_2}}">
+                        <a href="" ng-click="changeItem(2)">Recursos Favoritos</a>
+                    </li>
+                </ul>
             </div>
             <div class="col-xs-3 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
 
@@ -25,7 +34,7 @@
                             <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="btnLogout" ng-click="logout()">SALIR</a>
 
                             <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
-                                <span class="icon-reorder"></span>
+                                <span class="fa fa-bars"></span>
                             </a>
 
                         </p>

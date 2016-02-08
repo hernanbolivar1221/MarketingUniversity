@@ -319,7 +319,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .nav-topper__avatarUser img{margin-top:.5em;height:auto;width:3.5em}
 .nav-topper__previewReturn{padding-left:5em}
 .nav-topper__btnReturn{position:absolute;top:50%;left:0;margin-top:-1.2em}
-.nav-interno{text-align:center;margin-top:1.5em;}
+.nav-interno{text-align:center;margin-top:1.5em; margin-left: 50px;}
 .nav-interno > li{background:none;}
 .nav-interno > li > a{background:none;color:#7e7e7e;font-size:.8em;font-weight:600;padding:.25em .5em;text-transform:uppercase;}
 .nav-interno > li > a:hover,.nav-interno > li > a:active,.nav-interno > li > a:focus{background:none;color:#7e7e7e}
@@ -812,3 +812,5 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 iframe {height:370px !important; width:100% !important;}
 
 .carousel-indicators {display:none !important;}
+
+.modal--ingreso .modal-dialog {z-index: 9000;}

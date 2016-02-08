@@ -1,12 +1,24 @@
 // Scope Goblal
-app.run(function($rootScope, $location, $route) {
+app.run(['$rootScope','$location','$route',function($rootScope, $location, $route) {
   	$rootScope.btnSingUp = true;
 	$rootScope.btnLogout = false;
+
+    $rootScope.displayMenu_0 = true;
+    $rootScope.displayMenu_1 = false;
+    $rootScope.displayMenu_2 = false;
+
+    $rootScope.menuCourse = false;
 	/*
 	* TODO: Remove next code when update is ready
 	*/
 	$rootScope.$on('$locationChangeSuccess', function() {
+        var routeActual = $rootScope.actualLocation;
         $rootScope.actualLocation = $location.path();
+        if(location.hash != "#/profile"){
+            $rootScope.menuCourse = false;
+        }else{
+            $rootScope.menuCourse = true;
+        }
     });        
 
    $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
@@ -17,7 +29,7 @@ app.run(function($rootScope, $location, $route) {
    /*
    * END TODO
    */
-});
+}]);
 
 // config JSON
 
@@ -32,7 +44,7 @@ app.controller("comments", function($scope, $http, $routeParams){
     });
 
 });
-app.controller("profile_api",function($scope, $http){
+app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
 
 	if(localStorage.dataUser){
 		dataUser = JSON.parse(localStorage.dataUser);
@@ -47,7 +59,18 @@ app.controller("profile_api",function($scope, $http){
        		$(".nav-tabs").find("ul").addClass("nav-perfil");
     	});
 
+    // Variables Globales    
 
+    $rootScope.displayMenu_0 = true;
+    $rootScope.displayMenu_1 = false;
+    $rootScope.displayMenu_2 = false;
+
+    //Api of Course
+
+    coursesGet.getData('public').success(function(response){
+        $scope.dataProfileCourse = response;
+        console.log($scope.dataProfileCourse);
+    }); 
 });
 
 // Api Login
@@ -136,6 +159,7 @@ function getCourseDetails(uuid){
 
 /////////////////////////////////////// -- SERVICES --- ///////////////////////////////////////
 
+
 // Factory for Ajax Courses ---------------------------------------------------------------------
 
 app.factory('coursesGet', ['$http',function($http) {
@@ -173,7 +197,7 @@ app.factory('scrolltop', [function () {
     
 // controller  Navbar  ---------------------------------------------------------------------
 
-app.controller("navbar_functions", function($scope, $http){
+app.controller("navbar_functions", ['$scope','$http','$rootScope', function($scope, $http, $rootScope){
 
 	$scope.menuOpen = false;
 	$scope.showMenu = function(){
@@ -184,6 +208,9 @@ app.controller("navbar_functions", function($scope, $http){
 		$scope.btnSingUp = false;
 		$scope.btnLogout = true;
 		$scope.hideMenu = true;
+        if(location.hash == '#/profile'){
+            $rootScope.menuCourse = true;
+        }
 		
 	}else{
 		$scope.hideMenu = false;
@@ -205,7 +232,44 @@ app.controller("navbar_functions", function($scope, $http){
 		$(event.target).parent().addClass("active");
 
 	}
-});
+
+    $rootScope.displayMenu_0 = true;
+    $rootScope.displayMenu_1 = false;
+    $rootScope.displayMenu_2 = false;
+
+    $scope.menuActive_0 = 'active';
+    $scope.menuActive_1 = '';
+    $scope.menuActive_2 = '';
+
+    $scope.changeItem = function(index){
+        switch(index) {
+            case 0: 
+                $rootScope.displayMenu_0 = true; 
+                $rootScope.displayMenu_1 = false; 
+                $rootScope.displayMenu_2 = false;
+                $scope.menuActive_0 = 'active';
+                $scope.menuActive_1 = ''; 
+                $scope.menuActive_2 = '';
+                break;
+            case 1:
+                $rootScope.displayMenu_0 = false; 
+                $rootScope.displayMenu_1 = true; 
+                $rootScope.displayMenu_2 = false;
+                $scope.menuActive_0 = '';
+                $scope.menuActive_1 = 'active'; 
+                $scope.menuActive_2 = '';
+                break;
+            case 2:
+                $rootScope.displayMenu_0 = false; 
+                $rootScope.displayMenu_1 = false; 
+                $rootScope.displayMenu_2 = true;
+                $scope.menuActive_0 = '';
+                $scope.menuActive_1 = '';
+                $scope.menuActive_2 = 'active';
+                break;    
+        }
+    }
+}]);
 
 // controller  Footer  ---------------------------------------------------------------------
 
