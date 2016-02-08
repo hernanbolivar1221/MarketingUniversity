@@ -81,6 +81,7 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
         //cope.dataProfileCourse = response;
         $scope.dataProfileCourse = $scope.course_in_progres;
         console.log($scope.dataProfileCourse);
+
     }); 
 });
 
