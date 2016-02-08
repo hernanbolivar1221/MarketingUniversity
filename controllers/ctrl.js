@@ -67,8 +67,19 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
 
     //Api of Course
 
-    coursesGet.getData('public').success(function(response){
-        $scope.dataProfileCourse = response;
+    coursesGet.getData('me').success(function(response){
+        $scope.course_in_progres = [];
+        $scope.completed_courses = []; 
+        for(course of response){
+            max_percentage = 0;
+            for(session of course.sessions){
+                max_percentage = session.score;
+            }
+            max_percentage < 100 ? $scope.course_in_progres.push(course) : $scope.completed_courses.push(course);
+            
+        }
+        //cope.dataProfileCourse = response;
+        $scope.dataProfileCourse = $scope.course_in_progres;
         console.log($scope.dataProfileCourse);
     }); 
 });
@@ -342,7 +353,19 @@ app.controller("certificates", function($scope, scrolltop){
 app.controller("myCourses", function($scope, coursesGet){
 
 	coursesGet.getData('me').success(function(response){
-		$scope.dataMyCourses = response;
+        $scope.course_in_progres = [];
+        $scope.completed_courses = []; 
+        for(course of response){
+            max_percentage = 0;
+            for(session of course.sessions){
+                max_percentage = session.score;
+            }
+            max_percentage < 100 ? $scope.course_in_progres.push(course) : $scope.completed_courses.push(course);
+            
+        }
+        //cope.dataProfileCourse = response;
+
+		$scope.dataMyCourses = $scope.course_in_progres;
 	}); 
 });
 

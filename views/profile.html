@@ -43,7 +43,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span class="label label-verde text--md">
-                                        0
+                                        {{ completed_courses.length }}
                                     </span>
                                 </td>
                             </tr>
@@ -96,6 +96,9 @@
                     <tabset class="nav-tabs">
                         <tab heading="Iniciados">
                             <div ng-include="'views/courses/blockMyCourses.html'"></div>
+                        </tab>
+                        <tab heading="Finalizados">
+                            <div ng-include="'views/courses/completeCatalog.html'"></div>
                         </tab>
                         <tab heading="Recomendados">
                             <h1 class="text text--xxlg text--azul_mid text--upper text--xbold margin--t1">

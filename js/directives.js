@@ -173,7 +173,10 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                                         '<tr ng-repeat="itemResource in subItem.contents">'+
                                             '<td ng-hide="$first">{{itemResource.content_name}}</td>'+ 
                                             '<td ng-hide="$first">{{itemResource.content_description}}</td>'+ 
-                                            '<td ng-hide="$first" class="linkResource" ng-bind-html="parseHtml(itemResource.text)"></td>'+ 
+                                            '<td ng-hide="$first" class="linkResource">'+
+                                                '<a target="_blank" value="{{itemResource.file}}" >Descargar</a>'+
+                                            
+                                            '</td>'+ 
                                         '</tr>'+
                                     '</tbody>'+
                                 '</table>'+    
@@ -215,13 +218,27 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                 linkA.text("Ver Recurso").addClass("btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper");
                 if(linkA.length != 0){
                     clearInterval(intervalLoad);
-                }
-            },500);
+                    links = document.querySelectorAll(".linkResource>a");
+                    console.log(links);
+                    for(link in links){
+                        try{
+                            links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
+                        }catch(err){
+                                
+                        }
+                    }
 
+
+                }
+
+            },500);
 
 
             scope.parseHtml =  function(html){
                 return $sce.trustAsHtml(html);
+            }
+            scope.openHref = function(url){
+                return config.SERVICE_SERVER + url;
             }
                 
         }
