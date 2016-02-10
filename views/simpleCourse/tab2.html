@@ -6,16 +6,7 @@
         Descripción del curso
     </h1>
 
-    <p class="text text--gris_osc">
-        {{dataSimpleCourse.course.description}}
-        <hr>
-        En un mundo cada vez más digital, los profesionales en mercadeo, comunicaciones y empresarios tienen el gran reto de integrar
-        los medios digitales a su estrategia global de negocio y para lograrlo deben tener clara la ruta que deben seguir para realmente
-        aportar al cumplimiento general de los objetivos estratégicos de sus compañías.<br><br>
-        El objetivo principal de este curso es brindarle el conocimiento y herramientas necesarias para que usted pueda construir una ruta
-        digital para su marca, negocio o empresa que incluya adecuadamente las estrategias, tácticas y medios digitales que le ayudarán
-        en el cumplimiento de sus objetivos estratégicos de mercadeo y comunicación.
-    </p>
+    <p class="text text--gris_osc"> {{dataSimpleCourse.course.description}} </p>
     <div class="col-xs-12 bg bg-gris">
         <h2 class="text text--xbold text--verde">
             Competencias a desarrollar
@@ -26,23 +17,10 @@
         Al finalizar este curso usted estará en capacidad de:
     </h3>
 
+    <p>Pendiente</p>
+
     <ul class="list-normal list--verde">
         <li>
-            <span>
-                Conocer e identificar las diferentes estrategias, medios y tácticas digitales que son adecuadas para su negocio y le aporten al cumplimiento de sus objetivos de mercadeo y comunicación.
-            </span>
-        </li>
-
-        <li>
-            <span>
-                Conocer y entender como desarrollar una ruta digital para su negocio o empresa de acuerdo a la naturaleza del mismo (Consumo Masivo, Retail, B2B, B2C, etc).           
-            </span>
-        </li>
-
-        <li>
-            <span>
-                Identificar e interpretar los principales KPIs (Key Performance Indicators) que le ayudarán a medir el desempeño de las estrategias digitales ejecutadas.
-            </span>
         </li>
     </ul>
 
@@ -54,48 +32,11 @@
         </h2>
     </div>
 
-    <dl>
+    <dl ng-repeat="topic in dataSimpleCourse.modules">
         <dt class="text--azul_osc">
-            Semana 1: Estrategia Digital
-        </dt>
+            {{ topic.module_name }}
         <dd>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-        </dd>
-    </dl>
-
-    <dl>
-        <dt class="text--azul_osc">
-            Semana 2: TI y CIO en el mundo digital
-        </dt>
-        <dd>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-        </dd>
-    </dl>
-
-    <dl>
-        <dt class="text--azul_osc">
-            Semana 3: Dirigir el Balance
-        </dt>
-        <dd>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-        </dd>
-    </dl>
-
-    <dl>
-        <dt class="text--azul_osc">
-            Semana 4: Comercialización y venta de productos
-        </dt>
-        <dd>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-        </dd>
-    </dl>
-
-    <dl>
-        <dt class="text--azul_osc">
-            Semana 5: Run the factories
-        </dt>
-        <dd>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
+            {{ topic.module_description }}    
         </dd>
     </dl>
 
@@ -103,35 +44,22 @@
         Preguntas que podrá resolver después de completar el curso:
     </h3>
 
-    <ul class="list-normal list--verde">
-        <li>
-            <span>¿Cómo empezar en Marketing Digital?</span>
-        </li>
+    <div ng-bind-html="parseHtml(dataSimpleCourse.course.objective)"></div>
 
-        <li>
-            <span>¿Por qué necesito integrar una estrategia digital en mi negocio?</span>
-        </li>
-
-        <li>
-            <span>¿Cuáles son las estrategias y medios digitales adecuados para mi negocio de acuerdo a mis objetivos?</span>
-        </li>
-        <li>
-            <span>¿Cuáles son los indicadores o KPIs relevantes a los cuales les debe hacer seguimiento?</span>
-        </li>
-    </ul>
 
     <h3 class="text text--bold margin--t2">
         ¿Quienes deben tomar este curso? (Perfil del aspirante)
     </h3>
+        <p class="text text--gris_osc">
+            <div ng-bind-html="parseHtml(dataSimpleCourse.course.target_public)"></div>
+        </p>
+
     <p class="text text--gris_osc">
-        Empresarios, Profesionales en comunicación y mercadeo (Asistentes, Gerentes, Asociados en áreas de Mercadeo y Comunicación) que esten interesados en implementar estrategias de mercadeo y comunicación en medios digitales.
-    </p>
-    <p class="text text--gris_osc">
-        <span class="text--xbold">Requisitos Previos:</span> Introducción al Marketing Digital <a href="" class="text--azul">(Ver información )</a>
+        <span class="text--xbold">Requisitos Previos:</span>
+        <br>
+        {{dataSimpleCourse.course.requisites}}
     </p>
 
 
-    <a href="#" class="btn btn-verde btn-lg margin--t2">
-        iniciar clase
-    </a>
+    <p ng-init="test()"></p>
 </div>

@@ -1,10 +1,11 @@
 <!-- CONTENIDO TABS LECCIONES DEL CURSO -->
 
-        <div id="recursos">
+        <div id="recursos" ng-init="functionRun()">
             <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
                 Recursos del curso
             </h1>
-            <table class="table table--recursos margin--t2">
+
+            <table class="table table--recursos margin--t2 resourceTable" ng-repeat="item in resourcesSubmodule" ng-show="$first">
                 <tr>
                     <th>
                         Recursos: Lecturas Recomendadas
@@ -16,9 +17,9 @@
                         Acción
                     </th>
                 </tr>
-                <tr>
+                <tr class="contentResource" ng-repeat="x in item" ng-if="$first == false">
                     <td>
-                        ZMOT: Momento Zero de la verdad
+                        {{x.content_name}}
                     </td>
                     <td>
                         <strong>Google</strong>
@@ -27,95 +28,26 @@
                         <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
                             Descargar
                         </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>IAB Colombia</strong>
-                    </td>
-                    <td>
-                        <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
-                            Descargar
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>Facebook</strong>
-                    </td>
-                    <td>
-                        <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
-                            Descargar
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>Comscore</strong>
-                    </td>
-                    <td>
-                        <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
-                            Descargar
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>Google</strong>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>Google</strong>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Comportamiento del consumidor en medios digitales 2015
-                    </td>
-                    <td>
-                        <strong>Google</strong>
-                    </td>
-                    <td>
                     </td>
                 </tr>
             </table>
+
 
             <div class="clearfix"></div><hr class="sep sep--gris">
 
 
             <div class="col-xs-12 text-center">
-
-                <a class="btn btn-gosh btn-gosh--verde btn-lg1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">
-                    Realizar Evaluación
-                </a>
-                <script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}id=id+'_';if(!gi.call(d,id)){qs=ce.call(d,'link');qs.rel='stylesheet';qs.id=id;qs.href=b+'share-button.css';s=gt.call(d,'head')[0];s.appendChild(qs,s)}})()</script>
-
-
-                <span class="text text--sm text--gris_osc pull-right">
-                    Ver lección 2
-                    <a href="#" class="btn btn-sm btn-default margin--l1">
-                        <span class="glyphicon glyphicon-triangle-right"></span>
+                <span class="text text--sm text--gris_osc pull-right btn--next">
+                    <span>ver contenido {{posLesson + 1}}</span> 
+                    <a ng-click="nextResource()" href="" class="btn btn-sm btn-default margin--l1">
+                        <i class="fa fa-caret-right"></i>
                     </a>
+                </span>
+                <span class="text text--sm text--gris_osc pull-right btn--prev">
+                    <a ng-click="prevResource()" href="" class="btn btn-sm btn-default margin--l1">
+                        <i class="fa fa-caret-left"></i>
+                    </a>
+                    <span>volver a contenido {{posLesson}}</span> 
                 </span>
             </div>
         </div>

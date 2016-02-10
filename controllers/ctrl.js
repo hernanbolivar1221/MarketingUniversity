@@ -78,11 +78,10 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
             max_percentage < 100 ? $scope.course_in_progres.push(course) : $scope.completed_courses.push(course);
             
         }
-        //cope.dataProfileCourse = response;
         $scope.dataProfileCourse = $scope.course_in_progres;
         console.log($scope.dataProfileCourse);
 
-    }); 
+    });
 });
 
 // Api Login
@@ -370,7 +369,7 @@ app.controller("myCourses", function($scope, coursesGet){
 	}); 
 });
 
-app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal', function ($http, $scope, $routeParams, getCourse, $modal) {
+app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal','$sce', function ($http, $scope, $routeParams, getCourse, $modal,$sce) {
     var response = getCourse.dataStudent($routeParams.uuid);
 
     // - - - - -
@@ -393,15 +392,89 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         	return response;
         }
 
+    // paginador Recursos    
+
+    $scope.pag = 0;
 
     response.success(function(data){
-        $scope.dataSimpleCourse = data;
-        console.log($scope.dataSimpleCourse);
 
+        //modules
+
+        $scope.dataSimpleCourse = data;
+        console.log(data);
+
+        // submodules
         dataModules = $scope.dataSimpleCourse.modules;
-       	$scope.simpleItems = split_array_for_slides(dataModules,4);
-       	console.log($scope.simpleItems);
+        $scope.simpleItems = split_array_for_slides(dataModules,4);
+
+        // resources  
+
+        var resources = [];
+        var resourcesModule = [];
+        var resourcesSubmodule = [];
+
+        $scope.resourcesSubmodule = resourcesSubmodule;
+
+        for(module of data.modules ){
+            resources.push(module);
+        } 
+
+        for(item in resources){
+            for(contents of resources[item].submodules){
+                resourcesSubmodule.push(contents.contents);
+            }
+        }
+
     });
+
+
+    // navigation for Resources of the Course
+
+    $scope.posLesson = 1;
+
+    $scope.functionRun = function(){
+        var tableFirst = $("#recursos").find(">table:first").hasClass("ng-hide");
+        if(tableFirst === false){
+            $(".btn--prev").hide();
+        }
+        var loadItem = setInterval(function(){
+            var tableEnd = $("#recursos").find(">table:last");
+            tableEnd.addClass("posLast");
+            if(tableEnd.length != 0){
+                clearInterval(loadItem);
+            }
+        },500);
+    }
+
+    $scope.nextResource = function(){
+        var table_End = $("#recursos").find(">table:last");
+        $scope.posLesson += 1;
+        $(".btn--prev").show();
+        $(".resourceTable").not('.ng-hide').addClass("hideBack");
+        $(".resourceTable").not('.ng-hide').next().removeClass("ng-hide");
+        $(".hideBack").addClass("ng-hide").removeClass("hideBack");
+        if($(".posLast").hasClass("ng-hide") === false){
+            $(".btn--next").hide();
+        }
+
+    }
+
+    $scope.prevResource = function(){
+        $scope.posLesson -= 1;
+        var tableFirst = $("#recursos").find(">table:first").hasClass("ng-hide");
+        if(tableFirst === true && $scope.posLesson === 1){
+            $(".btn--prev").hide();
+        }
+        $(".resourceTable").not('.ng-hide').addClass("showBack");
+        $(".resourceTable").not('.ng-hide').prev().removeClass("ng-hide");
+        $(".showBack").addClass("ng-hide").removeClass("showBack");
+        if($(".posLast").hasClass("ng-hide") === true){
+            $(".btn--next").show();
+        }
+
+    }
+
+
 
     // carousel
 	$scope.intervalTime = 0;
@@ -420,6 +493,10 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
                 }
             }
         });
+    }
+
+    $scope.parseHtml =  function(html){
+        return $sce.trustAsHtml(html); 
     }
 
 }]);

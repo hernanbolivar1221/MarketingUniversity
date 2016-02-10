@@ -814,3 +814,12 @@ iframe {height:370px !important; width:100% !important;}
 .carousel-indicators {display:none !important;}
 
 .modal--ingreso .modal-dialog {z-index: 9000;}
+
+.btn--prev a, .btn--next a {border-radius: 5px !important; padding: 4px 15px !important;}
+.btn--prev { padding-right: 10px; border-right: 1px solid;}
+.btn--next { padding-left: 10px;}
+.itemCheck {background:#6e8e2d !important;}
+.itemCheck:after {border-left-color: #6e8e2d !important;}
+
+
+

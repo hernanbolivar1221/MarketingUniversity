@@ -160,7 +160,7 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
 	return {
 		restrict: 'EA',
 		template:   '<tabset justified="true" type="pills">' +
-    					'<tab ng-repeat="subItem in item.submodules" heading="">' +
+    					'<tab class="linkItem" ng-repeat="subItem in item.submodules" heading="">' +
                             '<div class="col-md-8">'+
                                 '<div ng-bind-html="parseHtml(subItem.contents[0].text)"></div>'+
                                 '<table class="table table--recursos margin--t2">'+
@@ -194,7 +194,7 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                                     '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
                                     '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
                                     '<div class="clearfix"></div>' +
-                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" href="" ng-click="modalOpen()">' +
+                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" ng-disabled="btnDisableTest" href="" ng-click="modalOpen()">' +
                                         'Realizar Evaluación' +
                                     '</a>' +
                             '</div>' +
@@ -219,7 +219,6 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                 if(linkA.length != 0){
                     clearInterval(intervalLoad);
                     links = document.querySelectorAll(".linkResource>a");
-                    console.log(links);
                     for(link in links){
                         try{
                             links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
@@ -240,6 +239,36 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
             scope.openHref = function(url){
                 return config.SERVICE_SERVER + url;
             }
+
+
+            // button Test
+
+            var btnTestElement = $(".linkItem").find("a");
+
+            btnTestElement.on('click',function(){
+                $(this).addClass("itemCheck");
+                $(this).parent().parent().addClass("parentItemCheck");
+                var listItem = $(".parentItemCheck").find("li a");
+
+                var nItems = [];
+
+                listItem.each(function(){
+                    var linkItem = $(this).filter(".itemCheck");
+                    nItems.push(linkItem.length);
+                });
+
+                for(i=0; i < nItems.length; i++){
+                    if(nItems[i] == 0){
+                        console.log('incompleto');
+                    }else{
+                        console.log('Completo');
+                    }
+                }
+
+                console.log(nItems);
+            }); 
+
+            scope.btnDisableTest = true;
                 
         }
 	}	
