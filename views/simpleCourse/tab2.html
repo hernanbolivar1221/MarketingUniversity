@@ -35,7 +35,10 @@
     <dl ng-repeat="topic in dataSimpleCourse.modules">
         <dt class="text--azul_osc">
             {{ topic.module_name }}
+        </dt>
         <dd>
+            <br>
+            <div ng-if="topic.module_description == ''" class="alert alert-warning">No hay información para este Módulo</div>
             {{ topic.module_description }}    
         </dd>
     </dl>

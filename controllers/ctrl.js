@@ -488,9 +488,23 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         dataModules = $scope.dataSimpleCourse.modules;
         $scope.modules = dataModules;
         $scope.simpleItems = split_array_for_slides(dataModules,4);
+
         $scope.$watch("simpleItems", function(_new, _old){
             console.log(_new); 
         });
+
+
+        // Evaluations
+
+        var AllEvaluations = [];
+
+        for(index in dataModules){
+            AllEvaluations.push(data.modules[index].contents);
+        }
+
+        $scope.evaluations = AllEvaluations;
+        console.log(AllEvaluations);
+
         // resources  
 
         var resources = [];
@@ -530,6 +544,17 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         },500);
     }
 
+
+    function checkResources(){
+        var textInEle = $(".resourceTable").not(".ng-hide").find("tr").eq(1).find("td");
+
+        if(textInEle.length == 0){
+            $(".alertContent").show();
+        }else{
+            $(".alertContent").hide();
+        }
+    }
+
     $scope.nextResource = function(){
         var table_End = $("#recursos").find(">table:last");
         $scope.posLesson += 1;
@@ -541,6 +566,7 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
             $(".btn--next").hide();
         }
 
+        checkResources();
     }
 
     $scope.prevResource = function(){
@@ -555,6 +581,8 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         if($(".posLast").hasClass("ng-hide") === true){
             $(".btn--next").show();
         }
+
+        checkResources();
 
     }
 
@@ -604,6 +632,14 @@ app.controller("detailsJobs", function($scope, scrolltop){
 
 	}
 });
+
+app.controller("tutors",['$scope','$routeParams','coursesGet',function ($scope,$routeParams,coursesGet){
+    var response = coursesGet.getData("uuid="+$routeParams.uuid+"&me");
+    response.success(function(data){
+       $scope.tutorsData = data[0].tutors;   
+    });
+      
+}]);
 
 
 
