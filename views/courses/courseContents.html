@@ -1,0 +1,127 @@
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="salon">
+
+        <div class="col-xs-12">
+            <div class="row">
+                <div id="tabsLecciones" class="carousel slide carousel--tabsDetalle" data-ride="carousel" data-interval="false" data-wrap="false">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item" ng-class="{active:$first}" ng-repeat="packModules in simpleItems">
+                            <ul class="nav nav-tabs nav-justified nav-tabs--detalleClase" role="tablist">
+                                <li ng-repeat="module in packModules" role="presentation" ng-class="{ active:$first}">
+                                    
+                                    <a pk="{{module.module_pk}}"  aria-controls="{{module.module_name}}" role="tab" data-toggle="pill" ng-click="jumpModulePosition($index)">
+                                        {{module.module_name}}
+                                        <br>
+                                        <span>{{dataSimpleCourse.course.name}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="" id="leccion">
+                            <div class="col-xs-12 list-simple">
+                                <ul class="nav nav-pills nav-pills--setps nav-justified" style="margin-top: 15px; margin-bottom: 15px;">
+                                    <li class="" ng-class="{active:$first, active:$index == submodulePosition}" ng-repeat="submodule in dataSimpleCourse.modules[modulePosition].submodules" ng-click="jumpSubmodulePosition($index)">
+                                        <a aria-controls="leccion1-step1"  href="#/course/{{uuid}}/simple"role="tab" data-toggle="tab" ng-click="jumpSubmodulePosition($index)"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-9 list-simple">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="submodule_{{modulePosition}}_{{submodulePosition}}" >
+                                        <div class="embed-responsive embed-responsive-16by9 submoduleVideo">
+                                            <div id="embedVideo"></div>
+                                        </div>
+                                    <div class="clearfix"></div>
+                                    <table class="table table--recursos margin--t2">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    Recursos: Lecturas Recomendadas
+                                                </th>
+                                                <th>
+                                                    Autor
+                                                </th>
+                                                <th>
+                                                    Acción
+                                                </th>
+                                            </tr>
+                                            <tr ng-repeat=" content in dataSimpleCourse.modules[modulePosition].submodules[submodulePosition].contents " ng-if="$index>0">
+                                                <td>
+                                                    {{content.content_name}}
+                                                </td>
+                                                <td>    
+                                                    <strong>Google</strong>
+                                                </td>
+                                                <td>
+                                                    <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
+                                                        Descargar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           </div>
+                            <div class="col-xs-12 text-right margin--t1">
+                                <a ng-click="downSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                                    Anterior
+                                </a>
+                                <a ng-click="upSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                                    Siguiente
+                                </a>
+                            </div>
+                        </div>
+                        </div>
+                         <div class="col-xs-3 sidebar-right text-center">
+                            <p class="text text--lite text--gris margin--b1 margin--t05 text--xbold">
+                                Progreso {{modules[modulePosition].module_name}}
+                            </p>
+                            <div class="c100 center p{{exam_score}} center-block">
+                                <span>{{exam_score}}%</span>
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                                <p class="text text--lite text--gris text--upper margin--b0 margin--t2">
+                                    Puntos de marketing ninja:
+                                </p>
+                                <p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0">
+                                80  
+                            </p>
+                            <div class="clearfix"></div>
+                                <a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">
+                                    Realizar Evaluación
+                                </a>
+                                <script>
+                                    (function(){
+                                        var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';
+                                        if(!gi.call(d,id)){
+                                            js=ce.call(d,'script');
+                                            js.id=id;js.src=b+'share.js';
+                                            q=gt.call(d,'script')[0];
+                                            q.parentNode.insertBefore(js,q)}id=id+'_';
+                                            if(!gi.call(d,id)){
+                                                qs=ce.call(d,'link');
+                                                qs.rel='stylesheet';
+                                                qs.id=id;
+                                                qs.href=b+'share-button.css';
+                                                s=gt.call(d,'head')[0];
+                                                s.appendChild(qs,s)
+                                            }
+                                        })()
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

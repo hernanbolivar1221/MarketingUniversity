@@ -371,7 +371,7 @@ app.controller("myCourses", function($scope, coursesGet){
 
 app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal','$sce', function ($http, $scope, $routeParams, getCourse, $modal,$sce) {
     var response = getCourse.dataStudent($routeParams.uuid);
-
+        
     // - - - - -
 
         function split_array_for_slides(array, n){
@@ -393,20 +393,104 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         }
 
     // paginador Recursos    
-
+    $scope.uuid = $routeParams.uuid;
     $scope.pag = 0;
+    $scope.modulePosition = 0;
+    $scope.submodulePosition= 0 ;
+    $scope.exam_score = 0;
+    $scope.upSubmodule = function(){
+        $scope.submodulePosition++;   
+        console.log("Module: "+ $scope.modulePosition);
+        console.log("Submodule: "+$scope.submodulePosition);
+    }
+    $scope.downSubmodule = function(){
+        if($scope.submodulePosition > 0){
+            $scope.submodulePosition--;    
+        }
+        console.log("Module: "+ $scope.modulePosition);
+        console.log("Submodule: "+$scope.submodulePosition);
+    }
+    
+    $scope.$watch("modulePosition",function(){
+        $scope.submodulePosition = 0
 
+        $scope.$watch("submodulePosition", function(){
+            var intervalEmbed = setInterval(function(){
+                if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
+                
+                    clearInterval(intervalEmbed);
+                    
+                    embed = document.querySelector("#embedVideo");
+                    
+
+                    
+                    embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
+
+
+                }
+            },100);   
+        });
+
+
+    });
+
+    $scope.jumpSubmodulePosition = function(pos){
+        $scope.submodulePosition = pos;   
+        console.log("Module: "+ $scope.modulePosition);
+        console.log("Submodule: "+$scope.submodulePosition);
+
+    }
+    $scope.jumpModulePosition = function(pos){
+        $scope.modulePosition = pos;    
+        console.log("Module: "+ $scope.modulePosition);
+        console.log("Submodule: "+$scope.submodulePosition);
+    }
     response.success(function(data){
 
         //modules
 
         $scope.dataSimpleCourse = data;
-        console.log(data);
+        $scope.$watch("embed", function(_new, _old){
+            if($scope.embed != null){
+                console.log(embed);
+            }
+        });
+        $scope.$watch("modulePosition",function(){
+            $scope.submodulePosition = 0;
+            $scope.exam_score = $scope.modules[$scope.modulePosition].contents[0].content_button_info.exam_score;
+            if($scope.modules[$scope.modulePosition].contents[0].content_button_info.passed){
+                $scope.exam_score = 100;    
+            }
+            $scope.$watch("submodulePosition", function(){
+                var intervalEmbed = setInterval(function(){
+                    if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
+                    
+                        clearInterval(intervalEmbed);
+                        embed = document.querySelector("#embedVideo");
+                        embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
+                    }
+                },100);   
+            });
+        });
+        $scope.$watch("submodulePosition", function(){
+            var intervalEmbed = setInterval(function(){
+                if(document.querySelectorAll("#embedVideo").length > 0){
+                    clearInterval(intervalEmbed);
+                    embed = document.querySelector("#embedVideo");
+                    embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
+
+                }
+            },100);    
+
+        });
 
         // submodules
         dataModules = $scope.dataSimpleCourse.modules;
+        $scope.modules = dataModules;
         $scope.simpleItems = split_array_for_slides(dataModules,4);
-
+        $scope.$watch("simpleItems", function(_new, _old){
+            console.log(_new); 
+        });
         // resources  
 
         var resources = [];

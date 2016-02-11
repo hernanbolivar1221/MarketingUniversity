@@ -822,4 +822,6 @@ iframe {height:370px !important; width:100% !important;}
 .itemCheck:after {border-left-color: #6e8e2d !important;}
 
 
-
+a{
+    cursor : pointer;    
+}

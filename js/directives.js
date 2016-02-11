@@ -78,7 +78,7 @@ app.directive('tabsCustomVertical', [function () {
 								name: ' Salón de Clase', 
 								icon: 'fa fa-desktop fa-fw', 
 								active:true, 
-								template: urlTemplate + 'tab1.html' 
+								template: 'views/courses/courseContents.html' 
 							},
 							{
 								name: ' Sobre el Curso',
@@ -155,11 +155,37 @@ app.directive('descriptionTab', [function () {
 		}
 	}
 }]);
+app.directive("tabsCustomHorizontal", ['$routeParams', function($routeParams){
+    return {
+        restrict : 'EA',
+        templateUrl : 'views/courses/courseContents.html',
+        link : function(scope, element, attrs){
+        },
+        scope : {
+            
+        }
+    } 
+}]);
 
-app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
+app.directive("iframeContent", [function(){
+    return {
+        restrict : 'EA',
+        template : '<div class="submoduleVideo"></div>',
+        link : function(scope, element, attrs) {
+                video = document.querySelector(".submoduleVideo");
+                scope.path != "" || scope.path != null  ? video.innerHTML = scope.path : null ;
+        },
+        scope : {
+            path : "@",
+            subPos : "@"
+        }
+    }
+}]);
+
+app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce, $routeParams) {
 	return {
 		restrict: 'EA',
-		template:   '<tabset justified="true" type="pills">' +
+		template:   '<tabset justified="true" type="pills" > ' +
     					'<tab class="linkItem" ng-repeat="subItem in item.submodules" heading="">' +
                             '<div class="col-md-8">'+
                                 '<div ng-bind-html="parseHtml(subItem.contents[0].text)"></div>'+
@@ -174,7 +200,7 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                                             '<td ng-hide="$first">{{itemResource.content_name}}</td>'+ 
                                             '<td ng-hide="$first">{{itemResource.content_description}}</td>'+ 
                                             '<td ng-hide="$first" class="linkResource">'+
-                                                '<a target="_blank" value="{{itemResource.file}}" >Descargar</a>'+
+                                                '<a target="_blank"  module="{{itemResource.module}}" content="{{itemResource.content_pk}}" download  data-name="{{itemResource.content_name}}">Descargar</a>'+
                                             
                                             '</td>'+ 
                                         '</tr>'+
@@ -194,7 +220,7 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                                     '<p class="text text--lite text--gris text--upper margin--b0 margin--t2"> Puntos de marketing ninja: </p>' +
                                     '<p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0"> {{item.percentage_done}} </p>' +
                                     '<div class="clearfix"></div>' +
-                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" ng-disabled="btnDisableTest" href="" ng-click="modalOpen()">' +
+                                    '<a class="btn btn-verde btn-lg margin--t1 typeform-share" ng-disabled="btnDisableTest" href="" module="{{item.module_pk}}" content="{{item.contents[0].content_pk}}"ng-click="modalOpen()">' +
                                         'Realizar Evaluación' +
                                     '</a>' +
                             '</div>' +
@@ -219,18 +245,46 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
                 if(linkA.length != 0){
                     clearInterval(intervalLoad);
                     links = document.querySelectorAll(".linkResource>a");
-                    for(link in links){
+                    for(var link = 0; link < links.length; link++){
                         try{
-                            links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
+                            module = links[link].getAttribute("module");
+                            content = links[link].getAttribute("content");
+                            name = links[link].getAttribute("data-name");
+                            uuid = $routeParams.uuid;
+                            //links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
+                            links[link].href = config.SERVICE_SERVER + '/lms/course/' + uuid +'/module/' + module + '/content/' + content +'/sit/files/'; 
                         }catch(err){
-                                
+                            console.log(links[link]);    
                         }
                     }
 
-
+                    submodules= document.querySelectorAll(".linkItem");
+                    function is_submodule_active(element, index, array){
+                        if(element == 'active'){
+                            return true;    
+                        }        
+                    }
+                    console.log(submodules);
+                    if(submodules.length == 1){
+                        scope.btnDisableTest = false;   
+                        console.log("? no way");
+                    }else if(submodules.length > 1){
+                        last_submodule = submodules[submodules.length - 1];
+                        is_active = false;
+                        for(var i=0; i<last_submodule.classList.length; i++){
+                            if(last_submodule.classList[i] == 'active'){
+                                is_active = true;
+                            }
+                        }
+                        scope.btnDisableTest = is_active;
+                        console.log("test");
+                        
+                            
+                    }
+                    
                 }
 
-            },500);
+            },100);
 
 
             scope.parseHtml =  function(html){
@@ -247,29 +301,9 @@ app.directive('tabsCustomHorizontal', ['$sce',function ($sce) {
 
             btnTestElement.on('click',function(){
                 $(this).addClass("itemCheck");
-                $(this).parent().parent().addClass("parentItemCheck");
-                var listItem = $(".parentItemCheck").find("li a");
-
-                var nItems = [];
-
-                listItem.each(function(){
-                    var linkItem = $(this).filter(".itemCheck");
-                    nItems.push(linkItem.length);
-                });
-
-                for(i=0; i < nItems.length; i++){
-                    if(nItems[i] == 0){
-                        console.log('incompleto');
-                    }else{
-                        console.log('Completo');
-                    }
-                }
-
-                console.log(nItems);
             }); 
 
             scope.btnDisableTest = true;
-                
         }
 	}	
 }]);
