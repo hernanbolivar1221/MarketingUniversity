@@ -5,7 +5,7 @@
  * Version: 0.13.4 - 2015-10-17
  * License: MIT
  */
-angular.module("ui.bootstrap", ["ui.bootstrap.collapse","ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.transition","ui.bootstrap.rating","ui.bootstrap.accordion","ui.bootstrap.buttons","ui.bootstrap.modal","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.carousel","ui.bootstrap.alert","ui.bootstrap.datepicker","ui.bootstrap.dateparser","ui.bootstrap.pagination","ui.bootstrap.progressbar","ui.bootstrap.timepicker"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.collapse","ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.transition","ui.bootstrap.rating","ui.bootstrap.accordion","ui.bootstrap.buttons","ui.bootstrap.modal","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.alert","ui.bootstrap.datepicker","ui.bootstrap.dateparser","ui.bootstrap.pagination","ui.bootstrap.progressbar","ui.bootstrap.timepicker"]);
 angular.module('ui.bootstrap.collapse', [])
 
   .directive('collapse', ['$animate', function($animate) {
@@ -2692,7 +2692,6 @@ angular.module('ui.bootstrap.tabs', [])
 * @description
 * AngularJS version of an image carousel.
 *
-*/
 angular.module('ui.bootstrap.carousel', [])
 .controller('CarouselController', ['$scope', '$element', '$interval', '$animate', function ($scope, $element, $interval, $animate) {
   var self = this,
@@ -2705,7 +2704,6 @@ angular.module('ui.bootstrap.carousel', [])
   self.currentSlide = null;
 
   var destroyed = false;
-  /* direction: "prev" or "next" */
   self.select = $scope.select = function(nextSlide, direction) {
     var nextIndex = $scope.indexOfSlide(nextSlide);
     //Decide direction if it's not given
@@ -2776,7 +2774,6 @@ angular.module('ui.bootstrap.carousel', [])
     return currentIndex;
   };
 
-  /* Allow outside people to call indexOf on slides array */
   $scope.indexOfSlide = function(slide) {
     return angular.isDefined(slide.index) ? +slide.index : slides.indexOf(slide);
   };
@@ -2929,7 +2926,6 @@ angular.module('ui.bootstrap.carousel', [])
     }
   </file>
 </example>
- */
 .directive('carousel', [function() {
   return {
     restrict: 'EA',
@@ -2990,7 +2986,6 @@ function CarouselDemoCtrl($scope) {
     }
   </file>
 </example>
-*/
 
 .directive('slide', function() {
   return {
@@ -3104,6 +3099,7 @@ function ($injector, $animate) {
 
 
 ;
+*/
 
 angular.module('ui.bootstrap.alert', [])
 

@@ -5,7 +5,8 @@
             <div class="row">
                 <div id="tabsLecciones" class="carousel slide carousel--tabsDetalle" data-ride="carousel" data-interval="false" data-wrap="false">
                     <div class="carousel-inner" role="listbox">
-                        <div class="item" ng-class="{active:$first}" ng-repeat="packModules in simpleItems">
+                        
+                        <div class="item" ng-class="{active:$first, active:packItemPosition == $index}" ng-repeat="packModules in simpleItems">
                             <ul class="nav nav-tabs nav-justified nav-tabs--detalleClase" role="tablist">
                                 <li ng-repeat="module in packModules" role="presentation" ng-class="{ active:$first}">
                                     
@@ -18,12 +19,18 @@
                             </ul>
                         </div>
                     </div>
+                        <a class="left carousel-control" ng-click="downPackItem()" role="button" data-slide="prev">
+                        <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <a  class="right carousel-control" ng-click="upPackItem()"role="button" data-slide="next">
+                            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                        </a>
 
                     <div class="tab-content">
                         <div role="tabpanel" class="" id="leccion">
                             <div class="col-xs-12 list-simple">
                                 <ul class="nav nav-pills nav-pills--setps nav-justified" style="margin-top: 15px; margin-bottom: 15px;">
-                                    <li class="" ng-class="{active:$first, active:$index == submodulePosition}" ng-repeat="submodule in dataSimpleCourse.modules[modulePosition].submodules" ng-click="jumpSubmodulePosition($index)">
+                                    <li class="" ng-class="{active:$first, active:$index == submodulePosition, visited:modules[modulePosition].submodules[$index].has_seen }" ng-repeat="submodule in dataSimpleCourse.modules[modulePosition].submodules" ng-click="jumpSubmodulePosition($index)">
                                         <a aria-controls="leccion1-step1"  href="#/course/{{uuid}}/simple"role="tab" data-toggle="tab" ng-click="jumpSubmodulePosition($index)"></a>
                                     </li>
                                 </ul>
@@ -66,10 +73,10 @@
                                 </div>
                            </div>
                             <div class="col-xs-12 text-right margin--t1">
-                                <a ng-click="downSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                                <a ng-click="downSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-hide="submodulePosition == 0">
                                     Anterior
                                 </a>
-                                <a ng-click="upSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
+                                <a ng-click="upSubmodule()" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-hide="submodulePosition == modules[modulePosition].submodules.length -1">
                                     Siguiente
                                 </a>
                             </div>
@@ -95,7 +102,7 @@
                                 80  
                             </p>
                             <div class="clearfix"></div>
-                                <a class="btn btn-verde btn-lg margin--t1 typeform-share" href="https://andresescobar.typeform.com/to/emTKCV" data-mode="1" target="_blank">
+                                <a class="btn btn-verde btn-lg margin--t1" href="{{exam_url}}" ng-disabled="is_disabled()" data-mode="1" target="_blank" target="_blank">
                                     Realizar Evaluación
                                 </a>
                                 <script>

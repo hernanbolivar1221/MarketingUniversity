@@ -403,6 +403,8 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         console.log("Module: "+ $scope.modulePosition);
         console.log("Submodule: "+$scope.submodulePosition);
     }
+    
+
     $scope.downSubmodule = function(){
         if($scope.submodulePosition > 0){
             $scope.submodulePosition--;    
@@ -411,19 +413,32 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         console.log("Submodule: "+$scope.submodulePosition);
     }
     
-    $scope.$watch("modulePosition",function(){
-        $scope.submodulePosition = 0
+    $scope.$watch("modulePosition",function(_new,_old){
+        $scope.submodulePosition = 0;
 
-        $scope.$watch("submodulePosition", function(){
+        $scope.$watch("submodulePosition", function(newValue, oldValue){
+            try{
+                submodule_old = $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].module_pk;
+                $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
+                var url = config.SERVICE_SERVER +'/api/course/markSubmodule/?callback=JSON_CALLBACK&module='+submodule_old;
+                $http.jsonp(encodeURI(url)).success(function(response){
+                    if(response.status == "success"){
+                        console.log("submodule with pk : "+ $scope.modules[$scope.modulePosition].submodules[newValue].module_pk + " has marked as seen");
+                    }else{
+                        console.log("An error has ocurred - " + response.message);    
+                    }
+                })
+                .error(function(data, status, headers, config){
+                    //console.log(data, status, headers, config);
+                });    
+            }catch(err){
+                
+            }
             var intervalEmbed = setInterval(function(){
                 if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
                 
                     clearInterval(intervalEmbed);
-                    
                     embed = document.querySelector("#embedVideo");
-                    
-
-                    
                     embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
 
 
@@ -433,6 +448,7 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
 
 
     });
+    
 
     $scope.jumpSubmodulePosition = function(pos){
         $scope.submodulePosition = pos;   
@@ -445,6 +461,19 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         console.log("Module: "+ $scope.modulePosition);
         console.log("Submodule: "+$scope.submodulePosition);
     }
+    $scope.packItemPosition = 0;
+    $scope.upPackItem = function(){
+        console.log(123);
+        $scope.packItemPosition++;    
+    }
+    $scope.downPackItem = function(){
+        console.log(456);
+        $scope.packItemPosition--;    
+    }
+    $scope.$watch("packItemPosition", function(){
+        $scope.modulePosition = $scope.packItemPosition * 4;
+        console.log($scope.modulePosition);
+    });
     response.success(function(data){
 
         //modules
@@ -456,21 +485,28 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
             }
         });
         $scope.$watch("modulePosition",function(){
-            $scope.submodulePosition = 0;
-            $scope.exam_score = $scope.modules[$scope.modulePosition].contents[0].content_button_info.exam_score;
-            if($scope.modules[$scope.modulePosition].contents[0].content_button_info.passed){
-                $scope.exam_score = 100;    
+            try{
+                $scope.submodulePosition = 0;
+                $scope.exam_score = $scope.modules[$scope.modulePosition].contents[0].content_button_info.exam_score;
+                if($scope.modules[$scope.modulePosition].contents[0].content_button_info.passed){
+
+                    $scope.exam_score = 100;    
+                }
+                $scope.$watch("submodulePosition", function(){
+                    var intervalEmbed = setInterval(function(){
+                        if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
+                        
+                            clearInterval(intervalEmbed);
+                            embed = document.querySelector("#embedVideo");
+                            embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
+                        }
+                    },100);   
+                });
+
+                $scope.exam_url = config.SERVICE_SERVER + '/lms/course/' + $scope.uuid + '/module/' + $scope.modules[$scope.modulePosition].module_pk+'/content/' + $scope.modules[$scope.modulePosition].contents[0].content_pk+ '/sit/';
+            }catch(err){
+                
             }
-            $scope.$watch("submodulePosition", function(){
-                var intervalEmbed = setInterval(function(){
-                    if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
-                    
-                        clearInterval(intervalEmbed);
-                        embed = document.querySelector("#embedVideo");
-                        embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
-                    }
-                },100);   
-            });
         });
         $scope.$watch("submodulePosition", function(){
             var intervalEmbed = setInterval(function(){
@@ -508,7 +544,15 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
                 resourcesSubmodule.push(contents.contents);
             }
         }
-
+        $scope.is_disabled = function(){
+            module = $scope.modules[$scope.modulePosition];
+            for(submodule of module.submodules){
+                if(!submodule.has_seen){
+                    return true;
+                }    
+            }
+            return false;
+        }
     });
 
 
