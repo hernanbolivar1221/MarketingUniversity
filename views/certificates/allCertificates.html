@@ -1,14 +1,14 @@
-
-<section class="col-xs-12 sidebar-yellowGrandient sidebar-yellowGrandient--xlg sidebar-add__montain">
+<div ng-controller="certificates">
+<section class="col-xs-12 sidebar-greenGrandient sidebar-greenGrandient--xlg sidebar-add__montain">
     <div class="container text-center">
-        <h1 class="text text--azul_osc text--xxxxlg text--xbold margin--b0 text-center text-space1 text--upper">
-            cursos y capacitación
+        <h1 class="text text--azul_mid text--xxxxlg text--xbold margin--b0 text-center text-space1 text--upper">
+            Certificate ;)
         </h1>
         <p class="text text--lg text--gris text-center text-space1 margin--t05">
-            Adquiere habilidades y competencias técnicas en cuestión de semanas
+            Certifica tus conocimientos y habilidades, Mejora tu Curriculo y <span class="text--bold">Accede a nuestas oportunidades de Empleo!</span>
         </p>
-        <a href="" class="btn btn--academy2 btn-cursos btn--right btn-xlg margin--t1">
-            ¿Cómo funcionan?
+        <a href="" class="btn btn--academy2 btn-especializaciones btn--right btn-xlg margin--t1">
+            ¿cómo funcionan?
         </a>
     </div>
 </section>
@@ -18,20 +18,20 @@
         <div class="col-xs-12 margin--tn5">
             <div class="row">
 
-                <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in coursesall">
+                <div ng-repeat="certificate in certificateAll" class="col-lg-3 col-xs-6 margin--t1">
                     <div class="col-xs-12 sidebar-bloqs2">
                         <div class="row sidebar-imageCurso">
                             <a ng-href="">
-                                <img ng-src="{{coursePublic.image}}" class="img-course">
+                                <img ng-src="{{certificate.image}}" class="img-course">
                             </a>
                             <div class="sidebar-imageCurso__nombre">
                                 <div class="col-md-4">
-                                    <img ng-if="coursePublic.tutors[0].avatar != null" ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
-                                    <img ng-if="coursePublic.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
+                                    <img ng-if="certificate.tutors[0].avatar != null" ng-src="{{certificate.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
+                                    <img ng-if="certificate.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
                                 </div>
                                 <div class="col-md-8">
-                                    <div ng-if="coursePublic.tutors[0].first_name != '' && coursePublic.tutors[0].last_name != ''" class="text text--blanco bg-nameTutor">
-                                        {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
+                                    <div ng-if="certificate.tutors[0].first_name != '' && certificate.tutors[0].last_name != ''" class="text text--blanco bg-nameTutor">
+                                        {{certificate.tutors[0].first_name}} {{certificate.tutors[0].last_name}}
                                     </div>
                                 </div>
                             </div>
@@ -44,39 +44,35 @@
                             </div>
                         </div>
                         <h3 class="text text--gris text--md text--bold margin--t2">
-                            {{coursePublic.name}}
+                            {{certificate.name}}
                         </h3>
-                        <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="coursePublic.description" data-ellipsis>
+                        <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="certificate.description" data-ellipsis>
                         
                         </p>
                         <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="fa fa-clock-o"></span><span ng-if="coursePublic.duration != null"> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
+                            <span class="fa fa-clock-o"></span><span ng-if="certificate.duration != null"> {{certificate.duration}} Horas</span><span ng-if="certificate.duration == null"> No hay un tiempo de duración asignado al curso.</span>
                         </p>
-                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
+                        <a  ng-href="#certificate/{{certificate.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
                     </div>
                 </div>
-                
-            </div>
 
-            </div>
-        </div>
+
+
     </div>
 </section>
 
 <section class="col-xs-12 text-center sidebar-table">
-    <div class="row">
         <div class="col-xs-12 sidebar-table__cont">
             <h2 class="text text--azul_mid text--xlg text--xbold text-center text--upper">
-                ¿Cómo quieres aprender hoy?
+                ¿Quieres aprender algo nuevo hoy?
             </h2>
             <p class="text text--md text--gris text-center text--lite">
-                Suscríbete hoy a la mejor experiencia en educación online e ingresa al mundo del Marketing Digital. 
+                Suscríbete a Marketing University e ingresa al mundo del Marketing Digital. 
             </p>
             <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg margin--t1 text--upper">
-                empieza ahora
+                Empieza ahora
             </a>
         </div>
-    </div>
 </section>
 
 <section class="col-xs-12 sidebar-blueGrandient sidebar-blueGrandient--cero1 sidebar-add__montainR">
@@ -121,4 +117,4 @@
         </div>
     </div>
 </section>
-    
+</div>

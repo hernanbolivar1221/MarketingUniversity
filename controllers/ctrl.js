@@ -88,7 +88,7 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
 var user = null;
 app.controller("login_api", function($scope, $http){
 	if(localStorage.dataUser){
-		location.href = "#/profile";
+		//location.href = "#/profile";
 	}
        // getPublicCourses($http);	
 	// URL Constant
@@ -344,9 +344,23 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 
 // controller all Certificates ---------------------------------------------------------------------
 
-app.controller("certificates", function($scope, scrolltop){
+app.controller("certificates",['$scope','scrolltop','coursesGet','$sce',function($scope, scrolltop, coursesGet,$sce){
 	scrolltop();
-});
+    coursesGet.getData('public').success(function(response){
+        $scope.certificateAll = response;
+        console.log($scope.certificateAll);
+    }); 
+
+    $scope.parseHtml =  function(html){
+        return $sce.trustAsHtml(html);
+    }
+
+
+    $scope.active = function(index){
+        $scope.activePos = index;
+    }
+
+}]);
 
 // controller My Courses ---------------------------------------------------------------------
 

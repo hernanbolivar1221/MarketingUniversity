@@ -274,7 +274,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .btn--lite{-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
 .btn-verde{background:#6e8e2d;color:#fff;}
 .btn-verde:hover,.btn-verde:focus,.btn-verde:active,.btn-verde.active{background:#648128;color:#fff}
-.btn-rojo{background:#c75130;color:#fff;}
+.btn-rojo{background:#c75130;color:#fff;border-radius: 0 !important;}
 .btn-rojo:hover,.btn-rojo:focus,.btn-rojo:active,.btn-rojo.active{background:#b74525;color:#fff}
 .btn-cursos{background:#d2dda5;border:1px solid #fff;color:#444b51;}
 .btn-cursos:hover,.btn-cursos:focus,.btn-cursos:active,.btn-cursos.active{background:#ced3be;color:#444b51}
@@ -538,7 +538,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-leftBlock{background:#f6f6f6;margin-top:1em;padding-top:2em;padding-bottom:2em}
 .sidebar-detalleContenidoCurso{background:#fcfcfc;padding-bottom:2em;padding-top:2em}
 .sidebar-contenidoCurso{background:#f5f5f5;padding-bottom:4em}
-.sidebar-right{background:#eee;padding-bottom:2em;padding-top:2em}
+.sidebar-right{background:#eee;padding-bottom:2em;}
 .sidebar-nextPreview{padding-top:1em;padding-bottom:1em;padding-right:3em;margin-top:1em;}
 .sidebar-nextPreview__btnNext{position:absolute;top:50%;right:.5em;margin-top:-1.2em}
 .sidebar-contentMenu{overflow-x:hidden;}
@@ -825,3 +825,18 @@ iframe {height:370px !important; width:100% !important;}
 a{
     cursor : pointer;    
 }
+
+.bg-certification{background: url(../images/xbanner-certificaciones.jpg) !important;}
+.panel-verde {background-color: rgba(110,142,45,0.6); padding-bottom: 2em; padding-top: 2em; }
+.sidebar-image {background: #d7e9e3; background-position: 50% 50%; background-repeat: no-repeat; padding-top: 2em; padding-bottom: 2em; }
+.navbar-certificacion {background: #6e8e2d; border-radius: 0; border: none; min-height: auto; }
+.navbar-certificacion .navbar-certificacion__menu > li > a {color: #fff; background: none; border-radius: 0; border-right: 1px solid #8e8e8e; font-size: 1em; font-weight: 700; margin-bottom: 0; padding-bottom: 1em; padding-top: 1em; text-transform: uppercase;}
+.panel-group--detalleCertificaciones {background: none; border: 1px solid #d7d5d5; }
+.panel-group--detalleCertificaciones .panel-default {background: none; border: 0; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; margin-top: 0 !important; border-bottom: 1px solid #d7d5d5; }
+.panel-group--detalleCertificaciones .panel-heading {background: none; padding: 0;}
+.panel-group--detalleCertificaciones .panel-heading > a {color: #626262; display: block; min-height: 4em; padding: 1em 1.5em 1em 5em; position: relative; text-decoration: none; }
+.panel-group--detalleCertificaciones .panel-heading > a.active {background: #3874b8; color: #FFF;}
+.panel-group--detalleCertificaciones .panel-heading > a.activeFirst {background: #3874b8; color: #FFF;}
+.panel-group--detalleCertificaciones .panel-heading > a > span {background: #6e8e2d; border-radius: 50%; color: #FFF; font-size: 1em; font-weight: 800; height: 2.5em; position: absolute; padding-top: .5em; top: 50%; text-align: center; left: 1em; margin-top: -1.25em; width: 2.5em;}
+.panel-group--detalleCertificaciones .panel-heading > a.active > span {background: #FFF; color: #3874b8; }
+.sidebar-table2 {background: #ebfcf8; padding-bottom: 0em; padding-top: 2em; margin-top: 2em; margin-bottom: 2em; }

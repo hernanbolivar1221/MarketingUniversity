@@ -18,12 +18,16 @@ app.config(function($routeProvider){
 			templateUrl: 'views/courseDetail.html',
 			controller : "courseDetails"
 		})
+		.when('/certificate/:uuid/details', {
+			templateUrl: 'views/certificates/detailCertification.html',
+			controller : "certificates"
+		})
 		.when('/allCourses', {
 			templateUrl: 'views/allCoursesPublic.html',
 			controller: "allCourses"
 		})
 		.when('/allCertificates', {
-			templateUrl: 'views/allCertificates.html',
+			templateUrl: 'views/certificates/allCertificates.html',
 			controller: "certificates"
 		})
 		.when('/jobs', {

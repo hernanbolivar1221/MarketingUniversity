@@ -237,19 +237,6 @@ app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce,
             		}
                    
             	});
-                var intervalLoad = setInterval(function(){
-                    var linkA = $(".linkResource").find("a");
-                    linkA.text("Ver Recurso").addClass("btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper");
-                    if(linkA.length != 0){
-                        clearInterval(intervalLoad);
-                        links = document.querySelectorAll(".linkResource>a");
-                        for(link in links){
-                            try{
-                                links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
-                            }catch(err){
-                                    
-                            }
-                        }
 
             var intervalLoad = setInterval(function(){
                 var linkA = $(".linkResource").find("a");
@@ -317,6 +304,7 @@ app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce,
 
             scope.btnDisableTest = true;
         }
+    }
 }]);
 
 app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $routeParams){
