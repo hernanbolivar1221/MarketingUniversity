@@ -1,13 +1,43 @@
 // Scope Goblal
-app.run(['$rootScope','$location','$route',function($rootScope, $location, $route) {
+app.run(['$rootScope','$location','$route', '$http',function($rootScope, $location, $route, $http) {
+    $rootScope.template ='views/courses/content_user_opt.html';
   	$rootScope.btnSingUp = true;
 	$rootScope.btnLogout = false;
-
+  
     $rootScope.displayMenu_0 = true;
     $rootScope.displayMenu_1 = false;
     $rootScope.displayMenu_2 = false;
 
     $rootScope.menuCourse = false;
+    $rootScope.dataUser = null;
+	if(localStorage.dataUser){
+		dataUser = JSON.parse(localStorage.dataUser);
+		dataUser.photo == "" ? dataUser.photo = "images/bullet3.png" : dataUser.photo;
+		$rootScope.dataUser= dataUser;
+	}else{
+		location.href = "#/";
+	}
+
+    $rootScope.$watch("dataUser", function(newValue, oldValue){
+        if(newValue != undefined && newValue){
+            console.log("ingreso");   
+            $rootScope.btnSingUp = false;
+            $rootScope.btnLogout = true;
+            $rootScope.hideMenu = true;
+            if(location.hash == '#/profile'){
+                $rootScope.menuCourse = true;
+            }
+
+        }else{
+            $rootScope.btnSingUp = true;
+            $rootScope.btnLogout = false;
+		    $rootScope.hideMenu = false;
+        }
+    });
+	$rootScope.showMenu = function(){
+		$rootScope.menuOpen = $rootScope.menuOpen ? false : true;
+	}
+
 	/*
 	* TODO: Remove next code when update is ready
 	*/
@@ -26,6 +56,145 @@ app.run(['$rootScope','$location','$route',function($rootScope, $location, $rout
         	location.href = "#/profile";
         }
     });
+
+    $rootScope.courseId = null;
+    $rootScope.studentId = null;
+    $rootScope.moduleId = null;
+    $rootScope.contentId = null;
+    $rootScope.actual_position = null;
+    $rootScope.isTutorReview = "{{isTutorReview}}";
+    $rootScope.isReview = "{{isReview}}";
+    $rootScope.review_course = "{{reviewing}}";
+    $rootScope.max_grade = "{{max_grade}}";
+    $rootScope.weight_question="";
+    $rootScope.hasOpenQuestion="{{hasOpQ}}";
+    $rootScope.type_view = "{{course.view_type}}";
+    $rootScope.show_test = false; 
+    $rootScope.examData;
+    $rootScope.EXAM_REFRESH_FAILURES = 0;
+    $rootScope.choices = {};
+    $rootScope.last_viewed_position = 0;
+
+    //
+    //
+    $rootScope.ajax_fetch_user_slide = function(options) {
+        console.log(options);
+        $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_fetch_user_slide/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk)
+            .success(function(response) {
+                options.success(response);
+            })
+            .error(function(err){
+                console.log(err);
+            })
+        
+    };
+
+    $rootScope.init_userSlideContainer = function(position, cb){
+        $rootScope.actual_position = 0;
+        var dict_choices = JSON.stringify($rootScope.choices);
+        already_graded=false;
+        $rootScope.ajax_fetch_user_slide({
+            data: {
+                course_id: $rootScope.courseId,
+                module_id: $rootScope.moduleId,
+                content_id: $rootScope.contentId,
+                exam_id: $rootScope.examData.pk,
+                position: position,
+                choices: dict_choices,
+                actual_position: $rootScope.actual_position
+            },
+            success: function(response){			
+                choices={};
+                var slide = response[0];
+                $rootScope.examSlide = slide;
+            }
+        })
+
+    };
+    //
+    $rootScope.ajax_fetch_exam = function(options) {
+        console.log(options)
+        var data = options.data;
+        if (!data) data ={};
+
+        var params = "";
+        for(key in options ){
+            if(key == 'exam' || key == "contentId"){
+                params += ("&"+key+"="+options[key]);
+            }
+
+        }
+        $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK'+params)
+            .success(function(response){
+                options.success(response);
+            })
+
+    }
+
+
+    $rootScope.updateExam = function(custom_opts){
+        
+     	ajax_options = {
+		error: function() {
+			$rootScope.EXAM_REFRESH_FAILURES = $rootScope.EXAM_REFRESH_FAILURES + 1;
+		},
+
+		success: function(response){
+
+			$rootScope.EXAM_REFRESH_FAILURES = 0;
+
+			var first_load = ($rootScope.examData == undefined);
+			var modalTimeOut = $("#modalTimeOut");
+			$rootScope.examData = response[0];
+
+            $rootScope.init_userSlideContainer();
+			if ($rootScope.isReview){
+				$rootScope.examData.time_test_begins = new Date();
+				if ($rootScope.examData.extras.seconds_left) {
+					$rootScope.examData.time_test_ends = new Date();
+					$rootScope.examData.time_test_ends.setTime($rootScope.examData.time_test_begins.getTime() + ($rootScope.examData.extras.seconds_left*1000));
+		
+					secondsTickerCallbacks["exam_counter"] = function(){
+						draw_countDown(countDownDiv, $rootScope.examData.time_test_ends, modalTimeOut)
+					};
+				}
+			}else {
+				first_load=false;
+			}
+		}
+
+	}
+	
+	$.extend(ajax_options, custom_opts || {});
+
+	if ($rootScope.examData && $rootScope.examData.fields.end_date&& $rootScope.isTutorReview) {
+		//$.jqlog.info("no need to update exam since it's closed");
+		return false;
+	}
+
+    	$rootScope.ajax_fetch_exam(ajax_options);
+
+
+    }
+    $rootScope.start_exam = function(){
+        params = 'course='+$rootScope.courseId+"&ubs="+$rootScope.studentId+'&module='+$rootScope.moduleId+'&content='+$rootScope.contentId;
+        $http.jsonp(config.SERVICE_SERVER + '/api/contents/take_test/?callback=JSON_CALLBACK&'+params)
+            .success(function(response){
+                if(response.status == 'ok'){
+                   $rootScope.updateExam(response); 
+                }
+            })
+    }
+    $rootScope.open_test = function(){
+        $rootScope.show_test = true;
+        $rootScope.start_exam();
+    }
+
+    $rootScope.close_test = function(){
+        
+        $rootScope.show_test = false;    
+    }
+ 
    /*
    * END TODO
    */
@@ -49,7 +218,7 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
 	if(localStorage.dataUser){
 		dataUser = JSON.parse(localStorage.dataUser);
 		dataUser.photo == "" ? dataUser.photo = "images/bullet3.png" : dataUser.photo;
-		$scope.dataUser= dataUser;
+		$rootScope.dataUser= dataUser;
 	}else{
 		location.href = "#/";
 	}
@@ -79,21 +248,15 @@ app.controller("profile_api",function($scope, $http, $rootScope, coursesGet){
             
         }
         $scope.dataProfileCourse = $scope.course_in_progres;
-        console.log($scope.dataProfileCourse);
 
     });
 });
 
 // Api Login
 var user = null;
-app.controller("login_api", function($scope, $http){
-	if(localStorage.dataUser){
-		//location.href = "#/profile";
-	}
-       // getPublicCourses($http);	
+app.controller("login_api", function($scope, $http, $rootScope){
 	// URL Constant
 	jsonData = config;
-
 	$scope.singUp = function(){
 
 		// Fields
@@ -211,31 +374,13 @@ app.factory('scrolltop', [function () {
 app.controller("navbar_functions", ['$scope','$http','$rootScope', function($scope, $http, $rootScope){
 
 	$scope.menuOpen = false;
-	$scope.showMenu = function(){
-		$scope.menuOpen = $scope.menuOpen ? false : true;
-	}
-	
-	if(localStorage.dataUser){
-		$scope.btnSingUp = false;
-		$scope.btnLogout = true;
-		$scope.hideMenu = true;
-        if(location.hash == '#/profile'){
-            $rootScope.menuCourse = true;
-        }
-		
-	}else{
-		$scope.hideMenu = false;
-	}
-	
-
 	$scope.logout = function(){
-		$http.jsonp(config.SERVICE_SERVER+"/api/json_logout/").success(function(response){
+		$http.jsonp(config.SERVICE_SERVER+"/api/json_logout/?callback=JSON_CALLBACK").success(function(response){
 
 		});
-
+        $rootScope.dataUser = undefined;
 		localStorage.clear(); 
 		location.href = "#/"; 
-		location.reload();
 	}
 
 	$scope.activeMenu = function(event){
@@ -383,9 +528,8 @@ app.controller("myCourses", function($scope, coursesGet){
 	}); 
 });
 
-app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal','$sce', function ($http, $scope, $routeParams, getCourse, $modal,$sce) {
+app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$modal','$sce', '$rootScope', function ($http, $scope, $routeParams, getCourse, $modal,$sce, $rootScope) {
     var response = getCourse.dataStudent($routeParams.uuid);
-        
     // - - - - -
 
         function split_array_for_slides(array, n){
@@ -477,7 +621,6 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
     }
     $scope.packItemPosition = 0;
     $scope.upPackItem = function(){
-        console.log(123);
         $scope.packItemPosition++;    
     }
     $scope.downPackItem = function(){
@@ -488,8 +631,10 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         $scope.modulePosition = $scope.packItemPosition * 4;
         console.log($scope.modulePosition);
     });
-    response.success(function(data){
 
+    response.success(function(data){
+        $rootScope.courseId = data.course.pk;
+        $rootScope.studentId = data.course.ubs;
         //modules
 
         $scope.dataSimpleCourse = data;
@@ -539,6 +684,8 @@ app.controller('simpleCourse', ['$http','$scope', '$routeParams', 'getCourse','$
         $scope.modules = dataModules;
         $scope.simpleItems = split_array_for_slides(dataModules,4);
 
+        $rootScope.moduleId = $scope.modules[$scope.modulePosition].module_pk;
+        $rootScope.contentId = $scope.modules[$scope.modulePosition].contents[0].content_pk;
         $scope.$watch("simpleItems", function(_new, _old){
             console.log(_new); 
         });
@@ -759,5 +906,6 @@ app.factory('sessionsFactory', function(){
             return _aux;
         }
     }     
+    
 });
 

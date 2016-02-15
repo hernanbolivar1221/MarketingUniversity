@@ -515,9 +515,9 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-perfil__top > a > img{border:2px solid #3874b8;max-width:130px}
 .sidebar-footer__top{background:#accce6;padding-bottom:1em;padding-top:1em; z-index: 2;}
 .sidebar-footer__top--internas{background:#fff}
-.sidebar-footer__bottom{background:#dadada;padding-bottom:1em;padding-top:1em; z-index: 2;}
+.sidebar-footer__bottom{background:#dadada;padding-bottom:1em;padding-top:1em; z-index: 2; margin-top:7%;}
 .sidebar-footer__bottom:after{background:url("../images/footer-left.png") 0 0;top:-106px;content:'';display:block;height:213px;position:absolute;left:2em;width:181px;z-index:1}
-.sidebar-footer__bottom:before{background:url("../images/footer-right.png") 0 0;top:-176px;content:'';display:block;height:213px;position:absolute;right:2em;width:181px;z-index:1}
+.sidebar-footer__bottom:before{background:url("../images/footer-right.png") 0 0;bottom:0px;content:'';display:block;height:213px;position:absolute;right:2em;width:181px;z-index:1}
 .sidebar-footer__bottom2{background:#dadada;padding-bottom:1em;padding-top:1em;}
 .sidebar-footer__bottom2:before{background:url("../images/footer-right2.png") 0 0;top:-20px;content:'';display:block;height:132px;position:absolute;right:2em;width:162px;z-index:1}
 .sidebar-footer__iconSocial{-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;display:inline-block;height:2em;margin:0 .1em;padding:.5em 0 !important;position:relative;text-align:center;width:2em;}
@@ -858,3 +858,40 @@ a{
 .avanced .progress-bar {background:#4fb0ae;}
 .avanced .progress {height:10px;}
 .forum-header {color: #777; background:#F5F5F5;}
+#background_gray{
+    width: 100%;
+    visibility: visible;
+    -khtml-opacity: .85;
+    -moz-opacity: .85;
+    opacity: .85;
+    -ms-filter: "alpha(Opacity=85)";
+    -moz-transition: opacity ease-out 200ms;
+    -webkit-transition: opacity ease-out 200ms;
+    -o-transition: opacity ease-out 200ms;
+    transition: opacity ease-out 200ms;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    min-height: 100%;
+}
+
+#background_gray>a{
+    margin-right:3%;
+    margin-top: 1.5%;
+}
+#typeform-wrapper{
+    background: #FFFFFF;
+    height: 600px;
+    width: 90%;
+    position: fixed;
+    top: 7%;
+    left: 5%;
+    z-index: 100001;
+}
+
+
+

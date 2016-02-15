@@ -1,4 +1,27 @@
 /**
+ * @author      Henry Arnulfo Gómez Montenegro
+ * @brief       function to make jsop request
+ * @input       url 
+ * @input       function on success
+ * @date        15-02-2016
+ * @version     0.1
+ * */
+
+function jsonp(url, callback) {
+    var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+    window[callbackName] = function(data) {
+        delete window[callbackName];
+        document.body.removeChild(script);
+        callback(data);
+    };
+    var script = document.createElement('script');
+    script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+    document.body.appendChild(script);
+}
+
+
+
+/**
 *   @author     Henry Arnulfo Gomez Montenegro
 *   @brief      function calculate days amount between two dates
 *   @input      params  :   json with all necesary data for make calcs, initial_date, final_date
@@ -124,7 +147,6 @@ function ajaxAuth($http, $scope, username, userpassword, email){
 					localStorage.dataUser = JSON.stringify(respuesta);
 					$(".modal--ingreso").modal("show").toggle();
    					location.href = "#/profile";
-					location.reload();
 
 				});
 		    if(register){
@@ -156,7 +178,6 @@ function kmeAPI($http, $scope,username,name,email,register) {
                     localStorage.dataUser = JSON.stringify(respuesta);
                     $(".modal--ingreso").modal("show").toggle();
                     location.href = "#/profile";
-                    location.reload();
 
                 });
             if(register){

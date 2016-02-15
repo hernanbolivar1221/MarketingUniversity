@@ -315,7 +315,7 @@ app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $route
                             <div class="col-xs-12">
                                 <div class="row">
                                     <div class="col-xs-3 vertical-middle">
-                                        <img src="{{value.avatar}}" alt="" class="img-circle sidebar-imageCurso__image img-responsive" pagespeed_url_hash="155287408" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                        <img src="{{value.avatar}}" alt="" class="img-circle sidebar-imageCurso__image img-responsive"  onload="">
                                     </div>
                                     <div class="col-xs-9 vertical-middle">
                                         <p class="text text--azul margin--t1">
@@ -451,3 +451,15 @@ app.directive('cDuration', [function(){
     }    
 }]);
 
+app.directive("userTest",[function(){
+    return  {
+        restrict: 'EA',
+        templateUrl : 'views/courses/user_test.html',
+        link : function(scope, element, attrs ){
+            
+        },
+        scope : {
+            
+        }
+    }    
+}]);

@@ -31,6 +31,8 @@
                         <p class="text text--gris pull-right">
                             
                             <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-show="btnSingUp">INGRESAR</a>
+
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" href="#profile" ng-hide="menuOpen">PERFIL</a>
                             <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="btnLogout" ng-click="logout()">SALIR</a>
 
                             <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
@@ -44,3 +46,4 @@
         </div>
     </div>
 </nav>
+<user-test></user-test>
