@@ -1,0 +1,36 @@
+    
+<div class="statement container">
+    <span class="col-md-1 text-center"><span class="numberQuestion">1</span></span>
+    
+    <span class="col-md-11">
+        {{examSlide.fields.question.fields.statement}}
+    </span>
+    </div>
+    <ul class="list-unstyled">
+        <div class="container containerFilds"> 
+            <div ng-init="letters = ['A','B','C','D']" ng-repeat="x in user_answers track by $index">
+                <div class="col-md-6"> 
+                    <div class="optionBg row"> 
+                        <span class="col-md-1 letter">{{letters[$index]}}</span> 
+                        <span id="{{x.id}}" class="col-md-11 labelField">{{x.option}}</span> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</div>
+<div class="navQuestion"> 
+     <div class="col-md-3">
+        <div class="avanced">
+            <span>{{examSlide.fields.position + 1}} de {{examData.extras.nr_slides}} Respondidas</span>
+            <progressbar value="exam_percentage"></progressbar>
+        </div>
+     </div> 
+     <div class="col-md-9">
+         <div class="navButtons pull-right">
+             <a href=""><i class="fa fa-chevron-right"></i></a>
+             <a href=""><i class="fa fa-chevron-left"></i></a>
+         </div>
+     </div>
+</div>
+

@@ -74,11 +74,11 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     $rootScope.EXAM_REFRESH_FAILURES = 0;
     $rootScope.choices = {};
     $rootScope.last_viewed_position = 0;
+    $rootScope.exam_percentage = 0;
 
     //
     //
     $rootScope.ajax_fetch_user_slide = function(options) {
-        console.log(options);
         $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_fetch_user_slide/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk)
             .success(function(response) {
                 options.success(response);
@@ -106,7 +106,12 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
             success: function(response){			
                 choices={};
                 var slide = response[0];
+                console.log(slide);
+                console.log($rootScope.examData);
                 $rootScope.examSlide = slide;
+                $rootScope.user_answers = JSON.parse(slide.extras.json_user_answers);
+                $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
+                console.log($rootScope.exam_percentage);
             }
         })
 
@@ -848,11 +853,7 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($s
         for(tribes_modules of data.modules){
             topics.push(tribes_modules.objects[0]);
         }
-        console.log(topics);
-        
         $scope.tribesModule = topics;
-
-
     });
 
     $http.jsonp( 'http://marketing.kmelx.com/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=2')
