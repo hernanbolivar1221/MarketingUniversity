@@ -678,6 +678,43 @@ app.controller('modalInstanceCtrl', ['$scope','$modalInstance', 'items', functio
 
 }]);
 
+// controller Evaluations ---------------------------------------------------------------------
+
+
+app.controller('jsonEvaluation',['$scope','$http',function($scope,$http){
+    $http({url: 'js/test.js'}).then(function(response){
+        $scope.dataTest = response.data;
+        var data_Slides = response.data[0].extras.json_user_answers;
+        $scope.dataSlides = angular.fromJson(data_Slides)
+    });
+
+}]);
+
+// controller Tribes ---------------------------------------------------------------------
+
+app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($scope,getCourse,$routeParams,$http){
+    var response = getCourse.dataStudent($routeParams.uuid);
+
+    response.success(function(data){
+        console.log(data);
+        var topics = [];
+        for(tribes_modules of data.modules){
+            topics.push(tribes_modules.objects[0]);
+        }
+        console.log(topics);
+        
+        $scope.tribesModule = topics;
+
+
+    });
+
+    $http.jsonp( 'http://marketing.kmelx.com/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=2')
+        .success(function(response){
+            console.log(response);
+            $scope.tribesDetails = response;
+        });
+
+}]);
 
 // controller Jobs ---------------------------------------------------------------------
 

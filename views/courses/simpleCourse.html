@@ -17,3 +17,44 @@
 
 <tabs-custom-vertical></tabs-custom-vertical>
 
+<!-- modal Quest -->
+
+<div class="bg-modal" ng-controller="jsonEvaluation" ng-if="false">
+    <div> 
+        <div class="container-quest">
+            <div class="statement container">
+                <span class="col-md-1 text-center"><span class="numberQuestion">1</span></span>
+                <span class="col-md-11">
+                    {{dataTest[0].fields.question.fields.statement}}
+                </span>
+            </div>
+            <ul class="list-unstyled">
+                <div class="container containerFilds"> 
+                    <div ng-init="letters = ['A','B','C','D']" ng-repeat="x in dataSlides">
+                        <div class="col-md-6"> 
+                            <div class="optionBg row"> 
+                                <span class="col-md-1 letter">{{letters[$index]}}</span> 
+                                <span id="{{x.id}}" class="col-md-11 labelField">{{x.option}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div class="navQuestion"> 
+             <div class="col-md-3">
+                <div class="avanced">
+                 <span>1 de 5 Respondidas</span>
+                 <progressbar value="55"></progressbar>
+                </div>
+             </div> 
+             <div class="col-md-9">
+                 <div class="navButtons pull-right">
+                     <a href=""><i class="fa fa-chevron-right"></i></a>
+                     <a href=""><i class="fa fa-chevron-left"></i></a>
+                 </div>
+             </div>
+        </div>
+    </div>
+</div>
+

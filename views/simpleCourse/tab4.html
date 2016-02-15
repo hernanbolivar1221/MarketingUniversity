@@ -1,7 +1,33 @@
 <!-- CONTENIDO TABS DE FOROS -->
 
-        <div id="foros">
-            <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
-                Foros
-            </h1>
-        </div>
+<div id="foros" ng-controller="tribes">
+    <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
+        Foro
+    </h1>
+    <hr>
+    <ul class="list-group">
+    	<li class="list-group-item forum-header">
+    		<ul class="row list-unstyled">
+    			<li class="col-md-5">
+    				<strong><i class="fa fa-commenting-o"></i> Temas de Discusión</strong>
+    			</li>
+    			<li class="col-md-2">
+    				<strong><i class="fa fa-users"></i> Participantes</strong>
+    			</li>
+    			<li class="col-md-2">
+    				<strong><i class="fa fa-user-plus"></i> Comentarios</strong>
+    			</li>
+    			<li class="col-md-3">
+    				<strong><i class="fa fa-info-circle"></i> Detalles</strong>
+    			</li>
+    		</ul>
+    	</li>
+    	<li class="list-group-item" ng-repeat="items in tribesDetails.topics">
+    		<ul class="row list-unstyled">
+    			<li class="col-md-5" id="tribe{{items.id}}">
+    				{{items.name}}
+    			</li>
+    		</ul>
+    	</li>
+    </ul>
+</div>
