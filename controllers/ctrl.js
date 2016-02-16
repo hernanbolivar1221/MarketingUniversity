@@ -7,7 +7,7 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     $rootScope.displayMenu_0 = true;
     $rootScope.displayMenu_1 = false;
     $rootScope.displayMenu_2 = false;
-
+    $rootScope.tribeCourse = 2;
     $rootScope.menuCourse = false;
     $rootScope.dataUser = null;
 	if(localStorage.dataUser){
@@ -832,7 +832,7 @@ app.controller('modalInstanceCtrl', ['$scope','$modalInstance', 'items', functio
 
 // controller Tribes ---------------------------------------------------------------------
 
-app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($scope,getCourse,$routeParams,$http){
+app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScope', function($scope,getCourse,$routeParams,$http, $rootScope){
     var response = getCourse.dataStudent($routeParams.uuid);
 
     response.success(function(data){
@@ -846,7 +846,7 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($s
 
     $scope.open = false;
 
-    $http.jsonp( 'http://marketing.kmelx.com/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=2')
+    $http.jsonp( config.SERVICE_SERVER + '/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id='+$rootScope.tribeCourse)
         .success(function(response){
             console.log(response);
             $scope.tribesDetails = response;
