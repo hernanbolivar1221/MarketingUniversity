@@ -893,5 +893,19 @@ a{
     z-index: 100001;
 }
 
+/* tribes */
+
+.label_audience {padding: 7%; color: #FFF; border-radius: 50%;}
+.label_audiencie_blue {background: #87CEEB;}
+.label_audiencie_green {background: #5F9EA0;}
+.label_audiencie_red {background: #CD5C5C;}
+.margin_label {padding-top: 25px;}
+.linkTribe {color:#5F9EA0; text-decoration: none;}
+.linkTribe:hover {color:#483D8B; text-decoration: none;}
+
+.modalTopic {background: rgba(255, 255, 255, 0.90); height: 500px; width: 97.4%; position: absolute; top: 0;}
+.closeModalTopic {padding-right: 30px;padding-top: 10px;}
+.descriptionBgTopics {background: #F8F8FF;}
+
 
 

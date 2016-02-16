@@ -830,18 +830,6 @@ app.controller('modalInstanceCtrl', ['$scope','$modalInstance', 'items', functio
 
 }]);
 
-// controller Evaluations ---------------------------------------------------------------------
-
-
-app.controller('jsonEvaluation',['$scope','$http',function($scope,$http){
-    $http({url: 'js/test.js'}).then(function(response){
-        $scope.dataTest = response.data;
-        var data_Slides = response.data[0].extras.json_user_answers;
-        $scope.dataSlides = angular.fromJson(data_Slides)
-    });
-
-}]);
-
 // controller Tribes ---------------------------------------------------------------------
 
 app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($scope,getCourse,$routeParams,$http){
@@ -856,11 +844,23 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http',function($s
         $scope.tribesModule = topics;
     });
 
+    $scope.open = false;
+
     $http.jsonp( 'http://marketing.kmelx.com/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=2')
         .success(function(response){
             console.log(response);
             $scope.tribesDetails = response;
         });
+
+    $scope.openTopic = function(position){
+        if(position != undefined){
+            var pos = position - 1; 
+            $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
+            $scope.open == true ?  $scope.open = false : $scope.open = true;  
+        }else{
+            $scope.open == true ?  $scope.open = false : $scope.open = true;  
+        }
+    }    
 
 }]);
 
