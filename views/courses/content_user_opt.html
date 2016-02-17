@@ -11,7 +11,7 @@
             <div ng-init="letters = ['A','B','C','D']" ng-repeat="x in user_answers track by $index">
                 <div class="col-md-6"> 
                     <div class="optionBg row"> 
-                        <span class="col-md-1 letter">{{letters[$index]}}</span> 
+                        <span class="col-md-1 letter" ng-click="saveAnswer(x.id)">{{letters[$index]}}</span> 
                         <span id="{{x.id}}" class="col-md-11 labelField">{{x.option}}</span> 
                     </div>
                 </div>
@@ -28,8 +28,9 @@
      </div> 
      <div class="col-md-9">
          <div class="navButtons pull-right">
-             <a href=""><i class="fa fa-chevron-right"></i></a>
-             <a href=""><i class="fa fa-chevron-left"></i></a>
+             <a href="" ng-click="nextSlide()"><i class="fa fa-chevron-right"></i></a>
+             <a href="" ng-click="prevSlide()"><i class="fa fa-chevron-left"></i></a>
+             <a href="" ng-click="finishExam()"><i class="fa fa-chevron-stop"></a>
          </div>
      </div>
 </div>

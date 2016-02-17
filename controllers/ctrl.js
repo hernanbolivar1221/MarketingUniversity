@@ -3,12 +3,23 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     $rootScope.template ='views/courses/content_user_opt.html';
   	$rootScope.btnSingUp = true;
 	$rootScope.btnLogout = false;
-  
+    $rootScope.testXAPI = function(){
+        $http({
+            "method" : 'jsonp',
+            "url" : config.SERVICE_SERVER + '/api/xapi/statements/?callback=JSON_CALLBACK',
+            "headers" : {
+                'X-Experience-API-Version' : '1.0.0'
+            }
+        }).success(function(response){
+            console.log(response);
+        })
+    }  
     $rootScope.displayMenu_0 = true;
     $rootScope.displayMenu_1 = false;
     $rootScope.displayMenu_2 = false;
     $rootScope.menuCourse = false;
     $rootScope.dataUser = null;
+    $rootScope.question_choices = {};
 	if(localStorage.dataUser){
 		dataUser = JSON.parse(localStorage.dataUser);
 		dataUser.photo == "" ? dataUser.photo = "images/bullet3.png" : dataUser.photo;
@@ -32,7 +43,7 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
             $rootScope.btnLogout = false;
 		    $rootScope.hideMenu = false;
         }
-    });
+    });;
 	$rootScope.showMenu = function(){
 		$rootScope.menuOpen = $rootScope.menuOpen ? false : true;
 	}
@@ -77,47 +88,204 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
 
     //
     //
-    $rootScope.ajax_fetch_user_slide = function(options) {
-        $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_fetch_user_slide/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk)
+    $rootScope.saveAnswer = function(val){
+        $rootScope.question_choices[""+val] = val; 
+        console.log($rootScope.question_choices);
+    }
+    $rootScope.$watch("actual_position", function(_new, _old){
+        try{
+        $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
+        $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
+        }catch(err){
+            $rootScope.exam_percentage = 0;
+        }
+
+    })
+    $rootScope.options ={
+        data: {
+            course_id: $rootScope.courseId,
+            module_id: $rootScope.moduleId,
+            content_id: $rootScope.contentId,
+            exam_id: ($rootScope.examData ? $rootScope.examData.pk : null),
+            position: ($rootScope.prev_position ? $rootScope.prev_position : null),
+            choices: $rootScope.question_choices,
+            actual_position: $rootScope.actual_position -1 
+        },
+        success: function(response){			
+            choices={};
+            var slide = response[0];
+            $rootScope.examSlide = slide;
+            $rootScope.user_answers = JSON.parse(slide.extras.json_user_answers);
+            for(val in $rootScope.user_answers){
+                $rootScope.question_choices[$rootScope.user_answers[val].id] = null;
+            }
+            $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
+            $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
+        },
+        success_slide : function(response, params){
+            $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK'+params)
+                .success(function(data){
+                    choices={};
+                    var slide = response[0];
+                    $rootScope.examSlide = slide;
+                    $rootScope.user_answers = JSON.parse(slide.extras.json_user_answers);
+                    for(val in $rootScope.user_answers){
+                        $rootScope.question_choices[$rootScope.user_answers[val].id] = null;
+                    }
+
+                })
+            
+        }
+
+    } 
+    $rootScope.ajax_fetch_user_slide = function(options, params) {
+        prev_choices = $rootScope.question_choices;
+        prev_position = $rootScope.actual_position;
+        prev_position = $rootScope.actual_position;
+        $rootScope.question_choices = {};
+        if(params == undefined){
+            params = ""
+        }
+        $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_fetch_user_slide/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk+params)
             .success(function(response) {
-                options.success(response);
+                $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
+                $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
+                options.success(response, params);
             })
-            .error(function(err){
-                console.log(err);
-            })
+            
         
     };
+    $rootScope.nextSlide = function(){
+        /**prev_position = $rootScope.actual_position;
+        $rootScope.options_exam["position"] = $rootScope.actual_position;
+        $rootScope.options_exam["actual_position"] = prev_position;
+        prev_position = $rootScope.actual_position;
+        params= "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&content="+$rootScope.contentId;
+        params += '&course='+$rootScope.courseId+"&ubs="+$rootScope.studentId+'&module='+$rootScope.moduleId+'&contentId='+$rootScope.contentId+"&exam="+$rootScope.examData.pk+"&choices="+JSON.stringify($rootScope.question_choices);
+        $rootScope.actual_position +=1;
+        $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId);**/
+        
+        prev_choices = $rootScope.question_choices;
+        prev_position = $rootScope.actual_position;
+        prev_position = $rootScope.actual_position;
 
+        $rootScope.actual_position +=1;
+        $rootScope.question_choices = {};
+        params += "&exam="+$rootScope.examData.pk+"&contentId="+$rootScope.contentId;
+        $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK&'+params)
+             .success(function(response){
+                console.log(response);
+
+                $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&choices="+JSON.stringify(prev_choices));
+             })
+        //TODO: create in options JSON success functions for nextSlide, prevSlide and finishExam 
+     }
+
+    $rootScope.finishExam = function(){
+        prev_position = $rootScope.actual_position;
+
+        params= "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&content="+$rootScope.contentId;
+
+        params += '&course='+$rootScope.courseId+"&ubs="+$rootScope.studentId+'&module='+$rootScope.moduleId+'&contentId='+$rootScope.contentId+"&exam="+$rootScope.examData.pk+"&choices="+JSON.stringify($rootScope.question_choices);
+         $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK'+params)
+            .success(function(response){
+                $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_finish_exam/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk+params)
+                    .success(function(response) {
+                        $rootScope.examData = undefined;
+                    })
+                    .error(function(err){
+                    })
+
+        
+ 
+            })
+    }
+            
+    $rootScope.prevSlide = function(){
+        prev_position = $rootScope.actual_position;
+        $rootScope.actual_position -=1;
+        $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId);
+    }
+
+
+    /**
+     *  CONTENTS
+     * */
+    // This function start the exam
     $rootScope.init_userSlideContainer = function(position, cb){
         $rootScope.actual_position = 0;
         var dict_choices = JSON.stringify($rootScope.choices);
         already_graded=false;
-        $rootScope.ajax_fetch_user_slide({
-            data: {
-                course_id: $rootScope.courseId,
-                module_id: $rootScope.moduleId,
-                content_id: $rootScope.contentId,
-                exam_id: $rootScope.examData.pk,
-                position: position,
-                choices: dict_choices,
-                actual_position: $rootScope.actual_position
-            },
-            success: function(response){			
-                choices={};
-                var slide = response[0];
-                console.log(slide);
-                console.log($rootScope.examData);
-                $rootScope.examSlide = slide;
-                $rootScope.user_answers = JSON.parse(slide.extras.json_user_answers);
-                $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
-                console.log($rootScope.exam_percentage);
-            }
-        })
+        $rootScope.ajax_fetch_user_slide($rootScope.options);
 
     };
-    //
+
+    $rootScope.updateExam = function(custom_opts){
+        
+     	ajax_options = {
+            error: function() {
+                $rootScope.EXAM_REFRESH_FAILURES = $rootScope.EXAM_REFRESH_FAILURES + 1;
+            },
+
+            success: function(response){
+
+                $rootScope.EXAM_REFRESH_FAILURES = 0;
+
+                var first_load = ($rootScope.examData == undefined);
+                var modalTimeOut = $("#modalTimeOut");
+                $rootScope.examData = response[0];
+
+                $rootScope.init_userSlideContainer();
+                if ($rootScope.isReview){
+                    $rootScope.examData.time_test_begins = new Date();
+                    if ($rootScope.examData.extras.seconds_left) {
+                        $rootScope.examData.time_test_ends = new Date();
+                        $rootScope.examData.time_test_ends.setTime($rootScope.examData.time_test_begins.getTime() + ($rootScope.examData.extras.seconds_left*1000));
+            
+                        secondsTickerCallbacks["exam_counter"] = function(){
+                            draw_countDown(countDownDiv, $rootScope.examData.time_test_ends, modalTimeOut)
+                        };
+                    }
+                }else {
+                    first_load=false;
+                }
+            }
+
+        }
+        
+    	$.extend(ajax_options, custom_opts || {});
+        $rootScope.options_exam = ajax_options;
+	    if($rootScope.examData && $rootScope.examData.fields.end_date&& $rootScope.isTutorReview) {
+		    return false;
+	    }
+        $rootScope.ajax_fetch_exam(ajax_options);
+
+
+    }
+    $rootScope.start_exam = function(){
+        params = 'course='+$rootScope.courseId+"&ubs="+$rootScope.studentId+'&module='+$rootScope.moduleId+'&content='+$rootScope.contentId;
+        if($rootScope.examData!=undefined){
+            params += '&exam='+$rootScope.examData.pk;
+        }
+        $http.jsonp(config.SERVICE_SERVER + '/api/contents/take_test/?callback=JSON_CALLBACK&'+params)
+            .success(function(response){
+                if(response.status == 'ok'){
+                   $rootScope.updateExam(response); 
+                }
+            })
+    }
+    $rootScope.open_test = function(){
+        $rootScope.show_test = true;
+        $rootScope.start_exam();
+    }
+
+    $rootScope.close_test = function(){
+        
+        $rootScope.show_test = false;    
+    }
+ 
+    // This function update exam status
     $rootScope.ajax_fetch_exam = function(options) {
-        console.log(options)
         var data = options.data;
         if (!data) data ={};
 
@@ -136,72 +304,7 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     }
 
 
-    $rootScope.updateExam = function(custom_opts){
-        
-     	ajax_options = {
-		error: function() {
-			$rootScope.EXAM_REFRESH_FAILURES = $rootScope.EXAM_REFRESH_FAILURES + 1;
-		},
-
-		success: function(response){
-
-			$rootScope.EXAM_REFRESH_FAILURES = 0;
-
-			var first_load = ($rootScope.examData == undefined);
-			var modalTimeOut = $("#modalTimeOut");
-			$rootScope.examData = response[0];
-
-            $rootScope.init_userSlideContainer();
-			if ($rootScope.isReview){
-				$rootScope.examData.time_test_begins = new Date();
-				if ($rootScope.examData.extras.seconds_left) {
-					$rootScope.examData.time_test_ends = new Date();
-					$rootScope.examData.time_test_ends.setTime($rootScope.examData.time_test_begins.getTime() + ($rootScope.examData.extras.seconds_left*1000));
-		
-					secondsTickerCallbacks["exam_counter"] = function(){
-						draw_countDown(countDownDiv, $rootScope.examData.time_test_ends, modalTimeOut)
-					};
-				}
-			}else {
-				first_load=false;
-			}
-		}
-
-	}
 	
-	$.extend(ajax_options, custom_opts || {});
-
-	if ($rootScope.examData && $rootScope.examData.fields.end_date&& $rootScope.isTutorReview) {
-		//$.jqlog.info("no need to update exam since it's closed");
-		return false;
-	}
-
-    	$rootScope.ajax_fetch_exam(ajax_options);
-
-
-    }
-    $rootScope.start_exam = function(){
-        params = 'course='+$rootScope.courseId+"&ubs="+$rootScope.studentId+'&module='+$rootScope.moduleId+'&content='+$rootScope.contentId;
-        $http.jsonp(config.SERVICE_SERVER + '/api/contents/take_test/?callback=JSON_CALLBACK&'+params)
-            .success(function(response){
-                if(response.status == 'ok'){
-                   $rootScope.updateExam(response); 
-                }
-            })
-    }
-    $rootScope.open_test = function(){
-        $rootScope.show_test = true;
-        $rootScope.start_exam();
-    }
-
-    $rootScope.close_test = function(){
-        
-        $rootScope.show_test = false;    
-    }
- 
-   /*
-   * END TODO
-   */
 }]);
 
 // config JSON
@@ -487,7 +590,7 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 		};
 		})
     	.error(function(data, status, headers, config){
-          console.log(data, status, headers, config);
+            console.log(data, status, headers, config);
     	});	
 });
 
