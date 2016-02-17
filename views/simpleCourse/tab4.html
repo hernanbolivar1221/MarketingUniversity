@@ -1,6 +1,7 @@
 <!-- CONTENIDO TABS DE FOROS -->
 
-<div id="foros" ng-controller="tribes">
+<div ng-controller="tribes">
+<div id="foros" ng-show="showTopics">
     <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
         Foro
     </h1>
@@ -22,11 +23,11 @@
     			</li>
     		</ul>
     	</li>
-    	<li class="list-group-item" ng-repeat="items in tribesDetails.topics">
+    	<li class="list-group-item" ng-repeat="items in tribesModule[0].topics">
     		<ul class="row list-unstyled">
     			<li class="col-md-5" id="tribe{{items.id}}">
     				<a href="" class="linkTribe" ng-click="openTopic(items.id)"><h3>{{items.name}}</h3></a>
-    				<span><strong>Iniciado por: </strong></span><span>{{items.creator.name}} {{items.creator.lastname}}</span>
+    				<span><strong>Iniciado por: </strong></span><span>{{tribesDetails.creator.name}} {{tribesDetails.creator.lastname}}</span>
     			</li>
     			<li class="col-md-2 text-center margin_label">
     				<span class="label_audience label_audiencie_blue">20</span>
@@ -37,19 +38,21 @@
     			<li class="col-md-3 text-center margin_label">
     				<span><strong>Fecha de creación:</strong></span>
     				<br>
-    				<span>{{items.date_created}}</span>
+    				<span>{{tribesDetails.date_created}}</span>
     			</li>
     		</ul>
     	</li>
     </ul>
+</div>
+<!-- modal Topic -->
 
-    <!-- modal Topic -->
-
-    <div class="modalTopic" ng-show="open"> 
-    	<span>Foro <i class="fa fa-caret-right"></i> Topic</span>
-    	<a href="" ng-click="openTopic()" class="closeModalTopic pull-right"><strong>X</strong></a>
+    <div class="modalTopic" ng-show="open">
+    	<div class="container">
+    		<a href="" ng-click="openTopic()"><i class="fa fa-home"></i> {{tribesDetails.name}}</a> <i class="fa fa-caret-right"></i> {{topicName}}
+    		<a href="" ng-click="openTopic()" class="closeModalTopic pull-right"><strong>X</strong></a>	
+    	</div> 
     	<div class="clearfix"></div>
-    	<h4 class="well descriptionBgTopics">{{topicDescription}}</h4>
+    	<h4 class="well descriptionBgTopics"><strong>Asunto:</strong> {{topicDescription}}</h4>
     	<ul class="list-group">
     		<li class="list-group-item forum-header">
     			<ul class="row list-unstyled">
@@ -61,30 +64,40 @@
     				</li>
     			</ul>
     		</li>
-    		<li class="list-group-item">
+    		<li class="list-group-item text-center" ng-show="loaderTribe">
+    			<img src="images/preloader.gif" alt="loader">
+    		</li>
+    		<li class="list-group-item" ng-repeat="comments in comments" id="{{comments.id}}" ng-show="commentsVisible">
     			<ul class="row list-unstyled">
-    				<li class="col-md-3">
-    					Carlos
+    				<li class="col-md-3 text-center profileAutor">
+    					<p>{{comments.user.name}} {{comments.user.lastname}}</p>
+    					<img src="images/avatarDefault.png" class="img-responsive img-circle col-md-6 col-md-offset-3" alt="avatar">
     				</li>
-    				<li class="col-md-9 text-center">
-    					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt reprehenderit delectus eaque nulla a deleniti alias cupiditate molestiae, maiores beatae maxime odit, libero quae ipsam magnam nihil sapiente voluptatum eligendi.</p>
+    				<li class="col-md-9 profileComment"> 
+    					<div class="dateComment"><i class="fa fa-clock-o"></i> <span>hace {{comments.date_modified}}</span></div>
+    					<hr>
+    					<p ng-bind-html="parseHtml(comments.comment)"></p>
     				</li>
     			</ul>
     		</li>
-    		<li class="list-group-item">
-    			<ul class="row list-unstyled">
-    				<li class="col-md-3">
-    					Pedro
-    				</li>
-    				<li class="col-md-9 text-center">
-    					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt reprehenderit delectus eaque nulla a deleniti alias cupiditate molestiae, maiores beatae maxime odit, libero quae ipsam magnam nihil sapiente voluptatum eligendi.</p>
-    				</li>
-    			</ul>
+    		<li ng-if="comments.length == 0" class="list-group-item" ng-show="alertComment">
+    			<div class="alert alert-warning text-center">No hay comentarios en este Tema</div>
     		</li>
     	</ul>
 
+    	<div class="well boxPost">
+    		<div class="confirmPost alert alert-success" ng-show="confirm_post"><a href="" class="closeAlert text-success" ng-click="closeAlert()"><i class="fa fa-times"></i></a><i class="fa fa-check fa-2x"></i> Tu post se a guardado satisfactoriamente</div>
+    		<div class="alertPost alert alert-warning" ng-show="alert_post"><a href="" class="closeAlert text-warning" ng-click="closeAlert()"><i class="fa fa-times"></i></a><i class="fa fa-times fa-2x"></i> Debes ingresar un comentario, cierre este mensaje y vuelve a intentarlo</div>
+    		<form class="container form-horizontal">
+    			<div class="form-group">
+    				<label class="col-md-2" for="message-box">Comentario:</label>
+    				<div class="col-md-10"> 
+    					<textarea id="message-box" class="form-control" rows="3" placeholder="Escribe un comentario" ng-model="post"></textarea>
+    				</div>
+    			</div>
+    			<button type="submit" class="btn btn-default pull-right" ng-click="addPost(post)">Enviar Comentario</button>
+    		</form>
+    	</div>
+
     </div>
-
 </div>
-
-

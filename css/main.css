@@ -857,7 +857,7 @@ a{
 .avanced {padding-top: 10px;}
 .avanced .progress-bar {background:#4fb0ae;}
 .avanced .progress {height:10px;}
-.forum-header {color: #777; background:#F5F5F5;}
+.forum-header {color: #002b62; background:#F5F5F5;}
 #background_gray{
     width: 100%;
     visibility: visible;
@@ -903,9 +903,23 @@ a{
 .linkTribe {color:#5F9EA0; text-decoration: none;}
 .linkTribe:hover {color:#483D8B; text-decoration: none;}
 
-.modalTopic {background: rgba(255, 255, 255, 0.90); height: 500px; width: 97.4%; position: absolute; top: 0;}
-.closeModalTopic {padding-right: 30px;padding-top: 10px;}
+.modalTopic {background: #FFF; width: 97.4%; top: 0;padding-top: 10px;}
+.closeModalTopic {padding-right: 30px;}
 .descriptionBgTopics {background: #F8F8FF;}
+.profileAutor {}
+.profileComment {border-left: 1px solid #ccc;}
+.dateComment {color: #999;}
+
+/* Post */
+
+.confirmPost{padding: 46px 10px; position: absolute; z-index: 3; width: 94.6%; text-align: center; font-size: 1.4em;}
+.alertPost{padding: 46px 10px; position: absolute; z-index: 3; width: 94.6%; text-align: center; font-size: 1.4em;}
+.closeAlert {position: absolute; top: 0; right: 0; margin-right: 15px; margin-top: 10px;}
+
+/*  General */
+
+.footerMargin {margin-top: 25%;}
+.paddingNone {padding:0;}
 
 
 

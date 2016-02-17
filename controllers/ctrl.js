@@ -7,7 +7,6 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     $rootScope.displayMenu_0 = true;
     $rootScope.displayMenu_1 = false;
     $rootScope.displayMenu_2 = false;
-    $rootScope.tribeCourse = 2;
     $rootScope.menuCourse = false;
     $rootScope.dataUser = null;
 	if(localStorage.dataUser){
@@ -832,36 +831,76 @@ app.controller('modalInstanceCtrl', ['$scope','$modalInstance', 'items', functio
 
 // controller Tribes ---------------------------------------------------------------------
 
-app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScope', function($scope,getCourse,$routeParams,$http, $rootScope){
+app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScope','$sce','$timeout', function($scope,getCourse,$routeParams,$http, $rootScope,$sce,$timeout){
     var response = getCourse.dataStudent($routeParams.uuid);
 
     response.success(function(data){
-        console.log(data);
-        var topics = [];
-        for(tribes_modules of data.modules){
-            topics.push(tribes_modules.objects[0]);
+        $scope.tribesModule = data.tribes;
+        $scope.tribeId = data.tribes[0].id;
+
+        $http.jsonp( config.SERVICE_SERVER + '/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=' + $scope.tribeId)
+            .success(function(response){
+                console.log(response);
+                $scope.tribesDetails = response;
+
+                $scope.open = false;
+                $scope.showTopics = true;
+
+                $scope.loaderTribe = true;
+                $scope.commentsVisible = false;
+                $scope.alertComment = false;
+
+
+                $scope.openTopic = function(position){
+                    $timeout(function(){
+                        $scope.loaderTribe = false;
+                        $scope.commentsVisible = true;
+                        $scope.alertComment = true;
+                    }, 2000);
+                    if(position != undefined){
+                        $scope.showTopics = false;
+                        var pos = position - 1; 
+                        $http.jsonp(config.SERVICE_SERVER + '/api/tribes/get_topic/?callback=JSON_CALLBACK&topic_id=' + position)
+                            .success(function(response){
+                                $scope.comments = response.comments;
+                                $scope.parseHtml =  function(html){
+                                    return $sce.trustAsHtml(html); 
+                                }
+                            });
+                        $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
+                        $scope.topicName = $scope.tribesDetails.topics[pos].name; 
+                        $scope.open == true ?  $scope.open = false : $scope.open = true;  
+                    }else{
+                        $scope.comments = null;
+                        $scope.loaderTribe = true;
+                        $scope.commentsVisible = false;
+                        $scope.alertComment = false;
+                        $scope.showTopics = true;
+                        $scope.open == true ?  $scope.open = false : $scope.open = true;
+                    } 
+                }    
+
+            });
+
+        $scope.post = '';
+        $scope.confirm_post = false;
+        $scope.alert_post = false;
+        $scope.addPost = function(post){
+            if(post != ''){
+                $(".boxPost").toggleClass("paddingNone");
+                $scope.confirm_post = true;
+            }else{
+                $(".boxPost").toggleClass("paddingNone");
+                $scope.alert_post = true;
+            }
         }
-        $scope.tribesModule = topics;
+        $scope.closeAlert = function(){
+            $(".boxPost").toggleClass("paddingNone");
+            $scope.post = '';
+            $scope.confirm_post = false;
+            $scope.alert_post = false;
+        }
     });
-
-    $scope.open = false;
-
-    $http.jsonp( config.SERVICE_SERVER + '/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id='+$rootScope.tribeCourse)
-        .success(function(response){
-            console.log(response);
-            $scope.tribesDetails = response;
-        });
-
-    $scope.openTopic = function(position){
-        if(position != undefined){
-            var pos = position - 1; 
-            $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
-            $scope.open == true ?  $scope.open = false : $scope.open = true;  
-        }else{
-            $scope.open == true ?  $scope.open = false : $scope.open = true;  
-        }
-    }    
-
 }]);
 
 // controller Jobs ---------------------------------------------------------------------
