@@ -85,22 +85,32 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     $rootScope.choices = {};
     $rootScope.last_viewed_position = 0;
     $rootScope.exam_percentage = 0;
+    $rootScope.disableChoices = false;
+    $rootScope.endpoint = config.SERVICE_SERVER;
+    $rootScope.loader = true;
 
     //
     //
     $rootScope.saveAnswer = function(val){
+        for(key in $rootScope.question_choices){
+
+            $rootScope.question_choices[key] = null;
+        }
         $rootScope.question_choices[""+val] = val; 
         console.log($rootScope.question_choices);
-    }
-    $rootScope.$watch("actual_position", function(_new, _old){
-        try{
-        $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
-        $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
-        }catch(err){
-            $rootScope.exam_percentage = 0;
-        }
 
-    })
+        //styles
+        $(".letter").each(function(){
+            $(this).removeClass("activeAnswer");
+        });
+        $(".letterId-" + val).addClass("activeAnswer");
+        $(".btnFinish").removeClass("not-active-button");
+
+        //percentage
+
+        $rootScope.exam_percentage = (100 * $rootScope.numberQuestion) / $rootScope.numberAllslide;
+
+    }
     $rootScope.options ={
         data: {
             course_id: $rootScope.courseId,
@@ -115,12 +125,28 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
             choices={};
             var slide = response[0];
             $rootScope.examSlide = slide;
+            console.log($rootScope.examSlide);
             $rootScope.user_answers = JSON.parse(slide.extras.json_user_answers);
+            $rootScope.disableChoices = false;
+            for(choice in $rootScope.user_answers){
+
+                if($rootScope.user_answers[choice].selected){
+                   $rootScope.disableChoices = true;
+                }
+            }
+            try{
+            setTimeout(function(){
+                img = document.querySelector("#questionImage");
+                src = $rootScope.examSlide.fields.question.extras.get_image_data.split(",")[0];
+                img.src =config.SERVICE_SERVER+ "/content/question/images/"+ $rootScope.examSlide.fields.question.pk+"/"+src;
+                img.style.border = "8px solid #ccc"; 
+            },1000);    
+            }catch(err){
+
+            }
             for(val in $rootScope.user_answers){
                 $rootScope.question_choices[$rootScope.user_answers[val].id] = null;
             }
-            $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
-            $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
         },
         success_slide : function(response, params){
             $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK'+params)
@@ -139,6 +165,12 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
 
     } 
     $rootScope.ajax_fetch_user_slide = function(options, params) {
+        $rootScope.loader = true;
+        $rootScope.numberQuestion = 1;
+        $rootScope.arrowLeft = false;
+        $rootScope.arrowRight = true;
+        $rootScope.finish = false;
+        $rootScope.confirmFinish = false;
         prev_choices = $rootScope.question_choices;
         prev_position = $rootScope.actual_position;
         prev_position = $rootScope.actual_position;
@@ -146,13 +178,12 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
         if(params == undefined){
             params = ""
         }
+        $rootScope.user_answers = null;
         $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_fetch_user_slide/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk+params)
             .success(function(response) {
-                $rootScope.exam_percentage = 100 * ( $rootScope.examData.nr_slides - $rootScope.examData.nr_unseen/ $rootScope.examData.nr_slides);
-                $rootScope.exam_percentage = isNaN($rootScope.exam_percentage) ? 0 : $rootScope.exam_percentage;
                 options.success(response, params);
-            })
-            
+                $rootScope.loader = false;
+            });
         
     };
     $rootScope.nextSlide = function(){
@@ -165,9 +196,10 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
         $rootScope.actual_position +=1;
         $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId);**/
         
+
         prev_choices = $rootScope.question_choices;
         prev_position = $rootScope.actual_position;
-        prev_position = $rootScope.actual_position;
+
 
         $rootScope.actual_position +=1;
         $rootScope.question_choices = {};
@@ -175,13 +207,21 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
         $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK&'+params)
              .success(function(response){
                 console.log(response);
-
+                $rootScope.user_answers = null;
                 $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&choices="+JSON.stringify(prev_choices));
-             })
+                $rootScope.arrowLeft = true;
+                $rootScope.numberQuestion = 1 + $rootScope.actual_position;
+                if($rootScope.numberAllslide == $rootScope.numberQuestion){
+                    $rootScope.arrowRight = false;
+                    $rootScope.finish = true;
+                }
+             });
         //TODO: create in options JSON success functions for nextSlide, prevSlide and finishExam 
+        
      }
 
     $rootScope.finishExam = function(){
+        $rootScope.confirmFinish = true;
         prev_position = $rootScope.actual_position;
 
         params= "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&content="+$rootScope.contentId;
@@ -191,7 +231,9 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
             .success(function(response){
                 $http.jsonp(config.SERVICE_SERVER + '/api/contents/json_finish_exam/?callback=JSON_CALLBACK&exam='+$rootScope.examData.pk+params)
                     .success(function(response) {
+                        $(".BlockTest").css({"background":"gray","pointer-events":"none"});
                         $rootScope.examData = undefined;
+                        $rootScope.show_test = false;   
                     })
                     .error(function(err){
                     })
@@ -202,9 +244,28 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
     }
             
     $rootScope.prevSlide = function(){
+        //$rootScope.numberQuestion = 1 - $rootScope.actual_position;
+        //prev_position = $rootScope.actual_position;
+        //$rootScope.actual_position -=1;
+        //$rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId);
+        
+        prev_choices = $rootScope.question_choices;
         prev_position = $rootScope.actual_position;
+
         $rootScope.actual_position -=1;
-        $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId);
+        $rootScope.question_choices = {};
+        params += "&exam="+$rootScope.examData.pk+"&contentId="+$rootScope.contentId;
+        $http.jsonp( config.SERVICE_SERVER + '/api/contents/json_fetch_exam/?callback=JSON_CALLBACK&'+params)
+             .success(function(response){
+                console.log(response);
+
+                $rootScope.ajax_fetch_user_slide($rootScope.options, "&position="+$rootScope.actual_position+"&actual_position="+prev_position+'&course_id='+$rootScope.courseId+"&choices="+JSON.stringify(prev_choices));
+                $rootScope.arrowLeft = true;
+                $rootScope.numberQuestion = 1 + $rootScope.actual_position;
+                if($rootScope.numberQuestion == 1){
+                    $rootScope.arrowLeft = false;
+                }
+             })
     }
 
 
@@ -234,7 +295,7 @@ app.run(['$rootScope','$location','$route', '$http',function($rootScope, $locati
                 var first_load = ($rootScope.examData == undefined);
                 var modalTimeOut = $("#modalTimeOut");
                 $rootScope.examData = response[0];
-
+                $rootScope.numberAllslide = $rootScope.examData.extras.nr_slides;
                 $rootScope.init_userSlideContainer();
                 if ($rootScope.isReview){
                     $rootScope.examData.time_test_begins = new Date();
@@ -955,6 +1016,7 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScop
 
 
                 $scope.openTopic = function(position){
+                    $scope.positionTopic = position;
                     $timeout(function(){
                         $scope.loaderTribe = false;
                         $scope.commentsVisible = true;
@@ -981,6 +1043,8 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScop
                         $scope.showTopics = true;
                         $scope.open == true ?  $scope.open = false : $scope.open = true;
                     } 
+
+                    $scope.idTopic = position;
                 }    
 
             });
@@ -988,10 +1052,20 @@ app.controller('tribes',['$scope','getCourse','$routeParams','$http', '$rootScop
         $scope.post = '';
         $scope.confirm_post = false;
         $scope.alert_post = false;
-        $scope.addPost = function(post){
+        $scope.addPost = function(post,id){
             if(post != ''){
+                $http.jsonp( config.SERVICE_SERVER + '/api/tribes/send_post/?callback=JSON_CALLBACK&topic=' + id + '&message=' + post)
+                    .success(function(response){
+                        $scope.confirm_post = true;
+                        $http.jsonp(config.SERVICE_SERVER + '/api/tribes/get_topic/?callback=JSON_CALLBACK&topic_id=' + $scope.positionTopic)
+                            .success(function(response){
+                                $scope.comments = response.comments;
+                                $scope.parseHtml =  function(html){
+                                    return $sce.trustAsHtml(html); 
+                                }
+                            });
+                    });
                 $(".boxPost").toggleClass("paddingNone");
-                $scope.confirm_post = true;
             }else{
                 $(".boxPost").toggleClass("paddingNone");
                 $scope.alert_post = true;

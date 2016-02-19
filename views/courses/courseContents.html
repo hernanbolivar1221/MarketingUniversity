@@ -51,7 +51,7 @@
                                                 <th>
                                                     Autor
                                                 </th>
-                                                <th>
+                                                <th class="text-center">
                                                     Acción
                                                 </th>
                                             </tr>
@@ -60,10 +60,10 @@
                                                     {{content.content_name}}
                                                 </td>
                                                 <td>    
-                                                    <strong>Google</strong>
+                                                    <strong> - - - </strong>
                                                 </td>
-                                                <td>
-                                                    <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
+                                                <td style="text-align:center;">
+                                                    <a href="{{endpoint + '/lms/course/' + uuid + '/module/' +dataSimpleCourse.modules[modulePosition].submodules[submodulePosition].module_pk + '/content/' + content.content_pk + '/sit/files/' }}" target="_blank" class="btn btn-gosh btn-xsm btn-gosh--verde text--upper" download>
                                                         Descargar
                                                     </a>
                                                 </td>
@@ -102,27 +102,9 @@
                                 80  
                             </p>
                             <div class="clearfix"></div>
-                                <a class="btn btn-verde btn-lg margin--t1" ng-disabled="is_disabled()" data-mode="1" target="_blank" ng-click="open_test()">
+                                <a class="btn btn-verde btn-lg margin--t1 BlockTest" ng-disabled="is_disabled()" data-mode="1" target="_blank" ng-click="open_test()">
                                     Realizar Evaluación
                                 </a>
-                                <script>
-                                    (function(){
-                                        var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';
-                                        if(!gi.call(d,id)){
-                                            js=ce.call(d,'script');
-                                            js.id=id;js.src=b+'share.js';
-                                            q=gt.call(d,'script')[0];
-                                            q.parentNode.insertBefore(js,q)}id=id+'_';
-                                            if(!gi.call(d,id)){
-                                                qs=ce.call(d,'link');
-                                                qs.rel='stylesheet';
-                                                qs.id=id;
-                                                qs.href=b+'share-button.css';
-                                                s=gt.call(d,'head')[0];
-                                                s.appendChild(qs,s)
-                                            }
-                                        })()
-                                    </script>
                                 </div>
                             </div>
                         </div>
