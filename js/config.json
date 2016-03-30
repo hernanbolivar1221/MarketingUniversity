@@ -4,7 +4,7 @@ Object.defineProperty(config, "SERVICE_SERVER", {
 	enumerable : false,
 	configurable : false,
 	writable : false,
-	value : "http://marketing.kmelx.com"
+	value : "http://marketing.kmelx.com:5000"
 })
 Object.defineProperty(config, "NOREPLAYMAIL", {
 	enumerable : false,

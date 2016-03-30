@@ -1,0 +1,55 @@
+<div class="frameTest"> 
+    <div class="confirm_finish" ng-show="confirmFinish">
+        Evaluación Terminada - las respuestas se han guardado.
+    </div>  
+    <div class="statement container">
+        <span class="col-md-1 text-center">
+            <span class="numberQuestion">{{numberQuestion}}</span>
+        </span>
+        
+        <span class="col-md-11">
+            {{examSlide.fields.question.fields.statement}}
+        </span>
+    </div>
+        <ul class="list-unstyled">
+            <div class="container containerFilds">
+                <div class="text-center" ng-show="loader"> 
+                    <img src="images/preloader.gif" alt="loader">
+                </div>
+                <div class="containerAnswers container">
+                    <div class="text-center" ng-if="examSlide.fields.question.extras.get_image_data != null"> 
+                        <img id="questionImage" class="img-responsive" alt="">
+                    </div>
+                    <div ng-init="letters = ['A','B','C','D']" ng-repeat="x in user_answers track by $index">
+                        <div class="col-md-6"> 
+                            <div class="optionBg row"> 
+                                <span class="col-md-1 letter letterId-{{x.id}}" ng-class="{inactiveChoice:{{x.selected}}, block_cursor:{{disableChoices}} }"ng-click="saveAnswer(x.id)">{{letters[$index]}}</span> 
+                                <span id="{{x.id}}" class="col-md-11 labelField">{{x.option}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    <div class="navQuestion"> 
+         <div class="col-md-3">
+            <div class="avanced">
+                <span>{{examSlide.fields.position + 1}} de {{examData.extras.nr_slides}} Respondidas</span>
+                <progressbar value="exam_percentage"></progressbar>
+            </div>
+         </div> 
+         <div class="col-md-9"> 
+            <div class="navButtons pull-right">
+                <a href="" ng-click="finishExam()" class="btnFinish not-active-button">Terminar</i></a>
+                <a href="" class="next_slide" ng-click="nextSlide()" ng-show="arrowRight">
+                    <i class="fa fa-chevron-right"></i>
+                </a> 
+                <a href="" class="prev_slide" ng-click="prevSlide()" ng-show="arrowLeft">
+                    <i class="fa fa-chevron-left"></i>
+                </a> 
+            </div>
+         </div>
+     </div>
+</div>
+
+    

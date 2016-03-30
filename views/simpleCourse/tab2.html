@@ -1,0 +1,68 @@
+<!-- CONTENIDO TAB DESCRIPCIÓN DEL CURSO -->
+
+<div id="descripcionCurso">
+
+    <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
+        Descripción del curso
+    </h1>
+
+    <p class="text text--gris_osc"> {{dataSimpleCourse.course.description}} </p>
+    <div class="col-xs-12 bg bg-gris">
+        <h2 class="text text--xbold text--verde">
+            Competencias a desarrollar
+        </h2>
+    </div>
+
+    <h3 class="text text--bold margin--t2">
+        Al finalizar este curso usted estará en capacidad de:
+    </h3>
+
+    <p>Pendiente</p>
+
+    <ul class="list-normal list--verde">
+        <li>
+        </li>
+    </ul>
+
+    <div class="clearfix"></div>
+
+    <div class="col-xs-12 bg bg-gris">
+        <h2 class="text text--xbold text--verde">
+            Temas a desarrollar cada semana
+        </h2>
+    </div>
+
+    <dl ng-repeat="topic in dataSimpleCourse.modules">
+        <dt class="text--azul_osc">
+            {{ topic.module_name }}
+        </dt>
+        <dd>
+            <br>
+            <div ng-if="topic.module_description == ''" class="alert alert-warning">No hay información para este Módulo</div>
+            {{ topic.module_description }}    
+        </dd>
+    </dl>
+
+    <h3 class="text text--bold margin--t2">
+        Preguntas que podrá resolver después de completar el curso:
+    </h3>
+
+    <div ng-bind-html="parseHtml(dataSimpleCourse.course.objective)"></div>
+
+
+    <h3 class="text text--bold margin--t2">
+        ¿Quienes deben tomar este curso? (Perfil del aspirante)
+    </h3>
+        <p class="text text--gris_osc">
+            <div ng-bind-html="parseHtml(dataSimpleCourse.course.target_public)"></div>
+        </p>
+
+    <p class="text text--gris_osc">
+        <span class="text--xbold">Requisitos Previos:</span>
+        <br>
+        {{dataSimpleCourse.course.requisites}}
+    </p>
+
+
+    <p ng-init="test()"></p>
+</div>

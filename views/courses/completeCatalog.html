@@ -1,0 +1,29 @@
+
+
+<div class="row">
+    <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="course in completed_courses | limitTo: 4">
+        <div class="col-xs-12 sidebar-bloqs2">
+            <div class="row sidebar-imageCurso">
+                <a ng-href="">
+                    <img ng-src="{{course.image}}" class="img-course">
+                </a>
+                <div class="sidebar-imageCurso__nombre">
+                    <div class="col-md-4">
+                        <img ng-if="course.tutors[0].avatar != null" ng-src="{{course.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
+                        <img ng-if="course.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
+                    </div>
+                    <div class="col-md-8">
+                        <div ng-if="course.tutors[0].first_name != '' && course.tutors[0].last_name != ''" class="text text--blanco bg-nameTutor">
+                            {{course.tutors[0].first_name}} {{course.tutors[0].last_name}}
+                        </div>
+                    </div
+            <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="course.description" data-ellipsis>
+
+            </p>
+            <p class="text text--azul_cla text--lite margin--t1">
+                <span class="icon-time"></span><span ng-if="course.duration != null"> {{course.duration}} Horas</span><span ng-if="course.duration == null"> No hay un tiempo de duración asignado al curso.</span>
+            </p>
+            <a  ng-href="#course/{{course.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
+        </div>
+    </div>
+</div>
