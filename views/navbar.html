@@ -1,35 +1,169 @@
-<nav class="col-xs-12 nav-topper" ng-controller="navbar_functions">
-    <div class="container">
-        <div class="row-same-height row-xs-full-height">
-            <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
-                    <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
-                <div ng-show="menuOpen" class="top-main-menu">
-                    <ul class="nav nav-complete navbar-nav navbar-right">
-                        <li class="active"><a ng-href="#allCoursesPublic" ng-click="activeMenu($event)">CURSOS</a></li>
-                        <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
-                        <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
-                        <li><a href="">BIBLIOTECA</a></li>
-                        <li><a href="">PRECIOS</a></li>
-                    </ul>
+<div ng-controller="navbarController">
+    <nav class="col-xs-12 nav-topper nav-topper--perfil" ng-if="authenticated">
+        <div class="container">
+            <div class="col-xs-2">
+                <a href="" style="padding-left:0">
+                    <img src="images/logo-ico.png" alt="Marketing University" class="img-responsive pull-left logo">
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <ul class="nav nav-pills nav-interno">
+                    <li id="courseView" class="active">
+                        <a href="#" ng-click="showCourses();" >Mis cursos</a>
+                    </li>
+                    <li id="certificationsView">
+                    <a href="" ng-click="showCertifications();">Certificaciones</a>
+                    </li>
+                    <li>
+                    <a href="" ng-click="showTools()" aria-controls="recursos" role="tab" data-toggle="tab">Recursos Favoritos</a>
+                    </li>
+                    <li>
+                    <a href="" ng-click="" aria-controls="empleos" role="tab" data-toggle="tab">Empleos</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-5">
+                        <p class="text text--blanco text--xbold text-right margin--t1">
+                        <user-info></user-info>
+                        </p>
+                    </div>
+                    <div class="col-xs-2 padding--r0 padding--l0 nav-topper__avatarUser">
+                        <div class="row">
+                            <a href="/profile">
+                                <img src="images/avatar-user.jpg" alt="" class="img-responsive pull-right img-circle" >
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-3 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
+        </div>
+    </nav>
+    <nav class="col-xs-12 nav-topper" ng-if="!authenticated">
+        <div class="container" ng-init="algo()">
+            <div class="row-same-height row-xs-full-height">
+                <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
+                    <a ng-href="/"> 
+                        <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
+                    </a>
+                    <div ng-show="{{authenticated}}" class="top-main-menu">
+                        <ul class="nav nav-complete navbar-nav navbar-right">
+                            <li class="active"><a ng-href="#allCourses" ng-click="activeMenu($event)">CURSOS</a></li>
+                            <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
+                            <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
+                        </ul>
+                    </div>
+                    <ul controller="profile_api" ng-show="authenticated" class="nav nav-pills nav-interno pull-left" role="tablist">
+                        <li class="{{menuActive_0}}">
+                        <a href="" ng-click="changeItem(0)">Mis cursos</a>
+                        </li>
+                        <li class="{{menuActive_1}}">
+                        <a href="" ng-click="changeItem(1)">Certificaciones</a>
+                        </li>
+                        <li class="{{menuActive_2}}">
+                        <a href="" ng-click="changeItem(2)">Recursos Favoritos</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-3 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
+                    <div class="row sidebar-contentMenu">
+                        <div class="">
+                            <p class="text text--gris pull-right">
 
-                <div class="row sidebar-contentMenu">
-                    <div class="">
-                        <p class="text text--gris pull-right">
-                            
-                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-show="btnSingUp">INGRESAR</a>
-                            <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="btnLogout" ng-click="logout()">SALIR</a>
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-if="!authenticated">INGRESAR</a>
+
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" href="profile" ng-if="authenticated">PERFIL</a>
+                            <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="authenticated" ng-click="logout()">SALIR</a>
 
                             <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
-                                <span class="icon-reorder"></span>
+                                <span class="fa fa-bars"></span>
                             </a>
 
-                        </p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+</div>
+<div ng-controller="loginController">
+
+    <div class="modal modal--ingreso fade" id="js-ingreso" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-sm" id="modal_login">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="images/logo2.png" alt="" class="img-responsive center-block">
+                </div>
+                <div class="modal-body">
+                    <div role="tabpanel">
+
+                        <ul class="nav nav-tabs nav-justified nav-ingreso" role="tablist">
+                            <li role="presentation" class="active">
+                            <a href="#registro" aria-controls="registro" role="tab" data-toggle="tab">Regístrate</a>
+                            </li>
+                            <li role="presentation">
+                            <a href="#ingreso" aria-controls="ingreso" role="tab" data-toggle="tab">Iniciar Sesión</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="registro">
+
+
+                                <a href="#" class="btn btn-facebook btn-block" ng-click="FBLogin(true)">
+                                    <span class="icon-facebook margin--r2"></span> 
+                                    Regístrate con facebook
+                                </a>   
+                                <p class="text text-center text--gris">
+                                O
+                                </p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew" required>
+                                        <input type="email" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail" required>
+                                        <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew" required>
+                                    </div>
+                                    <div class="alert alert-danger text-center" ng-show="alertError"><span id="errorLogin"></span></div>
+                                    <div class="col-xs-12 bg-gris margin--b1">
+                                        <p class="text text--xs text--gris">
+                                        Al hacer clic en “crear una cuenta”, aceptas las Condiciones y confirmas que leíste nuestra Política de datos, incluido el uso de cookies.
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-12 margin--b1">
+                                        <div class="row">
+                                            <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="createAccount()" value="Crear una cuenta">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="ingreso">
+                                <a href="#" class="btn btn-facebook btn-block" ng-click="FBLogin(false)">
+                                    <span class="icon-facebook margin--r2"></span> 
+                                    Iniciar con facebook
+                                </a> 
+
+
+                                <p class="text text-center text--gris">
+                                O
+                                </p>
+                                <form>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userName" required>
+                                        <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword" required>
+                                    </div>
+                                    <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
+                                    <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>
+                                    <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
+                                    <!-- <a class="text text--azul text--sm text-center center-block margin-">Olvíde mi contraseña </a>-->
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</nav>
+
+</div>

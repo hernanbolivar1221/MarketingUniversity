@@ -1,0 +1,56 @@
+<!-- CONTENIDO TABS LECCIONES DEL CURSO -->
+
+        <div id="recursos" ng-init="functionRun()">
+            <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
+                Recursos del curso
+            </h1>
+
+            <table class="table table--recursos margin--t2 resourceTable" ng-repeat="item in resourcesSubmodule" ng-show="$first">
+                <tr>
+                    <th>
+                        Recursos: Lecturas Recomendadas
+                    </th>
+                    <th>
+                        Autor
+                    </th>
+                    <th>
+                        Acción
+                    </th>
+                </tr>
+                <tr class="contentResource" ng-repeat="x in item" ng-if="$first == false">
+                    <td>
+                        {{x.content_name}}
+                    </td>
+                    <td>
+                        <strong>Pendiente</strong>
+                    </td>
+                    <td>
+                        <a href="visual-recursos.html" class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper">
+                            Descargar
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <div class="alert alert-warning alertContent" style="display:none;">No hay información</div>
+                </tr>
+            </table>
+
+
+            <div class="clearfix"></div><hr class="sep sep--gris">
+
+
+            <div class="col-xs-12 text-center">
+                <span class="text text--sm text--gris_osc pull-right btn--next">
+                    <span>ver contenido {{posLesson + 1}}</span> 
+                    <a ng-click="nextResource()" href="" class="btn btn-sm btn-default margin--l1">
+                        <i class="fa fa-caret-right"></i>
+                    </a>
+                </span>
+                <span class="text text--sm text--gris_osc pull-right btn--prev">
+                    <a ng-click="prevResource()" href="" class="btn btn-sm btn-default margin--l1">
+                        <i class="fa fa-caret-left"></i>
+                    </a>
+                    <span>volver a contenido {{posLesson}}</span> 
+                </span>
+            </div>
+        </div>

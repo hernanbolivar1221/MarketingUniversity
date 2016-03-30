@@ -623,7 +623,6 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     }
   </file>
 </example>
- */
 .directive('carousel', [function() {
   return {
     restrict: 'EA',
@@ -679,7 +678,6 @@ function CarouselDemoCtrl($scope) {
     }
   </file>
 </example>
-*/
 
 .directive('slide', function() {
   return {
@@ -707,6 +705,7 @@ function CarouselDemoCtrl($scope) {
   };
 });
 
+*/
 angular.module('ui.bootstrap.dateparser', [])
 
 .service('dateParser', ['$locale', 'orderByFilter', function($locale, orderByFilter) {

@@ -1,0 +1,88 @@
+<div class="panel panel-default margin--t2" ng-if="items.length==0">
+    <div class="panel-body">
+        <div class="alert alert-info">
+            No tienes certificaiones en esta area.
+        </div>
+    </div>
+    
+</div>
+<div class="panel panel-default margin--t2" ng-repeat="item in items">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text text--xlg text--gris_osc text--xbold">
+                    {{ item.certification.name }}
+                </h2>
+            </div>
+            <div class="col-xs-4">
+                <img src="images/certificaciones.jpg" alt="" class="img-responsive pull-left">
+            </div>
+            <div class="col-xs-6">
+                <p class="text text--lite text--gris">
+                {{ item.certification.description}}
+                </p>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p class="text text--xbold text--gris_osc text--md" ng-if="in_progress">
+                        En proceso
+                        </p>
+
+                        <hr ng-if="in_progress">
+                        <a href="#" class="btn btn-verde btn-lg btn-regular" ng-if="in_progress">
+                            Ver módulos
+                        </a>
+                        <a href="#" class="btn btn-verde btn-lg btn-regular" ng-if="!in_progress">
+                            Descargar PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 text-center">
+                <div class="c100 center p{{item.certification.percentage}} center-block">
+                    <span>{{ item.certification.percentage}} %</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <p class="text text--lite text--gris margin--b0 margin--t2">
+                Horas de estudio:<br>
+                <span class="text--xbold">
+                    {{ item.certification.duration }} Horas
+                </span>
+                </p>
+            </div>
+            <div class="col-xs-12" ng-if="in_progress">
+                <div class="col-xs-12 sidebar-gris sidebar-contentCursos margin--t3">
+                    <div ng-repeat="course in item.courses">
+                        <div class="col-xs-7 sidebar-contentCursos__textos"> 
+                            <span>{{$index+1}}</span>
+                            <p class="text text--m text--bold text--gris">
+                            {{course.name}}
+                            </p>
+                            <p class="text text--sm text--gris">
+                            {{course.description}}
+                            </p>
+                        </div>
+                        <div class="col-xs-3">
+                            <p class="text text--gris text--xbold text-center margin--b0">
+                            {{course.percentage}} %
+                            </p>
+                            <div class="clearfix"></div>
+                            <div class="progress progress--blanco progress--green margin--t1">
+                                <div class="progress-bar progress-bar--green" role="progressbar" aria-valuenow="{{course.percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{course.percentage}}%;"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="#" class="btn btn-block btn-azul btn-regular margin--t2">
+                                Ir al curso
+                            </a>
+                        </div>
+                        <div class="clearfix"></div><hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<!-- CONTENIDO TABS EVALUACIONES -->
+
+        <div  id="evaluaciones">
+
+            <h1 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
+                Evaluaciones del curso
+            </h1>
+
+            <table class="table table--recursos margin--t2">
+                <tr>
+                    <th>
+                        Evaluación
+                    </th>
+                    <th>
+                        Oportunidades
+                    </th>
+                    <th class="text-center">
+                        Resultado
+                    </th>
+                    <th class="text-center">
+                        Acción
+                    </th>
+                </tr>
+                <tr ng-repeat="item in evaluations" ng-if="item.length > 0">
+                    <td>
+                        {{item[0].content_name}}
+                    </td>
+                    <td class="text-center">
+                        <strong>{{item[0].content_button_info.attempts_left}} / {{item[0].content_button_info.num_attempts}}</strong>
+                    </td>
+                    <td  class="text-center">
+                        <strong>{{item[0].content_button_info.exam_score}}</strong>
+                    </td>
+                    <td>
+                        <a class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper typeform-share" ng-href="{{item[0].file_url}}">
+                            Hacer Evaluación
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>

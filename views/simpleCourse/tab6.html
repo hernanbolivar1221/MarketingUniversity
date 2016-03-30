@@ -1,0 +1,25 @@
+  <!-- CONTENIDO TABS PROFESORES -->
+        <div id="profesores" ng-controller="tutors">
+            <h3 class="text text--lite text--xlg margin--t1 text--gris_osc text--xbold">
+                Profesores:
+            </h3>
+
+            <div class="row" ng-repeat="tutor in tutorsData">
+                <div class="col-xs-2 vertical-middle">
+                    <img ng-src="{{tutor.avatar}}" alt="" class="img-circle sidebar-imageCurso__image img-responsive">
+                </div>
+                <div class="col-xs-10 vertical-middle">
+                    <p class="text text--azul text--xbold text--md margin--t05 margin--b0">
+                        {{tutor.first_name}} {{tutor.last_name}} 
+                    </p>
+                    <p class="text text--gris text--sm margin--t0">
+                        {{tutor.jobtitle}}
+                    </p>
+                </div>
+                <div class="col-xs-12">
+                    <p class="text text--gris text--lite">
+                        {{tutor.about}}
+                    </p>
+                </div>
+            </div>
+        </div>

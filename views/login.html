@@ -10,10 +10,10 @@
             Capacítate en el Marketing del Futuro
         </h1>
         <p class="text text--xxlg text--azul_osc text-center text-space1 margin--t0">
-            adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
+        adquiere nuevas habilidades y<br>accede a excelentes oportunidades 
         </p>
         <p class="text-center margin--t2">
-            <a href="" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
+        <a ng-href="#allCourses" class="btn btn--academy2 btn-rojo btn--right btn-xlg">EMPIEZA AHORA</a>
         </p>
 
         <div class="clearfix"></div>
@@ -31,11 +31,11 @@
                         Cursos y Capacitación
                     </h2>
                     <p class="text text--blanco text--mm text--lite">
-                        Nuestros cursos están diseñados para 
-                        ayudarte a desarrollar habilidades 
-                        especificas en muy corto tiempo.
+                    Nuestros cursos están diseñados para 
+                    ayudarte a desarrollar habilidades 
+                    especificas en muy corto tiempo.
                     </p>
-                    <a href="" class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCourses" class="btn btn-gosh btn-lg margin--t1">
                         Buscar Cursos
                     </a>
                 </div>
@@ -50,11 +50,11 @@
                         Certifica tus Habilidades
                     </h2>
                     <p class="text text--blanco text--mm text--lite">
-                        Certifica tus conocimientos en las áreas 
-                        del marketing digital con mayor 
-                        demanda laboral en Latino América
+                    Certifica tus conocimientos en las áreas 
+                    del marketing digital con mayor 
+                    demanda laboral en Latino América
                     </p>
-                    <a ng-href="#allCertificates" ng-click="seeCertificate()"class="btn btn-gosh btn-lg margin--t1">
+                    <a ng-href="#allCertificates" class="btn btn-gosh btn-lg margin--t1">
                         Ver Certificados Disponibles
                     </a>
                 </div>
@@ -69,9 +69,9 @@
                         Bolsa de Empleo
                     </h2>
                     <p class="text text--blanco text--mm text--lite">
-                        Registra tu Currículo y acceder a ofertas 
-                        de empleo de más de 100 Agencias de 
-                        Publicidad y Comunicación Digital
+                    Registra tu Currículo y acceder a ofertas 
+                    de empleo de más de 100 Agencias de 
+                    Publicidad y Comunicación Digital
                     </p>
                     <a ng-href="#jobs" class="btn btn-gosh btn-lg margin--t1">
                         Ver Ofertas de Empleo
@@ -89,54 +89,18 @@
                 ¡ES HORA DE ACTUAR! INICIA UN CURSO Y DESARROLLA NUEVAS HABILIDAES
             </h1>
             <p class="text text--md text--gris text-center text--lite">
-                Nuestros cursos están diseñados para desarrollar competencias en las áreas del Marketing con mayor demanda laboral
+            Nuestros cursos están diseñados para desarrollar competencias en las áreas del Marketing con mayor demanda laboral
             </p>
         </div>
         <div class="col-xs-12 margin--t2">
 
             <!-- Courses Public -->
-        
-            <div class="row">
-                <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in dataCoursesPublic | limitTo: 4">
-                    <div class="col-xs-12 sidebar-bloqs2">
-                        <div class="row sidebar-imageCurso">
-                            <a ng-href="">
-                                <img ng-src="{{coursePublic.image}}" class="img-course">
-                            </a>
-                            <div class="col-xs-12 sidebar-imageCurso__nombre">
-                                <img ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image">
-                                <span class="text text--blanco bg-nameTutor">
-                                    {{coursePublic.tutors[0].first_name}} {{coursePublic.tutors[0].last_name}}
-                                </span>
-                            </div>
-                            <div class="col-xs-12 sidebar-imageCurso__qualy">
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                                <span class="icon-star"></span>
-                            </div>
-                        </div>
-                        <h3 class="text text--gris text--md text--bold margin--t2">
-                            {{coursePublic.name}}
-                        </h3>
-                        <p class="text text--sm text--gris_cla margin--t1">
-                            {{coursePublic.description}}
-                        </p>
-                        <p class="text text--azul_cla text--lite margin--t1">
-                            <span class="icon-time"></span><span> {{coursePublic.duration}} Horas</span><span ng-if="coursePublic.duration == null"> No hay un tiempo de duración asignado al curso.</span>
-                        </p>
-                        <a  ng-href="#course/{{coursePublic.uuid}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05">
-                            MÁS INFORMACIÓN
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
+            <courses-list filter="public" limit="4"></courses-list>        
+
             <div class="clearfix"></div>
             
             <div class="col-xs-12 margin--t3 margin--b3 text-center">
-                <a ng-href="#allCoursesPublic" ng-click="seeCoursePublic()" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
+                <a ng-href="#allCourses" class="btn btn--academy2 btn-rojo btn--right btn-xlg">
                     <span class="text--upper">ver todos los cursos</span>
                 </a>
             </div>
@@ -274,7 +238,7 @@
     </div>
 </section>
 
-<section class="col-xs-12 sidebar-section3 sidebar-blanco">
+<section ng-if="false" class="col-xs-12 sidebar-section3 sidebar-blanco">
     <div class="container">
         <h1 class="text text--xxxlg text--azul_mid text-center text--xbold">
             CONTAMOS CON MÁS DE 100 AGENCIAS<br>

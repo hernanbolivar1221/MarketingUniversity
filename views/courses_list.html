@@ -1,0 +1,86 @@
+
+<div class="row" ng-if="limit == 4">
+        <div class="alert-info alert text-center"ng-if="dataCourses.length ==0">
+            No hay cursos que mostrar.
+        </div>
+    <div class="col-lg-3 col-xs-6 margin--t1" ng-repeat="coursePublic in dataCourses | limitTo: 4">
+        <div class="col-xs-12 sidebar-bloqs2">
+            <div class="row sidebar-imageCurso">
+                <a ng-href="">
+                    <img ng-src="{{coursePublic.course.image}}" class="img-course img-responsive">
+                </a>
+                <div class="sidebar-imageCurso__nombre">
+                    <div class="col-md-4">
+                        <img ng-if="coursePublic.tutors[0].avatar != null" ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image  img-responsive" > 
+                        <img ng-if="coursePublic.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
+                    </div>
+                    <div class="col-md-8">
+                        <div ng-if="coursePublic.tutors[0].name != '' && coursePublic.tutors[0].lastname != ''" class="text text--blanco bg-nameTutor">
+                            {{coursePublic.tutors[0].name}} {{coursePublic.tutors[0].lastname}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 sidebar-imageCurso__qualy">
+                    <span class="fa fa-star" ng-if="coursePublic.course.score > 0"></span>
+                    <span class="fa fa-star" ng-if="coursePublic.course.score > 1"></span>
+                    <span class="fa fa-star" ng-if="coursePublic.course.score > 2"></span>
+                    <span class="fa fa-star" ng-if="coursePublic.course.score > 3"></span>
+                    <span class="fa fa-star" ng-if="coursePublic.course.score == 5"></span>
+                </div>
+            </div>
+            <h3 class="text text--gris text--md text--bold margin--t2">
+                {{coursePublic.course.name}}
+            </h3>
+            <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="coursePublic.course.description" data-ellipsis>
+
+            </p>
+            <p class="text text--azul_cla text--lite margin--t1">
+            <span class="fa fa-clock-o"></span><span ng-if="coursePublic.course.hours != null"> {{coursePublic.course.hours}} Horas</span>
+            <span ng-if="coursePublic.course.hours == null"> No hay un tiempo de duración asignado al curso.</span>
+            </p>
+            <a  ng-href="/course/{{coursePublic.course.slug}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="limit == 3">
+    <div class="col-lg-4 col-xs-6 margin--t1" ng-repeat="coursePublic in dataCourses | limitTo: 4">
+        <div class="col-xs-12 sidebar-bloqs2">
+            <div class="row sidebar-imageCurso">
+                <a ng-href="">
+                    <img ng-src="{{coursePublic.course.image}}" class="img-course">
+                </a>
+                <div class="sidebar-imageCurso__nombre">
+                    <div class="col-md-4">
+                        <img ng-if="coursePublic.tutors[0].avatar != null" ng-src="{{coursePublic.tutors[0].avatar}}" alt="" class="img-circle sidebar-imageCurso__image"> 
+                        <img ng-if="coursePublic.tutors[0].avatar == null" src="images/avatarDefault.png" alt="" class="img-circle sidebar-imageCurso__image">
+                    </div>
+                    <div class="col-md-8">
+                        <div ng-if="coursePublic.tutors[0].name != '' && coursePublic.tutors[0].lastname != ''" class="text text--blanco bg-nameTutor">
+                            {{coursePublic.tutors[0].name}} {{coursePublic.tutors[0].lastname}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 sidebar-imageCurso__qualy">
+                    <span class="fa-star" ng-if="coursePublic.course.score > 0"></span>
+                    <span class="fa-star" ng-if="coursePublic.course.score > 1"></span>
+                    <span class="fa-star" ng-if="coursePublic.course.score > 2"></span>
+                    <span class="fa-star" ng-if="coursePublic.course.score > 3"></span>
+                    <span class="fa-star" ng-if="coursePublic.course.score == 5"></span>
+                </div>
+            </div>
+            <h3 class="text text--gris text--md text--bold margin--t2">
+                {{coursePublic.course.name}}
+            </h3>
+            <p class="text text--sm text--gris_cla margin--t1 textDescription" ng-bind="coursePublic.course.description" data-ellipsis>
+
+            </p>
+            <p class="text text--azul_cla text--lite margin--t1">
+            <span class="fa fa-clock-o"></span><span ng-if="coursePublic.course.hours != null"> {{coursePublic.course.hours}} Horas</span>
+            <span ng-if="coursePublic.course.hours == null"> No hay un tiempo de duración asignado al curso.</span>
+            </p>
+            <a  ng-href="/course/{{coursePublic.course.slug}}/details" class="btn btn-gosh btn-gosh--gris btn-lg margin--t05" ng-click="scrolltop()"> MÁS INFORMACIÓN </a>
+        </div>
+    </div>
+</div>
+
+

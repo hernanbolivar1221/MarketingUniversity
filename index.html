@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" ng-app="App" lang="es">
     <head>
-    
+        <base href="/" />
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Marketing University: Entrenate, Certifica tus conocimientos en Marketing Digital</title>
@@ -16,129 +16,51 @@
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
         <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="css/css-circle/css/circle.css">
+        <script src="js/jquery.min.js"></script>
 
         <script src="angular/angular/angular.min.js"></script>
         <script src="angular/angular-route/angular-route.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
+        <script src="js/angular-animate.js"></script>
         <script src="ui-bootstrap/ui-bootstrap-custom-0.13.4.js"></script>
         <script src="ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.js"></script>
+        <script src="js/loader.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script> 
+        <script src="js/pace.min.js"></script>
+        <script>
+        </script>
+        <link rel="stylesheet" href="css/loader.css">
+        <!-- Configuration file -->
+        <script src="js/config.json"></script>
+        <!-- Exceptions -->
+        <script src="js/exceptions.js"></script>
+        <!-- Functions -->
+        <script src="js/functions.js"></script>
+        <!--- //// MVC ///// -->
+        <!-- Ellipsis -->
+        <script src="js/angular-ellipsis.js"></script>
+        <script src="js/truncate.js"></script>
 
-        <!-- <script src="js/jquery.ellipsis.js"></script> -->
-
-        <!-- media-queries.js (fallback) -->
-        <!--[if lt IE 9]>
-            <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>           
-        <![endif]-->
-
-        <!--[if lt IE 9]>
-            <script src="dist/html5shiv.js"></script>
-        <![endif]-->
-
-
-
+        <!-- App -->
+        <script src="js/main.js"></script>
+        <script src="js/services.js"></script>
+        <script src="models/models.js"></script>
+        <script src="js/directives.js"></script>
+        <!-- Controllers -->
+        <script src="controllers/homeController.js"></script>
+        <script src="controllers/courseContentController.js"></script>
+        <script src="controllers/courseDetailsController.js"></script>
+        <script src="controllers/navbarController.js"></script>
+        <!-- Models -->
+        <!-- Directives -->
     </head>
     <body>
         
         <!-- Navbar -->
-
-        <div ng-include="'views/navbar.html'"></div>
-
+        <navbar></navbar>
         <!-- contenedor Dinamico -->
-
-        <div ng-view id="content-app"></div>
-
+        <div  ng-view id="content-app"></div>
         <!-- footer -->
-
-        <div ng-include="'views/footer.html'"></div>
-
+        <!--<div class="hidden" ng-include="'views/footer.html'"></div>-->
         <!--  MODAL DE INGRESO  -->
-
-        <div class="modal modal--ingreso fade" id="js-ingreso" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <img src="images/logo2.png" alt="" class="img-responsive center-block">
-                    </div>
-                    <div class="modal-body">
-                        <div role="tabpanel" ng-controller="login_api">
-                            <ul class="nav nav-tabs nav-justified nav-ingreso" role="tablist">
-                                <li role="presentation" class="active">
-                                    <a href="#registro" aria-controls="registro" role="tab" data-toggle="tab">Regístrate</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#ingreso" aria-controls="ingreso" role="tab" data-toggle="tab">Iniciar Sesión</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="registro">
-                                    
-                                     
-                                   <a href="#" class="btn btn-facebook btn-block" ng-click="FBLogin(true)">
-                                       <span class="icon-facebook margin--r2"></span> 
-                                       Regístrate con facebook
-                                   </a>   
-                                     <p class="text text-center text--gris">
-                                        O
-                                    </p>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew" required>
-                                            <input type="email" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail" required>
-                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew" required>
-                                        </div>
-                                        <div class="alert alert-danger text-center" ng-show="alertError"><span id="errorLogin"></span></div>
-                                        <div class="col-xs-12 bg-gris margin--b1">
-                                            <p class="text text--xs text--gris">
-                                                Al hacer clic en “crear una cuenta”, aceptas las Condiciones y confirmas que leíste nuestra Política de datos, incluido el uso de cookies.
-                                            </p>
-                                        </div>
-                                        <div class="col-xs-12 margin--b1">
-                                            <div class="row">
-                                                <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="createAccount()" value="Crear una cuenta">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="ingreso">
-                                    <a href="#" class="btn btn-facebook btn-block" ng-click="FBLogin(false)">
-                                       <span class="icon-facebook margin--r2"></span> 
-                                       Iniciar con facebook
-                                   </a> 
-                                    
-
-                                    <p class="text text-center text--gris">
-                                        O
-                                    </p>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userName" required>
-                                            <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPassword" required>
-                                        </div>
-                                        <div class="alert alert-danger text-center" ng-show="alertFields"><span>Todos los campos se deben diligenciar</span></div>
-                                        <div class="alert alert-danger text-center" ng-show="alertData"><span>El nombre de usuario y/o la contraseña son incorrectos.</span></div>
-                                        <input type="submit" class="btn btn-verde btn--lite btn-block text--upper" ng-click="singUp()" value="iniciar sesión">
-                                        <!-- <a class="text text--azul text--sm text-center center-block margin--t1">Olvíde mi contraseña </a>  -->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="js/jquery.min.js"></script>
-        <script src="js/loader.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script> 
-        <script src="js/config.json"></script>
-        <!--- //// MVC ///// -->
-
-        <!-- App -->
-        <script src="js/main.js"></script>
-        <!-- Controllers -->
-        <script src="controllers/ctrl.js"></script>
-        <!-- Models -->
-        <script src="models/models.js"></script>
-
     </body>
 </html>
