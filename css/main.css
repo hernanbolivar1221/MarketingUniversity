@@ -1061,3 +1061,19 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 #embedVideo>p>iframe{
     width: 100% !important;
 }
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:active, .nav-tabs > li > a:focus{
+    background: none !important;
+    border: none !important;
+    color: #7e7e7e !important;
+    outline: none !important;
+}
+
+a {
+    color: #7e7e7e;
+    text-decoration: none;
+}
+
+.logowidth{
+    max-width: 198px;
+}

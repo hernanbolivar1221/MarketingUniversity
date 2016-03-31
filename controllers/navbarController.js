@@ -1,11 +1,20 @@
+app.controller("footer", function($scope){
 
+    if(sessionStorage.dataUser){  
+        $scope.subscription = false;
+    }else{
+        $scope.subscription = true;
+    }
+});
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
     $rootScope.$watch("dataUser", function(){
         if($rootScope.dataUser == null){
-            $scope.authenticated = false;
+            $rootScope.authenticated = false;
+            $scope.authenticated_navbar = false;
         }else{
-            $scope.authenticated = true;
+            $rootScope.authenticated = true;
+            $scope.authenticated_navbar = true;
             $rootScope.first_name = $rootScope.dataUser.name;
             $rootScope.last_name = $rootScope.dataUser.lastname;
 
@@ -95,9 +104,11 @@ app.controller("loginController", ["auth","$scope","$http","$rootScope", functio
     $rootScope.$watch("dataUser", function(){
 
         if($rootScope.dataUser == null){
+            $rootScope.authenticated = false;
             $scope.authenticated = false;
         }else{
-            $scope.authenticated = true;
+            $rootScope.authenticated = true;
+            $scope.authenticated_navbar = true;
             $rootScope.first_name = $rootScope.dataUser.name;
             $rootScope.last_name = $rootScope.dataUser.lastname;
 
