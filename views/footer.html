@@ -1,11 +1,37 @@
 <footer class="col-xs-12 sidebar-footer" ng-controller="footer">
-    <div class="row">
+    <div class="col-xs-12 sidebar-footer__top sidebar-footer__top--internas" ng-if="!authenticated">
+        <div class="container">
+            <p class="text text--lite text--md text-center">
+                Mantente al día de nuestros nuevos cursos, suscribete a nuestro newsletter
+            </p>
+            <div class="clearfix"></div>
+            <div class="col-lg-10 col-lg-offset-1 col-xs-12 margin--t1">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <input type="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="Correo Electrónico">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <a href="#" class="btn btn-azul btn-block btn-lg">
+                            <span class="text--upper">SUSCRIBIRME</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row margin--t4">
         <div ng-if="false" class="col-xs-12 sidebar-footer__top" ng-show="subscription">
             <div class="container">
                 <p class="text text--lite text--md text-center">
                     Mantente al día de nuestros nuevos cursos, suscribete a nuestro newsletter
                 </p>
-
                 <div class="clearfix"></div>
                 
                 <div class="col-lg-10 col-lg-offset-1 col-xs-12 margin--t1">
@@ -30,7 +56,7 @@
 
             </div>  
         </div>
-        <div class="col-xs-12 sidebar-footer__bottom">
+        <div class="col-xs-12 sidebar-footer__bottom2">
             <div class="container">
                 <div class="col-xs-2 col-xs-offset-1">
                     <img src="images/logo1.png" alt="" class="img-responsive pull-left margin--t1">

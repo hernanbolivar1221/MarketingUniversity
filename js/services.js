@@ -111,6 +111,13 @@ app.factory('courses', ['$http',function($http) {
         certifications : function(params){
             return $http.jsonp(config.SERVICE_SERVER+"/api/certifications/"+params+"&callback=JSON_CALLBACK");
         },
+        related : function(related){
+            return $http.jsonp(config.SERVICE_SERVER+"/api/courses/?related="+related+"&callback=JSON_CALLBACK");
+        },
+        absolute : function(){
+            return $http.jsonp(config.SERVICE_SERVER+"/api/courses/?absolute=true&callback=JSON_CALLBACK");
+        },
+
     }
 }]);
 

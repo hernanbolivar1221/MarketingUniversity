@@ -23,7 +23,6 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
 		})
 		.when('/allCourses', {
 			templateUrl: 'views/allCoursesPublic.html',
-			controller: "allCourses"
 		})
 		.when('/allCertificates', {
 			templateUrl: 'views/certificates/allCertificates.html',
@@ -43,10 +42,14 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
 			redirectTo: '/' 
 		});
 
-        $locationProvider.html5Mode(true);
+        //$locationProvider.html5Mode(true);
 }]);
 
-app.run(["$rootScope","$location", "$http", function($rootScope, $location, $http){
+app.run(["$rootScope","$location", "$http", "$window", function($rootScope, $location, $http, $window){
+    $window.onunload = function(){
+        sessionStorage.locate = $location.path();
+        sessionStorage.location_state = 1;
+    }
 
     $rootScope.template ='views/courses/content_user_opt.html';
     $rootScope.dataUser = null;

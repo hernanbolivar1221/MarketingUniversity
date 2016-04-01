@@ -1,23 +1,6 @@
 app.controller('courseContentController', ['$http','$scope', '$routeParams', 'courses','$modal','$sce', '$rootScope', function ($http, $scope, $routeParams, courses, $modal,$sce, $rootScope) {
     var response = courses.dataStudent(null,$routeParams.slug);
 
-        function split_array_for_slides(array, n){
-        	response = [];
-        	aux_array = [];
-        	for(var i = 0; i <  array.length; i++){
-        		if(aux_array.length < n){
-        			aux_array.push(array[i]);
-        		}else{
-        			response.push(aux_array);
-        			aux_array = [];
-        			aux_array.push(array[i])
-        		}
-        	}
-        	if(aux_array.length > 0){
-        		response.push(aux_array);
-        	}
-        	return response;
-        }
 
     // paginador Recursos    
     $scope.slug = $routeParams.slug;
@@ -47,11 +30,11 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
     }
 
     $scope.$watch("modulePosition",function(_new,_old){
+        Pace.restart();
         $scope.submodulePosition = 0;
         $scope.markContentAsSeen = function(content, module){
             $http.jsonp(config.SERVICE_SERVER+"/api/contents/take_test/?content="+content+"&module="+module+"&callback=JSON_CALLBACK")
                 .success(function(response){
-                    console.log(response);
                     exam = response.exam;
                     $http.jsonp(config.SERVICE_SERVER+"/api/contents/json_finish_exam/?content="+content+"&module="+module+"&exam="+exam+"&callback=JSON_CALLBACK")
                         .success(function(response){
@@ -118,7 +101,6 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
 
     });
     
-
     $scope.jumpSubmodulePosition = function(pos){
         $scope.submodulePosition = pos;   
         console.log("Module: "+ $scope.modulePosition);
@@ -216,12 +198,16 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
         });
         $scope.markAsSeen = function(module_pk){
             for(var i=0; i< $scope.modules.length; i++){
+                exam_available = true; 
                 for(var j=0; j< $scope.modules[i].submodules.length; j++){
                     if($scope.modules[i].submodules[j].module_pk == module_pk){
                         $scope.modules[i].submodules[j].has_seen = true;
                         console.log($scope.modules[i].submodules[j]);
                     }
+                   
+                    exam_available = exam_available && $scope.modules[i].submodules[j].has_seen;
                 }
+                $scope.modules[i].can_open = exam_available;
             }
         }
         for(var i=0; i< $scope.modules.length; i++){
@@ -401,10 +387,16 @@ app.controller('tribes',['$scope','courses','$routeParams','$http', '$rootScope'
                                     return $sce.trustAsHtml(html); 
                                 }
                             });
-                        $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
-                        $scope.topicName = $scope.tribesDetails.topics[pos].name; 
-                        $scope.open == true ?  $scope.open = false : $scope.open = true;  
-                    }else{
+                        topic = null;
+                        for(var i=0; i<$scope.tribesDetails.topics.length; i++){
+                            if($scope.tribesDetails.topics[i].id == pos){
+                                $scope.topicDescription = $scope.tribesDetails.topics[i].description; 
+                                $scope.topicName = $scope.tribesDetails.topics[i].name; 
+                                $scope.open == true ?  $scope.open = false : $scope.open = true;  
+    
+                            }
+                        }
+                                           }else{
                         $scope.comments = null;
                         $scope.loaderTribe = true;
                         $scope.commentsVisible = false;
@@ -447,10 +439,20 @@ app.controller('tribes',['$scope','courses','$routeParams','$http', '$rootScope'
                                     $scope.parseHtml =  function(html){
                                         return $sce.trustAsHtml(html); 
                                     }
+                                })  
+                                .error(function(a,b,c,d){
+                                    console.log(b,d);
                                 });
-                            $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
-                            $scope.topicName = $scope.tribesDetails.topics[pos].name; 
-                            $scope.open == true ?  $scope.open = false : $scope.open = true;  
+                            for(var i=0; i<$scope.tribesDetails.topics.length; i++){
+                                console.log($scope.tribesDetails.topics, position);
+                                if(position == $scope.tribesDetails.topics[i].id){
+                                    $scope.topicId = position;
+                                    $scope.topicDescription = $scope.tribesDetails.topics[i].description; 
+                                    $scope.topicName = $scope.tribesDetails.topics[i].name; 
+                                    $scope.open == true ?  $scope.open = false : $scope.open = true;  
+                                   
+                                }
+                            }
                         }else{
                             $scope.comments = null;
                             $scope.loaderTribe = true;

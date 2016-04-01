@@ -1,21 +1,21 @@
 <div ng-controller="navbarController">
-    <nav class="col-xs-12 nav-topper nav-topper--perfil" ng-if="authenticated">
+    <nav class="col-xs-12 nav-topper nav-topper--perfil" ng-if="authenticated_navbar">
         <div class="container">
             <div class="col-xs-2">
-                <a href="" style="padding-left:0">
+                <a href="#/" style="padding-left:0">
                     <img src="images/logo-ico.png" alt="Marketing University" class="img-responsive pull-left logo">
                 </a>
             </div>
             <div class="col-xs-6">
                 <ul class="nav nav-pills nav-interno">
                     <li id="courseView" class="active">
-                        <a href="#" ng-click="showCourses();" >Mis cursos</a>
+                        <a href="" ng-click="showCourses();" >Mis cursos</a>
                     </li>
                     <li id="certificationsView">
                     <a href="" ng-click="showCertifications();">Certificaciones</a>
                     </li>
-                    <li>
-                    <a href="" ng-click="showTools()" aria-controls="recursos" role="tab" data-toggle="tab">Recursos Favoritos</a>
+                    <li id="toolsView">
+                    <a href="" ng-click="showTools()" aria-controls="recursos" role="tab" data-toggle="tab" ng-class="{active:display_menu==3}">Recursos Favoritos</a>
                     </li>
                     <li>
                     <a href="" ng-click="" aria-controls="empleos" role="tab" data-toggle="tab">Empleos</a>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-xs-2 padding--r0 padding--l0 nav-topper__avatarUser">
                         <div class="row">
-                            <a href="/profile">
+                            <a href="#/profile">
                                 <img src="images/avatar-user.jpg" alt="" class="img-responsive pull-right img-circle" >
                             </a>
                         </div>
@@ -40,21 +40,21 @@
             </div>
         </div>
     </nav>
-    <nav class="col-xs-12 nav-topper" ng-if="!authenticated">
+    <nav class="col-xs-12 nav-topper" ng-if="!authenticated_navbar">
         <div class="container" ng-init="algo()">
             <div class="row-same-height row-xs-full-height">
-                <div class="col-xs-9 col-xs-height col-xs-full-height col-middle">
-                    <a ng-href="/"> 
-                        <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left" >
+                <div class="col-xs-2 col-xs-height col-xs-full-height col-middle">
+                    <a ng-href="#/"> 
+                        <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left logowidth" >
                     </a>
-                    <div ng-show="{{authenticated}}" class="top-main-menu">
+                    <div ng-show="{{authenticated_navbar}}" class="top-main-menu">
                         <ul class="nav nav-complete navbar-nav navbar-right">
-                            <li class="active"><a ng-href="#allCourses" ng-click="activeMenu($event)">CURSOS</a></li>
-                            <li><a ng-href="#allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
-                            <li><a ng-href="#jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
+                            <li class="active"><a ng-href="#/allCourses" ng-click="activeMenu($event)">CURSOS</a></li>
+                            <li><a ng-href="#/allCertificates" ng-click="activeMenu($event)">CERTIFICACIONES</a></li>
+                            <li><a ng-href="#/jobs" ng-click="activeMenu($event)">BOLSA DE EMPLEO</a></li>
                         </ul>
                     </div>
-                    <ul controller="profile_api" ng-show="authenticated" class="nav nav-pills nav-interno pull-left" role="tablist">
+                    <ul controller="profile_api" ng-show="authenticated_navbar" class="nav nav-pills nav-interno pull-left" role="tablist">
                         <li class="{{menuActive_0}}">
                         <a href="" ng-click="changeItem(0)">Mis cursos</a>
                         </li>
@@ -66,14 +66,14 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-3 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
-                    <div class="row sidebar-contentMenu">
+                <div class="col-xs-10 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
+                    <div class="col-xs-12 sidebar-contentMenu">
                         <div class="">
                             <p class="text text--gris pull-right">
 
-                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-if="!authenticated">INGRESAR</a>
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" data-target="#js-ingreso" ng-if="!authenticated_navbar">INGRESAR</a>
 
-                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" href="profile" ng-if="authenticated">PERFIL</a>
+                            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" href="#/profile" ng-if="authenticated">PERFIL</a>
                             <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="authenticated" ng-click="logout()">SALIR</a>
 
                             <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
@@ -121,7 +121,7 @@
                                 </p>
                                 <form>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control--form" placeholder="Nombre de usuario" ng-model="userNameNew" required>
+                                        <input type="text" class="form-control form-control--form" placeholder="Nombre Completo" ng-model="userNameNew" required>
                                         <input type="email" class="form-control form-control--form" placeholder="Correo Electrónico" ng-model="userEmail" required>
                                         <input type="password" class="form-control form-control--form" placeholder="Contraseña" ng-model="userPasswordNew" required>
                                     </div>
