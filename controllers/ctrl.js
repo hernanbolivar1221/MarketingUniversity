@@ -450,12 +450,9 @@ app2.controller("login_api", function($scope, $http, $rootScope){
 		}
 	}
 	 $scope.FBLogin = function (register) {
-        console.log("a no sigue todo normal");
 	 	FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
-        FB.api('/me?fields=name,email,accessToken', function (response) {
-        	        console.log("prueba",response.email);
-                    console.log("token",response.token)
+        FB.api('/me?fields=name,email', function (response) {
                     username=response.email;
           	        username=username.replace("@","");
           	        username=username.replace(".","");
@@ -467,9 +464,7 @@ app2.controller("login_api", function($scope, $http, $rootScope){
         else {
         FB.login(function (response) {
                 if (response.authResponse) {
-                    FB.api('/me?fields=name,email,accessToken', function (response) {
-                       console.log("prueba",response.email);
-                       console.log("token",response.token)
+                    FB.api('/me?fields=name,email', function (response) {
                        username=response.email;
           	           username=username.replace("@","");
           	           username=username.replace(".","");
