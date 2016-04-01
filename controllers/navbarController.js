@@ -126,21 +126,23 @@ app.controller("loginController", ["auth","$scope","$http","$rootScope", functio
     $scope.FBLogin = function (register) {
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
+                var access_token =   FB.getAuthResponse()['accessToken'];
                 FB.api('/me?fields=name,email', function (response) {
                     username=response.email;
                     username=username.replace("@","");
                     username=username.replace(".","");
-                    auth.kme($http, $scope,username,response.name,response.email,register);
+                    auth.kme($http, $scope,username,response.name,response.email,register,access_token,"facebook");
                 });
             }
             else {
                 FB.login(function (response) {
                     if (response.authResponse) {
+                        var access_token =   FB.getAuthResponse()['accessToken'];
                         FB.api('/me?fields=name,email', function (response) {
                             username=response.email;
                             username=username.replace("@","");
                             username=username.replace(".","");
-                            auth.kme($http, $scope,username,response.name,response.email,register);
+                            auth.kme($http, $scope,username,response.name,response.email,register,access_token,"facebook");
                         });
                     } else {
                         console.log('User cancelled login or did not fully authorize.');

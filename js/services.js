@@ -1,16 +1,25 @@
 app.factory("auth", ["$rootScope","$location",function($rootScope, $location){
     return {
-        kme: function ($http, $scope,username,name,email,register) {
+        kme: function ($http, $scope,username,name,email,register,access_token,provider) {
             var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?callback=JSON_CALLBACK&username='+email+'&name='+ name +'&password='+username;
-
             $http.jsonp(encodeURI(uri)).success(function(response){
-
                 if(response.status == "logged"){
                     $http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username)
                 .success(function(respuesta){
                     //console.log(JSON.stringify(respuesta));
                     sessionStorage.dataUser = JSON.stringify(respuesta);
                     $rootScope.dataUser = respuesta;
+                    if (provider){
+                    $http.jsonp(config.SERVICE_SERVER +"/api/get_social_tokens/?callback=JSON_CALLBACK&email=" + email +"&provider="+provider+"&token="+access_token)
+                    .success(function(respuesta){
+                    console.log(JSON.stringify(respuesta));
+                    })
+                    .error(function(data,b, status,d) {
+                     console.log(b,d);
+                     });
+                    }
+                    //aqui acaba
+
                     $(".modal--ingreso").modal("show").toggle();
 
                 });
