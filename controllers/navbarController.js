@@ -9,6 +9,7 @@ app.controller("footer", function($scope){
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
     $rootScope.$watch("dataUser", function(){
+
         if($rootScope.dataUser == null){
             $rootScope.authenticated = false;
             $scope.authenticated_navbar = false;
@@ -17,11 +18,14 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
             $scope.authenticated_navbar = true;
             $rootScope.first_name = $rootScope.dataUser.name;
             $rootScope.last_name = $rootScope.dataUser.lastname;
-
-            $location.path("/profile");
-            console.log("test");
-       }
-
+            if(sessionStorage.locate != undefined){
+                $location.path(sessionStorage.locate);
+                sessionStorage.removeItem("locate");
+                sessionStorage.removeItem("location_state");
+            }else{
+                $location.path("/profile");
+            }
+        }
     })
     if(sessionStorage.dataUser != undefined){
         $rootScope.dataUser = JSON.parse(sessionStorage.dataUser);
@@ -30,21 +34,33 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
         $rootScope.display_menu = 1;
         courseView = document.querySelector("#courseView");
         certificationsView = document.querySelector("#certificationsView");
+        toolsView = document.querySelector("#toolsView");
         courseView.classList.add("active");
         certificationsView.classList.remove("active");
+        toolsView.classList.remove("active");
+    }
+    $scope.showTools = function(){
+        $rootScope.display_menu = 3;
+        courseView = document.querySelector("#courseView");
+        certificationsView = document.querySelector("#certificationsView");
+        toolsView = document.querySelector("#toolsView");
+        courseView.classList.remove("active");
+        certificationsView.classList.remove("active");
+        toolsView.classList.add("active");
+
     }
     $scope.showCertifications = function(){
 
         $rootScope.display_menu = 2;
         courseView = document.querySelector("#courseView");
         certificationsView = document.querySelector("#certificationsView");
+        toolsView = document.querySelector("#toolsView");
         courseView.classList.remove("active");
         certificationsView.classList.add("active");
+        toolsView.classList.remove("active");
     }
     $scope.test = function(){
     }
-
-
 
 
     $scope.menuOpen = false;
@@ -99,8 +115,7 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
         }
     }
 }]);
-
-app.controller("loginController", ["auth","$scope","$http","$rootScope", function(auth, $scope, $http, $rootScope){
+app.controller("loginController", ["auth","$scope","$http","$rootScope", "$location", function(auth, $scope, $http, $rootScope, $location){
     $rootScope.$watch("dataUser", function(){
 
         if($rootScope.dataUser == null){
@@ -111,9 +126,11 @@ app.controller("loginController", ["auth","$scope","$http","$rootScope", functio
             $scope.authenticated_navbar = true;
             $rootScope.first_name = $rootScope.dataUser.name;
             $rootScope.last_name = $rootScope.dataUser.lastname;
-
         }
     })
+    if(sessionStorage.dataUser != undefined){
+        $rootScope.dataUser = JSON.parse(sessionStorage.dataUser);
+    }
 
     // URL Constant
     jsonData = config;

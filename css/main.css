@@ -182,7 +182,7 @@
 .text--azul_cla{color:#accce6}
 .text--azul_osc{color:#002b62}
 .text--gris{color:#7e7e7e}
-.text--gris_cla{color:#989fab}
+.text--gris_cla{color:#989fab; height: 57px;}
 .text--gris_osc{color:#454546}
 .text--verde{color:#6e8e2d}
 .text--space1{letter-space:-1px}
@@ -709,7 +709,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-section4{padding-bottom:2em;padding-top:5em}
 .sidebar-imageCurso{position:relative;}
 .sidebar-imageCurso__nombre{position:absolute;bottom:-1em}
-.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:70px}
+.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:100%; height: 70px;}
 .sidebar-imageCurso__qualy{color:#fff;position:absolute;top:1em}
 .sidebar-add__montain{position:relative;}
 .sidebar-add__montain:after{background:url("../images/spoiler1-r.png") 0 0;bottom:-120px;content:'';display:block;height:176px;position:absolute;right:0;width:599px;z-index:1}
@@ -727,7 +727,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-footer__bottom{background:#dadada;padding-bottom:1em;padding-top:1em;}
 .sidebar-footer__bottom:after{background:url("../images/footer-left.png") 0 0;top:-106px;content:'';display:block;height:213px;position:absolute;left:2em;width:181px;z-index:1}
 .sidebar-footer__bottom:before{background:url("../images/footer-right.png") 0 0;top:-176px;content:'';display:block;height:213px;position:absolute;right:2em;width:181px;z-index:1}
-.sidebar-footer__bottom2{background:#dadada;padding-bottom:1em;padding-top:1em;}
+.sidebar-footer__bottom2{background:#dadada;padding-bottom:1em;padding-top:1em;margin-top:5em}
 .sidebar-footer__bottom2:before{background:url("../images/footer-right2.png") 0 0;top:-20px;content:'';display:block;height:132px;position:absolute;right:2em;width:162px;z-index:1}
 .sidebar-footer__iconSocial{-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;display:inline-block;height:2em;margin:0 .1em;padding:.5em 0 !important;position:relative;text-align:center;width:2em;}
 .sidebar-footer__iconSocial--facebook{background:#4d88c5;color:#fff;margin-left:2em;}
@@ -1076,4 +1076,24 @@ a {
 
 .logowidth{
     max-width: 198px;
+}
+.bg-nameTutor {
+    background : #3c3c3c;
+    opacity: 0.8;
+}
+.sidebar-imageCurso>a>img{
+    -webkit-filter:contrast(100%) brightness(70%);
+     filter:contrast(100%) brightness(70%);
+     height: 170px;
+     margin: 0 auto;
+}
+.sidebar-imageCurso{
+    background:#afafaf;
+}
+.allPublic{
+    padding-left: 15px;
+}
+.avatar--tutor{
+    width: 70px;
+    height: 70px;
 }

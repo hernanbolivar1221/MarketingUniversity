@@ -5,7 +5,7 @@
             <div class="col-xs-3 sidebar-perfil sidebar-add__montainR margin--b5">
                 <div class="row">
                     <div class="col-xs-12 sidebar-perfil__top text-center">
-                        <img ng-src="{{dataUser.photo}}" alt="" class="img-responsive center-block img-circle">
+                        <img ng-src="{{dataUser.photo.split('?')[0].replace('80', '120')}}" alt="" class="img-responsive center-block img-circle">
                         <div>
                             <p class="text text--gris text--xbold text--md margin--t1" ng-if="dataUser.name != ''">{{dataUser.name}} {{dataUser.lastname}}</p>
                             <p class="text text--gris text--xbold text--md margin--t1" ng-if="dataUser.name == ''">{{dataUser.username}}</p>
@@ -102,7 +102,7 @@
 
                 <div ng-show="display_menu == 1 || display_menu == undefined">
 
-                    <h1 class="text text--lite text--lg margin--t2 text--gris">
+                    <h1 class="text text--lite text--lg margin--t1 text--gris text--bold">
                         Mis Cursos
                     </h1>
 
@@ -136,13 +136,13 @@
                 <div ng-show="display_menu == 2">
 
 
-                    <h1 class="text text--lite text--lg margin--t2 text--gris">
+                    <h1 class="text text--lite text--lg margin--t1 text--gris text--bold">
                         Certificaciones
                     </h1>
 
                     <div class="clearfix"></div>
 
-                    <tabset class="nav-tabs">
+                    <tabset class="nav-tabs nav nav-perfil">
                     <tab heading="En Curso">
                     <certifications type="in_progress"></certifications>
                     </tab>
@@ -158,7 +158,7 @@
 
                 <!-- Recursos Favoritos -->
 
-                <div ng-show="displayMenu_2">
+                <div ng-show="display_menu == 3">
 
                     <a href="#" bookmarklet>ENLACE PARA BOOKMARKLET</a>
                     <h1 class="text text--lite text--lg margin--t2 text--gris">
