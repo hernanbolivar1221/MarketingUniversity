@@ -61,6 +61,7 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
     return {
         restrict: 'EA',
     template: '<div>' +
+
     '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
     '<ul class="list-unstyled menuTab">' + 
     '<li ng-repeat="items in tabs" ng-class="{tabActive: items.active}"> ' + 
@@ -77,6 +78,7 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
     '</tabset>' + 
     '</div>' + 
     '</div>',
+
     link: function (scope, element, attrs) {
 
         var urlTemplate = 'views/simpleCourse/';
