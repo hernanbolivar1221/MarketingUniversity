@@ -29,7 +29,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="" id="leccion">
                             <div class="col-xs-12 list-simple">
-                                <ul class="nav nav-pills nav-pills--setps nav-justified" style="margin-top: 15px; margin-bottom: 15px;">
+                                <ul class="nav nav-pills nav-pills--setps nav-justified">
                                     <li class="" ng-class="{active:$first, active:$index == submodulePosition, visited:modules[modulePosition].submodules[$index].has_seen}" ng-repeat="submodule in dataSimpleCourse.modules[modulePosition].submodules" ng-click="jumpSubmodulePosition($index)">
                                         <a aria-controls="leccion1-step1"  role="tab" data-toggle="tab" ng-click="jumpSubmodulePosition($index)"></a>
                                     </li>
@@ -95,14 +95,14 @@
                             </div>
 
                             <div class="clearfix"></div>
-                                <p class="text text--lite text--gris text--upper margin--b0 margin--t2">
+                                <p class="text text--lite text--gris text--upper margin--b0 margin--t2 hidden">
                                     Puntos de marketing ninja:
                                 </p>
-                                <p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0">
+                                <p class="text text--xbold text--xxlg text--gris text--upper margin--b0 margin--t0 hidden">
                                 80  
                             </p>
                             <div class="clearfix"></div>
-                            <a class="btn btn-verde btn-lg margin--t1 BlockTest" ng-disabled="!modules[modulePosition].can_open" data-mode="1" target="_blank" ng-click="open_test()">
+                            <a class="btn btn-verde btn-lg margin--t1 BlockTest"  data-mode="1" target="_blank" ng-click="open_test()" ng-disabled="modules[modulePosition].contents[0].content_button_info.attempts_left <= 0">
                                     Realizar Evaluación
                                 </a>
                                 </div>

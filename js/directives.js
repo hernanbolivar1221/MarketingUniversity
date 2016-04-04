@@ -6,6 +6,8 @@ link : function(scope, element, attrs){
     scope.$watch("sessions", function(){
         scope.getInCourse = false;
         scope.registerCourse = false;
+        $rootScope.detailGetInCourse = false;
+        $rootScope.detailRegisterCourse = false;
         sessions = scope.sessions;
         try{
             if(scope.sessions != ""){
@@ -20,6 +22,7 @@ link : function(scope, element, attrs){
                 
                 if(has_session){
                     scope.getInCourse = true;
+                    $rootScope.detailGetInCourse = true;
                     scope.url = '#/course/'+$routeParams.slug;
                 }else{
                     uuid = scope.uuid;
@@ -29,6 +32,7 @@ link : function(scope, element, attrs){
                     }
                     username = JSON.parse(sessionStorage.dataUser).username;
                     scope.registerCourse = true;
+                    $rootScope.detailRegisterCourse = true;
                     scope.url = '';
                     //button.innerHTML = "Inscribete";
                     //button.onclick = function(){
@@ -445,7 +449,7 @@ app.directive("totalDuration", function(){
             }
         },
         scope: {
-            seconds : "@"
+            seconds : "@",
         }
     }
 });
@@ -674,3 +678,35 @@ app.directive("getTutors", function(tutors){
         }
     }
 })
+
+app.directive("sessionsList", [function(){
+    return {
+        restrict : "EA",
+        templateUrl : "views/sessions_list.html",
+        link : function(scope){
+            scope.$watch("data", function(){
+                if(!Array.isArray(scope.data)){
+                    try{
+                        scope.data = JSON.parse(scope.data);
+                        for(var i=0; i<scope.data.length;i++){
+                            initial = scope.data[i].initial_date.substring(0,10);
+                            initial = new Date(initial);
+                            initial = spanishDate(initial);
+                            final = scope.data[i].final_date.substring(0,10);
+                            final = new Date(final);
+                            final = spanishDate(final);
+                            scope.data[i].initial_date = initial;
+                            scope.data[i].final_date = final;
+
+                        }
+                    }catch(err){
+                    
+                    }
+                }
+            })  
+        },
+        scope : {
+            data : "@"
+        }
+    }
+}]);
