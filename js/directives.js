@@ -61,23 +61,21 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
     return {
         restrict: 'EA',
     template: '<div>' +
-
-    '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
-    '<ul class="list-unstyled menuTab">' + 
-    '<li ng-repeat="items in tabs" ng-class="{tabActive: items.active}"> ' + 
-    '<i class="{{items.icon}} "></i>' + 
-    '<a href="" ng-click="items.active = true">{{items.name}}</a>' +
-    '</li>' + 
-    '</ul>' + 
-    '</div>' + 
-    '<div class="col-md-10">' + 
-    '<tabset>' + 
-    '<tab ng-repeat="tab in tabs" heading="" active="tab.active" class="hidden">' +
-    '<ng-include src="tab.template"></ng-include>' + 
-    '</tab>' + 
-    '</tabset>' + 
-    '</div>' + 
-    '</div>',
+   '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
+   '<div  class="panel panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
+   '<div class="panel-heading" role="tab"  ng-class="{tabActive: items.active}">' + 
+   '<a href="" aria-controls="salon" role="tab" data-toggle="tab" class=""><span class="{{items.icon}}"></span>{{items.name}}</a>' + 
+   '</div>' + 
+   '</div>' + 
+   '</div>' +
+   '<div class="col-md-10">' + 
+   '<tabset>' + 
+   '<tab ng-repeat="tab in tabs" heading="" active="tab.active" class="hidden">' +
+   '<ng-include src="tab.template"></ng-include>' + 
+   '</tab>' + 
+   '</tabset>' + 
+   '</div>' + 
+   '</div>',
 
     link: function (scope, element, attrs) {
 

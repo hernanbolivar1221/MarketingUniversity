@@ -1134,9 +1134,8 @@ a:focus {
 
 .btnRojo{background:#c75130;color:#fff;}
 .btnSuccess{background:#0F9D58;color:#fff}
-<<<<<<< Updated upstream
+
 .courseImageCatalog{height:167px; max-width: 100%;}
-=======
 
 .sidebar-perfil__top > img {
     border: 2px solid #3874b8;
@@ -1173,4 +1172,3 @@ a:focus {
 .tabActive>a{
     color: white !important;
 }
->>>>>>> Stashed changes
