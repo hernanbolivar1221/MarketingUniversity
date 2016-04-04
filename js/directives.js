@@ -62,7 +62,7 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
         restrict: 'EA',
     template: '<div>' +
    '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
-   '<div  class="panel panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
+   '<div  class="panell panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
    '<div class="panel-heading" role="tab"  ng-class="{tabActive: items.active}">' + 
    '<a href="" aria-controls="salon" role="tab" data-toggle="tab" class=""><span class="{{items.icon}}"></span>{{items.name}}</a>' + 
    '</div>' + 
