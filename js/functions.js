@@ -147,4 +147,8 @@ function split_array_for_slides(array, n){
     return response;
 }
 
-
+function spanishDate(d){
+    var weekday=["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+    var monthname=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    return weekday[d.getDay()]+" "+d.getDate()+" de "+monthname[d.getMonth()]+" de "+d.getFullYear()
+}

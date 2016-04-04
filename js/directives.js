@@ -6,13 +6,13 @@ link : function(scope, element, attrs){
     scope.$watch("sessions", function(){
         scope.getInCourse = false;
         scope.registerCourse = false;
+        $rootScope.detailGetInCourse = false;
+        $rootScope.detailRegisterCourse = false;
         sessions = scope.sessions;
         try{
             if(scope.sessions != ""){
                 has_session = false;
-                console.log(sessions);
                 sessions = JSON.parse(sessions);
-                console.log(sessions);
                 button = document.querySelector("#buttonCourse");
                 for(session of sessions){
                     if(session.score != null){
@@ -22,6 +22,7 @@ link : function(scope, element, attrs){
                 
                 if(has_session){
                     scope.getInCourse = true;
+                    $rootScope.detailGetInCourse = true;
                     scope.url = '#/course/'+$routeParams.slug;
                 }else{
                     uuid = scope.uuid;
@@ -29,9 +30,9 @@ link : function(scope, element, attrs){
                     if(!session_available){
                         scope.showCourseButton = false;
                     }
-                    console.log(session_available);
                     username = JSON.parse(sessionStorage.dataUser).username;
                     scope.registerCourse = true;
+                    $rootScope.detailRegisterCourse = true;
                     scope.url = '';
                     //button.innerHTML = "Inscribete";
                     //button.onclick = function(){
@@ -43,7 +44,6 @@ link : function(scope, element, attrs){
             }
 
         }catch(err){
-            console.log(err);
             //console.log(sessions);
             scope.showCourseButton = false;
         }
@@ -62,7 +62,7 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
         restrict: 'EA',
     template: '<div>' +
    '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
-   '<div  class="panel panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
+   '<div  class="panell panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
    '<div class="panel-heading" role="tab"  ng-class="{tabActive: items.active}">' + 
    '<a href="" aria-controls="salon" role="tab" data-toggle="tab" class=""><span class="{{items.icon}}"></span>{{items.name}}</a>' + 
    '</div>' + 
@@ -271,7 +271,6 @@ app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce,
                         //links[link].href = config.SERVICE_SERVER + '/' +links[link].getAttribute("value");    
                         links[link].href = config.SERVICE_SERVER + '/lms/course/' + uuid +'/module/' + module + '/content/' + content +'/sit/files/'; 
                     }catch(err){
-                        console.log(links[link]);    
                     }
                 }
 
@@ -281,10 +280,8 @@ app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce,
                         return true;    
                     }        
                 }
-                console.log(submodules);
                 if(submodules.length == 1){
                     scope.btnDisableTest = false;   
-                    console.log("? no way");
                 }else if(submodules.length > 1){
                     last_submodule = submodules[submodules.length - 1];
                     is_active = false;
@@ -294,7 +291,6 @@ app.directive('tabsCustomHorizontalOri', ['$sce', '$routeParams',function ($sce,
                         }
                     }
                     scope.btnDisableTest = is_active;
-                    console.log("test");
 
 
                 }
@@ -364,17 +360,26 @@ app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $route
 app.directive('competenciesList', [function(){
     return {
         restrict : 'EA',
-        templateUrl  : "views/competence_list.html",  
+        templateUrl : "views/competence_list.html",
+//    template : '<ol id="competenciesList" class="list-normal text text--gris margin--t1"></ol>',
         link : function(scope, element, attrs){
-
-            list = document.querySelector("#competenciesList");
             scope.$watch("data", function(){
+            
                 if(scope.data != ""){
-                    scope.data = JSON.parse(scope.data);
-               
-                }
-            })
-
+                    if(!Array.isArray(scope.data)){
+                        scope.competences = JSON.parse(scope.data);
+                    }
+                } 
+            });
+            /**
+            competencies = [];
+            list = document.querySelector("#competenciesList");
+            for(competence in scope.data){
+                competencies[competence] = document.createElement("li");
+                competencies[competence].innerHTML = scope.data[competence].description;
+                list.appendChild(compentecies[competence]);
+            }
+            */
         },
         scope : {
             data : '@'    
@@ -444,7 +449,7 @@ app.directive("totalDuration", function(){
             }
         },
         scope: {
-            seconds : "@"
+            seconds : "@",
         }
     }
 });
@@ -464,7 +469,6 @@ app.directive('cDuration', [function(){
             });
         }else{
             scope.$watch('data', function(){
-                console.log(scope.data);   
             }); 
         }
 
@@ -518,7 +522,6 @@ app.directive("navbar", [function(){
         restrict : "EA",
     templateUrl : "views/navbar.html",
     link : function(){
-        console.log("navbar"); 
     }, 
     scope : {
 
@@ -603,7 +606,6 @@ app.directive("coursesCatalog", ["$rootScope", "courses",  function($rootScope, 
                 courses.myCourses().success(function(response){
                     scope.dataMyCourses = response;
                     $rootScope.dataMyCourses = response;
-                    console.log(response);
                 }).error(function(a,b,c,d){
                     console.log("[DEBUG] - error: "+b+" track:"+d );
                 })
@@ -676,3 +678,35 @@ app.directive("getTutors", function(tutors){
         }
     }
 })
+
+app.directive("sessionsList", [function(){
+    return {
+        restrict : "EA",
+        templateUrl : "views/sessions_list.html",
+        link : function(scope){
+            scope.$watch("data", function(){
+                if(!Array.isArray(scope.data)){
+                    try{
+                        scope.data = JSON.parse(scope.data);
+                        for(var i=0; i<scope.data.length;i++){
+                            initial = scope.data[i].initial_date.substring(0,10);
+                            initial = new Date(initial);
+                            initial = spanishDate(initial);
+                            final = scope.data[i].final_date.substring(0,10);
+                            final = new Date(final);
+                            final = spanishDate(final);
+                            scope.data[i].initial_date = initial;
+                            scope.data[i].final_date = final;
+
+                        }
+                    }catch(err){
+                    
+                    }
+                }
+            })  
+        },
+        scope : {
+            data : "@"
+        }
+    }
+}]);

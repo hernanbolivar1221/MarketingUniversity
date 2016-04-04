@@ -9,6 +9,15 @@ app.controller("footer", function($scope){
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
     $rootScope.showMenu =false;
+
+    $scope.seeMenu = false;
+    $scope.toggleMenuNavbar = function(){
+
+        $scope.seeMenu = !$scope.seeMenu;
+
+
+    }
+
     $rootScope.$on("$locationChangeSuccess", function(_new, old){
         console.log(_new);
         scrollTo(0,0); 
@@ -55,6 +64,7 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
         courseView.classList.add("active");
         certificationsView.classList.remove("active");
         toolsView.classList.remove("active");
+        $location.path("/profile");
     }
     $scope.showTools = function(){
         $rootScope.display_menu = 3;
@@ -65,6 +75,7 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
         certificationsView.classList.remove("active");
         toolsView.classList.add("active");
 
+        $location.path("/profile");
     }
     $scope.showCertifications = function(){
 
@@ -75,10 +86,8 @@ app.controller("navbarController", ['$scope','$http','$rootScope', "$location", 
         courseView.classList.remove("active");
         certificationsView.classList.add("active");
         toolsView.classList.remove("active");
+        $location.path("/profile");
     }
-    $scope.test = function(){
-    }
-
 
     $scope.menuOpen = false;
     $scope.logout = function(){

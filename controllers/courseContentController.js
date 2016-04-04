@@ -72,7 +72,6 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
                 try{
                     if(document.querySelectorAll("#embedVideo").length > 0 && $scope.dataSimpleCourse ){
                     
-                        clearInterval(intervalEmbed);
                         embed = document.querySelector("#embedVideo");
                         embed.innerHTML = $scope.dataSimpleCourse.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].text;
                         if($scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].contents[0].obligatory){
@@ -88,8 +87,9 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
                                     $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
                                 }
                             });
+                            console.log("success");
                         }catch(err){
-                         
+                            console.log(err);
                         }
                         //$scope.markContentAsSeen(submodule.contents[0].content_pk, submodule.contents[0].module);
                         //$scope.isModuleComplete(submodule.contents[0].module);
@@ -97,6 +97,8 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
                         //$scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
                          
                     }
+
+                        clearInterval(intervalEmbed);
                 }catch(err){
                     console.log(err);    
                 }
@@ -357,7 +359,11 @@ app.controller('tribes',['$scope','courses','$routeParams','$http', '$rootScope'
 
     response.success(function(data){
         $scope.tribesModule = data.tribes;
-        $scope.tribeId = data.tribes[0].id;
+        try{
+            $scope.tribeId = data.tribes[0].id;
+        }catch(err){
+            $scope.tribeId = null;
+        }
 
         $http.jsonp( config.SERVICE_SERVER + '/api/tribes/get_tribe/?callback=JSON_CALLBACK&tribe_id=' + $scope.tribeId)
             .success(function(response){
@@ -506,11 +512,22 @@ app.controller("tutors",['$scope','$routeParams','courses',function ($scope,$rou
 }]);
 
 
-app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop, $location){
+app.controller("courseDetails", ["$http", "$scope", "$routeParams", "scrolltop", "$location", "$rootScope",function($http, $scope, $routeParams, scrolltop, $location, $rootScope){
 	
 	scrolltop();
     $scope.slug=  $routeParams.slug;
+    $rootScope.detailGetInCourse = false;
+    $rootScope.detailRegisterCourse = false;
+    $scope.url = "#/course/"+$routeParams.slug;
+    $rootScope.$watch("detailGetInCourse", function(){
+        $scope.showGetInButton = $rootScope.detailGetInCourse;
+        console.log("ingresar", $scope.showGetInButton);
+    });
+    $rootScope.$watch("detailRegisterCourse", function(){
+        $scope.showRegisterButton = $rootScope.detailRegisterCourse;
 
+        console.log("registrar", $scope.showRegisterButton);
+    })
 	var dataSessionInitial,
 		dataSessionFinal;
 
@@ -537,7 +554,7 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop,
     	.error(function(data, status, headers, config){
             console.log(data, status, headers, config);
     	});	
-});
+}]);
 
 app.factory('scrolltop', [function () {
 	
