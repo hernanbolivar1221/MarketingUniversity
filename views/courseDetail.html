@@ -9,7 +9,7 @@
                {{dataDetails.name}}
             </h1>
             <p class=" courseDetailDescription text text--md text--gris text-space1 margin--t1">
-                {{dataDetails.description}}
+                {{dataDetails.description | limitTo:100}}
             </p>
             <button-course sessions="{{ dataDetails.sessions }}" uuid="{{ slug }}" username="{{dataUser.username}}" ng-if="authenticated"></button-course>
         </div>

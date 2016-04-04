@@ -61,22 +61,22 @@ app.directive('tabsCustomVertical', ["$rootScope",function ($rootScope) {
     return {
         restrict: 'EA',
     template: '<div>' +
-    '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
-    '<ul class="list-unstyled menuTab">' + 
-    '<li ng-repeat="items in tabs" ng-class="{tabActive: items.active}">' + 
-    '<i class="{{items.icon}} "></i>' + 
-    '<a href="" ng-click="items.active = true">{{items.name}}</a>' +
-    '</li>' + 
-    '</ul>' + 
-    '</div>' + 
-    '<div class="col-md-10">' + 
-    '<tabset>' + 
-    '<tab ng-repeat="tab in tabs" heading="" active="tab.active">' +
-    '<ng-include src="tab.template"></ng-include>' + 
-    '</tab>' + 
-    '</tabset>' + 
-    '</div>' + 
-    '</div>',
+   '<div class="col-md-2 sidebar-contenidoCurso sidebar-add__montainR margin--b5">' + 
+   '<div  class="panel panel-default" id="accordContenidos" role="tablist" ng-click="items.active = true" class="panel panel-default" ng-repeat="items in tabs">' + 
+   '<div class="panel-heading" role="tab"  ng-class="{tabActive: items.active}">' + 
+   '<a href="" aria-controls="salon" role="tab" data-toggle="tab" class=""><span class="{{items.icon}}"></span>{{items.name}}</a>' + 
+   '</div>' + 
+   '</div>' + 
+   '</div>' +
+   '<div class="col-md-10">' + 
+   '<tabset>' + 
+   '<tab ng-repeat="tab in tabs" heading="" active="tab.active" class="hidden">' +
+   '<ng-include src="tab.template"></ng-include>' + 
+   '</tab>' + 
+   '</tabset>' + 
+   '</div>' + 
+   '</div>',
+
     link: function (scope, element, attrs) {
 
         var urlTemplate = 'views/simpleCourse/';
@@ -364,21 +364,21 @@ app.directive('commentsOnCourse', ['$http','$routeParams',function($http, $route
 app.directive('competenciesList', [function(){
     return {
         restrict : 'EA',
-    template : '<ol id="competenciesList" class="list-normal text text--gris margin--t1"></ol>',
-    link : function(scope, element, attrs){
+        templateUrl  : "views/competence_list.html",  
+        link : function(scope, element, attrs){
 
-        competencies = [];
-        list = document.querySelector("#competenciesList");
-        for(competence in scope.data){
-            competencies[competence] = document.createElement("li");
-            competencies[competence].innerHTML = scope.data[competence].description;
-            list.appendChild(compentecies[competence]);
+            list = document.querySelector("#competenciesList");
+            scope.$watch("data", function(){
+                if(scope.data != ""){
+                    scope.data = JSON.parse(scope.data);
+               
+                }
+            })
+
+        },
+        scope : {
+            data : '@'    
         }
-
-    },
-    scope : {
-        data : '@'    
-    }
     }   
 }])
 app.directive('cDetails', [function () {
@@ -642,13 +642,15 @@ app.directive("certifications",["courses",function(courses){
         restrict : "EA",
         templateUrl : "views/certificates/catalogCertificate.html",
         link : function(scope){
-
-            courses.certifications("?"+scope.type+"=true").success(function(response){
+        
+            courses.certifications("?"+(scope.type != undefined ? scope.type : "available")+"=true").success(function(response){
               scope.items = response;
-              scope.in_progress = (scope.type == "in_progress");
-              console.log([scope.type, scope.in_progress]);
-              scope.remove == undefined ? scope.showPanel = true: scope.showPanel = false;
+              console.log(scope.items);
 
+              scope.in_progress = (scope.type == "in_progress");
+              scope.remove == undefined ? scope.showPanel = true: scope.showPanel = false;
+            }).error(function(a,b,c,d){
+                console.log(b,d);
             });
         },
         scope :{
