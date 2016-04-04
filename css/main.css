@@ -746,7 +746,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-parallax__nubes2{position:absolute;right:3em;top:3em}
 .sidebar-leftBlock{background:#f6f6f6;margin-top:1em;padding-top:2em;padding-bottom:2em}
 .sidebar-detalleContenidoCurso{background:#fcfcfc;padding-bottom:1em;padding-top:1em}
-.sidebar-contenidoCurso{background:#f5f5f5;padding-bottom:4em}
+.sidebar-contenidoCurso{background:#f5f5f5; padding:0px;}
 .sidebar-right{background:#eee;padding-bottom:2em;padding-top:2em}
 .sidebar-nextPreview{padding-top:1em;padding-bottom:1em;padding-right:3em;margin-top:1em;}
 .sidebar-nextPreview__btnNext{position:absolute;top:50%;right:.5em;margin-top:-1.2em}
@@ -1074,6 +1074,20 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+a:focus {
+    color: white;
+    text-decoration: none;
+}
+
+.panel-group--detalleCurso .panel-heading > a:active {
+	color:white;
+}
+
 .logowidth{
     max-width: 201px;
 }
@@ -1120,3 +1134,41 @@ a {
 
 .btnRojo{background:#c75130;color:#fff;}
 .btnSuccess{background:#0F9D58;color:#fff}
+
+.courseImageCatalog{height:167px; max-width: 100%;}
+
+.sidebar-perfil__top > img {
+    border: 2px solid #3874b8;
+    width: 130px;
+}
+   
+
+.panel {
+    margin-bottom: 0px !important;
+    background-color: #f5f5f5;
+    border: none !important; 
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.panel-heading {
+    padding: 15px 25px !important;
+    background-color: transparent !important;
+}
+
+.sidebar-contenidoCurso {
+    background: #f5f5f5;
+    padding-bottom: 4em;
+}
+
+
+
+.tabActive, .panel :focus{
+    background: #3874b8 !important;
+    color: white !important;
+}
+	
+.tabActive>a{
+    color: white !important;
+}
