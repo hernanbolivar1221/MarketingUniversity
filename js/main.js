@@ -378,3 +378,58 @@ app.run(["$rootScope","$location", "$http", "$window", function($rootScope, $loc
 
     //end Evaluations
 }])
+
+var funciones =
+{
+    tabs_internos_perfil_cursos : function ()
+    {
+        $('#accordContenidos a[data-toggle="tab"]').on('shown.bs.tab', function (e)
+        {
+            $('#accordContenidos .panel-heading a').removeClass('active');
+            $(e.target).addClass('active');
+        });
+
+        $('#tabsLecciones').on('show.bs.tab', function ()
+        {
+            $(this).find('li[role="presentation"]').removeClass('active');
+        });
+    },
+
+    tabs_internos_detalle_especializacion : function ()
+    {
+
+        $('#detalleModulos a[data-toggle="tab"]').on('shown.bs.tab', function (e)
+        {
+            $('#detalleModulos .panel-heading a').removeClass('active');
+            $(e.target).addClass('active');
+        });
+
+    },
+
+    menu_top : function ()
+    {
+        $('.js-funtionMenu').click( function (e)
+        {
+            e.preventDefault();
+            $('.js-menuInit').toggleClass('disabled');
+
+        });
+
+        $(".js-scrollTo").on('click', function(e)
+        {
+            e.preventDefault();
+            var hash = this.hash;
+
+            $('html, body').animate(
+            {
+                scrollTop: $(hash).offset().top
+            }, 300);
+
+        });
+    }
+}
+
+funciones.menu_top();
+
+
+
