@@ -1,16 +1,25 @@
 app.factory("auth", ["$rootScope","$location",function($rootScope, $location){
     return {
-        kme: function ($http, $scope,username,name,email,register) {
+        kme: function ($http, $scope,username,name,email,register,access_token,provider) {
             var uri=config.SERVICE_SERVER+'/api/login_kmeadmin/?callback=JSON_CALLBACK&username='+email+'&name='+ name +'&password='+username;
-
             $http.jsonp(encodeURI(uri)).success(function(response){
-
                 if(response.status == "logged"){
                     $http.jsonp(config.SERVICE_SERVER +"/api/get_profile_data/?callback=JSON_CALLBACK&username=" + username)
                 .success(function(respuesta){
                     //console.log(JSON.stringify(respuesta));
                     sessionStorage.dataUser = JSON.stringify(respuesta);
                     $rootScope.dataUser = respuesta;
+                    if (provider){
+                    $http.jsonp(config.SERVICE_SERVER +"/api/get_social_tokens/?callback=JSON_CALLBACK&email=" + email +"&provider="+provider+"&token="+access_token)
+                    .success(function(respuesta){
+                    console.log(JSON.stringify(respuesta));
+                    })
+                    .error(function(data,b, status,d) {
+                     console.log(b,d);
+                     });
+                    }
+                    //aqui acaba
+
                     $(".modal--ingreso").modal("show").toggle();
 
                 });
@@ -71,7 +80,13 @@ app.factory("auth", ["$rootScope","$location",function($rootScope, $location){
         }
     }
 }]);
-
+app.factory("tutors", ["$http", function($http){
+    return {
+        onCourse : function(slug){
+            return $http.jsonp(config.SERVICE_SERVER + "/api/course/getTutors/?slug="+slug+"&callback=JSON_CALLBACK");
+        },
+    }   
+}]);
 app.factory('courses', ['$http',function($http) {
     return {
         dataStudent : function(uuid, slug){
@@ -102,6 +117,13 @@ app.factory('courses', ['$http',function($http) {
         certifications : function(params){
             return $http.jsonp(config.SERVICE_SERVER+"/api/certifications/"+params+"&callback=JSON_CALLBACK");
         },
+        related : function(related){
+            return $http.jsonp(config.SERVICE_SERVER+"/api/courses/?related="+related+"&callback=JSON_CALLBACK");
+        },
+        absolute : function(){
+            return $http.jsonp(config.SERVICE_SERVER+"/api/courses/?absolute=true&callback=JSON_CALLBACK");
+        },
+
     }
 }]);
 
@@ -116,4 +138,11 @@ app.factory('coursesGet', ['$http',function($http) {
 
 }]);
 
+app.factory("contentService", ["$http",function($http){
+    return {
+        getURL : function(content_pk){
+            return $http.jsonp(config.SERVICE_SERVER + "/api/course/getFile/?content="+content_pk+"&callback=JSON_CALLBACK");
+        }
+    }
 
+} ]);

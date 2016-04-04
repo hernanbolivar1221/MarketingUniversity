@@ -1,24 +1,9 @@
-app.controller('courseContentController', ['$http','$scope', '$routeParams', 'courses','$modal','$sce', '$rootScope', function ($http, $scope, $routeParams, courses, $modal,$sce, $rootScope) {
+app.controller('courseContentController', ['$http','$scope', '$routeParams', 'courses','$modal','$sce', '$rootScope',"$location", function ($http, $scope, $routeParams, courses, $modal,$sce, $rootScope, $location) {
     var response = courses.dataStudent(null,$routeParams.slug);
 
-        function split_array_for_slides(array, n){
-        	response = [];
-        	aux_array = [];
-        	for(var i = 0; i <  array.length; i++){
-        		if(aux_array.length < n){
-        			aux_array.push(array[i]);
-        		}else{
-        			response.push(aux_array);
-        			aux_array = [];
-        			aux_array.push(array[i])
-        		}
-        	}
-        	if(aux_array.length > 0){
-        		response.push(aux_array);
-        	}
-        	return response;
-        }
-
+    if(!$rootScope.authenticated){
+        $location.path("/");
+    }
     // paginador Recursos    
     $scope.slug = $routeParams.slug;
     $scope.pag = 0;
@@ -47,11 +32,11 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
     }
 
     $scope.$watch("modulePosition",function(_new,_old){
+        Pace.restart();
         $scope.submodulePosition = 0;
         $scope.markContentAsSeen = function(content, module){
             $http.jsonp(config.SERVICE_SERVER+"/api/contents/take_test/?content="+content+"&module="+module+"&callback=JSON_CALLBACK")
                 .success(function(response){
-                    console.log(response);
                     exam = response.exam;
                     $http.jsonp(config.SERVICE_SERVER+"/api/contents/json_finish_exam/?content="+content+"&module="+module+"&exam="+exam+"&callback=JSON_CALLBACK")
                         .success(function(response){
@@ -96,13 +81,16 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
                         }else{
                         
                         }
-                        $scope.isModuleComplete(submodule.contents[0].module).success(function(response){
-                            if(response.is_complete){
-                            
-                                $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
-                            }
-                        });
-
+                        try{
+                            $scope.isModuleComplete(submodule.contents[0].module).success(function(response){
+                                if(response.is_complete){
+                                
+                                    $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
+                                }
+                            });
+                        }catch(err){
+                         
+                        }
                         //$scope.markContentAsSeen(submodule.contents[0].content_pk, submodule.contents[0].module);
                         //$scope.isModuleComplete(submodule.contents[0].module);
 
@@ -118,7 +106,6 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
 
     });
     
-
     $scope.jumpSubmodulePosition = function(pos){
         $scope.submodulePosition = pos;   
         console.log("Module: "+ $scope.modulePosition);
@@ -203,10 +190,6 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
         $scope.$watch("modules", function(){
 
         })
- 
-       
-
-
         $scope.simpleItems = split_array_for_slides(dataModules,4);
 
         $rootScope.moduleId = $scope.modules[$scope.modulePosition].module_pk;
@@ -216,12 +199,16 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
         });
         $scope.markAsSeen = function(module_pk){
             for(var i=0; i< $scope.modules.length; i++){
+                exam_available = true; 
                 for(var j=0; j< $scope.modules[i].submodules.length; j++){
                     if($scope.modules[i].submodules[j].module_pk == module_pk){
                         $scope.modules[i].submodules[j].has_seen = true;
                         console.log($scope.modules[i].submodules[j]);
                     }
+                   
+                    exam_available = exam_available && $scope.modules[i].submodules[j].has_seen;
                 }
+                $scope.modules[i].can_open = exam_available;
             }
         }
         for(var i=0; i< $scope.modules.length; i++){
@@ -401,10 +388,16 @@ app.controller('tribes',['$scope','courses','$routeParams','$http', '$rootScope'
                                     return $sce.trustAsHtml(html); 
                                 }
                             });
-                        $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
-                        $scope.topicName = $scope.tribesDetails.topics[pos].name; 
-                        $scope.open == true ?  $scope.open = false : $scope.open = true;  
-                    }else{
+                        topic = null;
+                        for(var i=0; i<$scope.tribesDetails.topics.length; i++){
+                            if($scope.tribesDetails.topics[i].id == pos){
+                                $scope.topicDescription = $scope.tribesDetails.topics[i].description; 
+                                $scope.topicName = $scope.tribesDetails.topics[i].name; 
+                                $scope.open == true ?  $scope.open = false : $scope.open = true;  
+    
+                            }
+                        }
+                                           }else{
                         $scope.comments = null;
                         $scope.loaderTribe = true;
                         $scope.commentsVisible = false;
@@ -447,10 +440,20 @@ app.controller('tribes',['$scope','courses','$routeParams','$http', '$rootScope'
                                     $scope.parseHtml =  function(html){
                                         return $sce.trustAsHtml(html); 
                                     }
+                                })  
+                                .error(function(a,b,c,d){
+                                    console.log(b,d);
                                 });
-                            $scope.topicDescription = $scope.tribesDetails.topics[pos].description; 
-                            $scope.topicName = $scope.tribesDetails.topics[pos].name; 
-                            $scope.open == true ?  $scope.open = false : $scope.open = true;  
+                            for(var i=0; i<$scope.tribesDetails.topics.length; i++){
+                                console.log($scope.tribesDetails.topics, position);
+                                if(position == $scope.tribesDetails.topics[i].id){
+                                    $scope.topicId = position;
+                                    $scope.topicDescription = $scope.tribesDetails.topics[i].description; 
+                                    $scope.topicName = $scope.tribesDetails.topics[i].name; 
+                                    $scope.open == true ?  $scope.open = false : $scope.open = true;  
+                                   
+                                }
+                            }
                         }else{
                             $scope.comments = null;
                             $scope.loaderTribe = true;
@@ -503,9 +506,10 @@ app.controller("tutors",['$scope','$routeParams','courses',function ($scope,$rou
 }]);
 
 
-app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop){
+app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop, $location){
 	
 	scrolltop();
+    $scope.slug=  $routeParams.slug;
 
 	var dataSessionInitial,
 		dataSessionFinal;
@@ -515,17 +519,20 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 			$scope.dataDetails = response[0];
 			$scope.dataSessionDates = []
             console.log(response);
-			for (var i = 0; i < response[0].sessions.length; i++) {
-				session = response[0].sessions[i];
-				init = new Date(session.initial_date);
-				end = new Date(session.final_date);
-				$scope.dataSessionDates.push({
-                    "dates" : init.toDateString() + " - " + end.toDateString(),
-                    "initial_date" : session.initial_date,
-                    "final_date" : session.final_date
-                });
+            if(response.length > 0){
+                for (var i = 0; i < response[0].sessions.length; i++) {
+                    session = response[0].sessions[i];
+                    init = new Date(session.initial_date);
+                    end = new Date(session.final_date);
+                    $scope.dataSessionDates.push({
+                        "dates" : init.toDateString() + " - " + end.toDateString(),
+                        "initial_date" : session.initial_date,
+                        "final_date" : session.final_date
+                    });
 
-		};
+
+                };
+            };
 		})
     	.error(function(data, status, headers, config){
             console.log(data, status, headers, config);

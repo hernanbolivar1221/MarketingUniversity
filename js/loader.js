@@ -5,7 +5,7 @@ $(window).load(function () {
 })
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '485045968335965',
+    appId      : '1722658564680713',
     cookie     : true,   
                         
     xfbml      : true,  

@@ -1,5 +1,5 @@
-<div ng-controller="certificates">
-<section class="col-xs-12 sidebar-greenGrandient sidebar-greenGrandient--xlg sidebar-add__montain">
+<div>
+<section class="col-xs-12 sidebar-greenGrandient sidebar-greenGrandient--xlg ">
     <div class="container text-center">
         <h1 class="text text--azul_mid text--xxxxlg text--xbold margin--b0 text-center text-space1 text--upper">
             Certificate ;)
@@ -17,7 +17,7 @@
     <div class="container">
         <div class="col-xs-12 margin--tn5">
             <div class="row">
-
+                <certifications filter="available" remove="panel"></certifications>
                 <div ng-repeat="certificate in certificateAll" class="col-lg-3 col-xs-6 margin--t1">
                     <div class="col-xs-12 sidebar-bloqs2">
                         <div class="row sidebar-imageCurso">

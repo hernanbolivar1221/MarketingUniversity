@@ -453,7 +453,7 @@ app2.controller("login_api", function($scope, $http, $rootScope){
 	 	FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
         FB.api('/me?fields=name,email', function (response) {
-        	        username=response.email;
+                    username=response.email;
           	        username=username.replace("@","");
           	        username=username.replace(".","");
                     kmeAPI($http, $scope,username,response.name,response.email,register);
