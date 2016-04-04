@@ -8,6 +8,23 @@ app.controller("footer", function($scope){
 });
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
+    $rootScope.showMenu =false;
+    $rootScope.$on("$locationChangeSuccess", function(_new, old){
+        console.log(_new);
+        scrollTo(0,0); 
+        Pace.restart();
+        path = $location.path();
+        if(path == "/profile"){
+            $scope.showMenu = false;
+            $rootScope.showMenu = false;
+        }else{
+            $scope.showMenu = true;
+            $rootScope.showMeny =true;
+        }
+    });
+
+
+
     $rootScope.$watch("dataUser", function(){
 
         if($rootScope.dataUser == null){

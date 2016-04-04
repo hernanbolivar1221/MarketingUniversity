@@ -7,7 +7,7 @@
                 </a>
             </div>
             <div class="col-xs-6">
-                <ul class="nav nav-pills nav-interno">
+                <ul class="nav nav-pills nav-interno" ng-class="{hidden:showMenu}">
                     <li id="courseView" class="active">
                         <a href="" ng-click="showCourses();" >Mis cursos</a>
                     </li>
@@ -45,7 +45,7 @@
             <div class="row-same-height row-xs-full-height">
                 <div class="col-xs-2 col-xs-height col-xs-full-height col-middle">
                     <a ng-href="#/"> 
-                        <img src="images/logo1.png" alt="Marketing University" class="img-responsive pull-left logowidth" >
+                        <img src="images/logo1.png" id="logoOri" alt="Marketing University" class="img-responsive pull-left logowidth" >
                     </a>
                     <div ng-show="{{authenticated_navbar}}" class="top-main-menu">
                         <ul class="nav nav-complete navbar-nav navbar-right">
@@ -165,5 +165,4 @@
             </div>
         </div>
     </div>
-
 </div>

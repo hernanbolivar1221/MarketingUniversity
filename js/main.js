@@ -26,7 +26,7 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
 		})
 		.when('/allCertificates', {
 			templateUrl: 'views/certificates/allCertificates.html',
-			controller: "certificates"
+			//controller: "certificates"
 		})
 		.when('/jobs', {
 			templateUrl: 'views/bagJobs.html'
@@ -50,7 +50,8 @@ app.run(["$rootScope","$location", "$http", "$window", function($rootScope, $loc
         sessionStorage.locate = $location.path();
         sessionStorage.location_state = 1;
     }
-
+    $rootScope.contents_url = [];
+        
     $rootScope.template ='views/courses/content_user_opt.html';
     $rootScope.dataUser = null;
     $rootScope.random = function(){
@@ -336,9 +337,17 @@ app.run(["$rootScope","$location", "$http", "$window", function($rootScope, $loc
             
             });
     }
-    $rootScope.open_test = function(){
+    $rootScope.open_test = function(module, content, item){
+        $rootScope.moduleId = module;
+        $rootScope.contentId = content;
+        $rootScope.modulePosition = 0;
+        $rootScope.submodulePosition = 0;
+        $rootScope.packItemPosition = 0;
         $rootScope.show_test = true;
         $rootScope.start_exam();
+        courseContent = $(".menuTab>li")[0];
+        $(courseContent).addClass("active");
+        
     }
 
     $rootScope.close_test = function(){

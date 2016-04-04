@@ -709,7 +709,7 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 .sidebar-section4{padding-bottom:2em;padding-top:5em}
 .sidebar-imageCurso{position:relative;}
 .sidebar-imageCurso__nombre{position:absolute;bottom:-1em}
-.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:100%; height: 70px;}
+.sidebar-imageCurso__image{border:3px solid #5998c8;margin-right:.5em;width:70px; height: 70px;}
 .sidebar-imageCurso__qualy{color:#fff;position:absolute;top:1em}
 .sidebar-add__montain{position:relative;}
 .sidebar-add__montain:after{background:url("../images/spoiler1-r.png") 0 0;bottom:-120px;content:'';display:block;height:176px;position:absolute;right:0;width:599px;z-index:1}
@@ -1075,7 +1075,7 @@ a {
 }
 
 .logowidth{
-    max-width: 198px;
+    max-width: 201px;
 }
 .bg-nameTutor {
     background : #3c3c3c;
@@ -1097,3 +1097,26 @@ a {
     width: 70px;
     height: 70px;
 }
+#logoOri{
+    max-width: 201px;
+}
+
+.titleCourse{
+    height: 42px;
+}
+.timeSpace{
+    height: 36px;
+}
+.courseDetailTitle{
+    height: 108px;
+}
+.courseDetailDescription{
+    height: 63px;
+}
+.sidebar-imageCurso>a{
+
+    height: 170px;
+}
+
+.btnRojo{background:#c75130;color:#fff;}
+.btnSuccess{background:#0F9D58;color:#fff}

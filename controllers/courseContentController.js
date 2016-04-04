@@ -1,7 +1,9 @@
-app.controller('courseContentController', ['$http','$scope', '$routeParams', 'courses','$modal','$sce', '$rootScope', function ($http, $scope, $routeParams, courses, $modal,$sce, $rootScope) {
+app.controller('courseContentController', ['$http','$scope', '$routeParams', 'courses','$modal','$sce', '$rootScope',"$location", function ($http, $scope, $routeParams, courses, $modal,$sce, $rootScope, $location) {
     var response = courses.dataStudent(null,$routeParams.slug);
 
-
+    if(!$rootScope.authenticated){
+        $location.path("/");
+    }
     // paginador Recursos    
     $scope.slug = $routeParams.slug;
     $scope.pag = 0;
@@ -79,13 +81,16 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
                         }else{
                         
                         }
-                        $scope.isModuleComplete(submodule.contents[0].module).success(function(response){
-                            if(response.is_complete){
-                            
-                                $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
-                            }
-                        });
-
+                        try{
+                            $scope.isModuleComplete(submodule.contents[0].module).success(function(response){
+                                if(response.is_complete){
+                                
+                                    $scope.modules[$scope.modulePosition].submodules[$scope.submodulePosition].has_seen = true;
+                                }
+                            });
+                        }catch(err){
+                         
+                        }
                         //$scope.markContentAsSeen(submodule.contents[0].content_pk, submodule.contents[0].module);
                         //$scope.isModuleComplete(submodule.contents[0].module);
 
@@ -185,10 +190,6 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
         $scope.$watch("modules", function(){
 
         })
- 
-       
-
-
         $scope.simpleItems = split_array_for_slides(dataModules,4);
 
         $rootScope.moduleId = $scope.modules[$scope.modulePosition].module_pk;
@@ -505,9 +506,10 @@ app.controller("tutors",['$scope','$routeParams','courses',function ($scope,$rou
 }]);
 
 
-app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop){
+app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop, $location){
 	
 	scrolltop();
+    $scope.slug=  $routeParams.slug;
 
 	var dataSessionInitial,
 		dataSessionFinal;
@@ -517,17 +519,20 @@ app.controller("courseDetails", function($http, $scope, $routeParams, scrolltop)
 			$scope.dataDetails = response[0];
 			$scope.dataSessionDates = []
             console.log(response);
-			for (var i = 0; i < response[0].sessions.length; i++) {
-				session = response[0].sessions[i];
-				init = new Date(session.initial_date);
-				end = new Date(session.final_date);
-				$scope.dataSessionDates.push({
-                    "dates" : init.toDateString() + " - " + end.toDateString(),
-                    "initial_date" : session.initial_date,
-                    "final_date" : session.final_date
-                });
+            if(response.length > 0){
+                for (var i = 0; i < response[0].sessions.length; i++) {
+                    session = response[0].sessions[i];
+                    init = new Date(session.initial_date);
+                    end = new Date(session.final_date);
+                    $scope.dataSessionDates.push({
+                        "dates" : init.toDateString() + " - " + end.toDateString(),
+                        "initial_date" : session.initial_date,
+                        "final_date" : session.final_date
+                    });
 
-		};
+
+                };
+            };
 		})
     	.error(function(data, status, headers, config){
             console.log(data, status, headers, config);

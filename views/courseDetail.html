@@ -5,16 +5,13 @@
             <span class="text text--azul_osc text--lg text--xbold text-space1 margin--t1">
                 CURSO POR DEMANDA
             </span></br>
-            <h1 class="text text--azul_mid text--xxxxlg text--xbold margin--b0 text-space1 text--upper">
+            <h1 class="courseDetailTitle text text--azul_mid text--xxxxlg text--xbold margin--b0 text-space1 text--upper">
                {{dataDetails.name}}
             </h1>
-            <p class="text text--md text--gris text-space1 margin--t1">
+            <p class=" courseDetailDescription text text--md text--gris text-space1 margin--t1">
                 {{dataDetails.description}}
             </p>
-            <a href="" class="btn btn--academy2  btn-rojo btn-xlg text--upper margin--t1 margin--b1" data-toggle="modal" data-target="#js-ingreso">
-                 Inscríbete
-            </a>
-            <button-course sessions="{{ dataDetails.sessions }}" uuid="{{ dataDetails.uuid}}" username="{{dataUser.username}}"></button-course>
+            <button-course sessions="{{ dataDetails.sessions }}" uuid="{{ slug }}" username="{{dataUser.username}}" ng-if="authenticated"></button-course>
         </div>
         <div class="col-xs-5">
             <img ng-src="{{dataDetails.image}}" alt="" class="img-responsive">

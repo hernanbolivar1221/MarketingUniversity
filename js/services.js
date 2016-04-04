@@ -80,7 +80,13 @@ app.factory("auth", ["$rootScope","$location",function($rootScope, $location){
         }
     }
 }]);
-
+app.factory("tutors", ["$http", function($http){
+    return {
+        onCourse : function(slug){
+            return $http.jsonp(config.SERVICE_SERVER + "/api/course/getTutors/?slug="+slug+"&callback=JSON_CALLBACK");
+        },
+    }   
+}]);
 app.factory('courses', ['$http',function($http) {
     return {
         dataStudent : function(uuid, slug){
@@ -132,4 +138,11 @@ app.factory('coursesGet', ['$http',function($http) {
 
 }]);
 
+app.factory("contentService", ["$http",function($http){
+    return {
+        getURL : function(content_pk){
+            return $http.jsonp(config.SERVICE_SERVER + "/api/course/getFile/?content="+content_pk+"&callback=JSON_CALLBACK");
+        }
+    }
 
+} ]);
