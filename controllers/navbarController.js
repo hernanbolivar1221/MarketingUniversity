@@ -9,6 +9,15 @@ app.controller("footer", function($scope){
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
     $rootScope.showMenu =false;
+
+    $scope.seeMenu = false;
+    $scope.toggleMenuNavbar = function(){
+
+        $scope.seeMenu = !$scope.seeMenu;
+
+
+    }
+
     $rootScope.$on("$locationChangeSuccess", function(_new, old){
         console.log(_new);
         scrollTo(0,0); 
