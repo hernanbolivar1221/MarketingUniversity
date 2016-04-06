@@ -4,7 +4,7 @@ app.controller('courseContentController', ['$http','$scope', '$routeParams', 'co
     if(!$rootScope.authenticated){
         $location.path("/");
     }
-    // paginador Recursos    
+    // paginador Recursos   
     $scope.slug = $routeParams.slug;
     $scope.pag = 0;
     $scope.modulePosition = 0;
@@ -512,8 +512,16 @@ app.controller("tutors",['$scope','$routeParams','courses',function ($scope,$rou
 }]);
 
 
-app.controller("courseDetails", ["$http", "$scope", "$routeParams", "scrolltop", "$location", "$rootScope",function($http, $scope, $routeParams, scrolltop, $location, $rootScope){
-	
+app.controller("courseDetails", ["$http", "$scope", "$routeParams", "scrolltop", "$location", "$rootScope","courses",function($http, $scope, $routeParams, scrolltop, $location, $rootScope, courses){
+    $scope.inscribeUserOnCOurse = function(){
+        console.log(123);
+        courses.inscribe($routeParams.slug).success(function(response){
+            if(response.status == "ok"){
+                $location.path("#/course/"+$routeParams.slug);
+            }
+        });
+    }
+
 	scrolltop();
     $scope.slug=  $routeParams.slug;
     $rootScope.detailGetInCourse = false;

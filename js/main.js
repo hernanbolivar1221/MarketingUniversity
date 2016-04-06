@@ -51,7 +51,6 @@ app.run(["$rootScope","$location", "$http", "$window", function($rootScope, $loc
         sessionStorage.location_state = 1;
     }
     $rootScope.contents_url = [];
-        
     $rootScope.template ='views/courses/content_user_opt.html';
     $rootScope.dataUser = null;
     $rootScope.random = function(){

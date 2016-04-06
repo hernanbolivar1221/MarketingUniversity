@@ -123,6 +123,9 @@ app.factory('courses', ['$http',function($http) {
         absolute : function(){
             return $http.jsonp(config.SERVICE_SERVER+"/api/courses/?absolute=true&callback=JSON_CALLBACK");
         },
+        inscribe : function(slug){
+            return $http.jsonp(config.SERVICE_SERVER+"/api/courses/inscribeUser/?course="+slug+"&callback=JSON_CALLBACK");
+        }
 
     }
 }]);

@@ -9,7 +9,9 @@ app.controller("footer", function($scope){
 app.controller("navbarController", ['$scope','$http','$rootScope', "$location", function($scope, $http, $rootScope, $location){
 
     $rootScope.showMenu =false;
-
+    $rootScope.$watch("dataUser", function(){
+        $scope.user_avatar = $rootScope.dataUser != null ? $rootScope.dataUser.photo : "";
+    })
     $scope.seeMenu = false;
     $scope.toggleMenuNavbar = function(){
 
