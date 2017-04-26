@@ -7,7 +7,7 @@
                 </a>
             </div>
             <div class="col-xs-6">
-                <ul class="nav nav-pills nav-interno">
+                <ul class="nav nav-pills nav-interno" ng-class="{hidden:showMenu}">
                     <li id="courseView" class="active">
                         <a href="" ng-click="showCourses();" >Mis cursos</a>
                     </li>
@@ -66,8 +66,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-10 sidebar-contentMenu col-xs-height col-xs-full-height col-middle" >
-                    <div class="col-xs-12 sidebar-contentMenu" ng-if="!seeMenu">
+                <div class="col-xs-10 sidebar-contentMenu col-xs-height col-xs-full-height col-middle">
+                    <div class="col-xs-12 sidebar-contentMenu">
                         <div class="">
                             <p class="text text--gris pull-right">
 
@@ -76,26 +76,12 @@
                             <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar" data-toggle="modal" href="#/profile" ng-if="authenticated">PERFIL</a>
                             <a class="btn btn--academy btn-danger btn--right btn-lg btn--ingresar" ng-show="authenticated" ng-click="logout()">SALIR</a>
 
-                            <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar" ng-click="toggleMenuNavbar()">
+                            <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar"  ng-hide="hideMenu" ng-click="showMenu()">
                                 <span class="fa fa-bars"></span>
-                            </a>                         
+                            </a>
+
                             </p>
                         </div>
-                    </div>
-
-                    <div class="sidebar-contentMenu__menu_completo" ng-if="seeMenu" ng-click="toggleMenuNavbar()">
-                        <div class="col-xs-10">
-                            <ul class="nav nav-complete navbar-nav navbar-right" >
-                                <li class="active"><a href="#allCourses">CURSOS</a></li>
-                                <li><a href="#/allCertificates">CERTIFICACIONES</a></li>
-                                <li><a href="#/jobs">BOLSA DE EMPLEO</a></li>
-                                <li><a href="#/">BIBLIOTECA</a></li>
-                                <li><a href="#/">PRECIOS</a></li>
-                            </ul>
-                        </div>
-                        <a class="btn btn--academy btn-azul btn--right btn-lg btn--ingresar pull-right" >
-                            <span class="fa fa-bars"></span>
-                        </a>  
                     </div>
                 </div>
             </div>

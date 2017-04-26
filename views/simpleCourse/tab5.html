@@ -26,13 +26,13 @@
                 {{item[0].content_name}}
             </td>
             <td class="text-center">
-                <strong>  {{item[0].content_button_info.num_attempts}} / {{item[0].content_opportunities}}</strong>
+                <strong>{{item[0].content_button_info.attempts_left}} / {{item[0].content_button_info.num_attempts}}</strong>
             </td>
             <td  class="text-center">
                 <strong>{{item[0].content_button_info.exam_score}}</strong>
             </td>
             <td>
-                <a class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper typeform-share" ng-click="open_test(modules[$index].module_pk, item[0].content_pk, item)" ng-disabled="item[0].content_button_info.attempts_left  <= 0">
+                <a class="btn btn-gosh btn-xsm btn-gosh--verde pull-right text--upper typeform-share" ng-click="open_test(modules[$index].module_pk, item[0].content_pk, item)">
                     Hacer Evaluación
                 </a>
             </td>

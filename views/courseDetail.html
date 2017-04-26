@@ -9,7 +9,7 @@
                {{dataDetails.name}}
             </h1>
             <p class=" courseDetailDescription text text--md text--gris text-space1 margin--t1">
-                {{dataDetails.description | limitTo:200}}...
+                {{dataDetails.description | limitTo:100}}
             </p>
             <button-course sessions="{{ dataDetails.sessions }}" uuid="{{ slug }}" username="{{dataUser.username}}" ng-if="authenticated"></button-course>
         </div>
@@ -34,7 +34,12 @@
                 Al finalizar este curso usted estará en capacidad de:
             </p>
             <competencies-list data="{{dataDetails.competencies}}"></competencies-list>
-            
+            <ol class="list-normal text text--gris margin--t1 hidden">
+                
+                <li ng-repeat="competence in dataDetails.competencies">
+                    {{competence.description}}
+                </li>
+            </ol>
             <h2 class="text text--azul_mid text--xxxlg text--xbold margin--b05 margin--t1 text-space1">
                 Temario
             </h2>
@@ -78,7 +83,9 @@
                 Sesiones
             </h3>
             <div class="form-group">
-                <sessions-list data="{{dataSessionDates}}"></sessions-list>
+                <select class="form-control" ng-model="initial_dates" ng-options="item['dates'] for item in dataSessionDates">
+                    <option value="">Seleccione una sesión</option>
+                </select>
             </div>
 
             <div class="clearfix"></div><hr class="sep sep--gris sep--xs">
@@ -119,13 +126,9 @@
                 Ninguno
             </p>
 
-            <a href="#" class="btn btn-verde btn-xlg margin--t1" data-toggle="modal" data-target="#js-ingreso" ng-if="showRegisterButton">
+            <a href="#" class="btn btn-verde btn-xlg margin--t1" data-toggle="modal" data-target="#js-ingreso">
                  Inscríbete
             </a>
-            <a href="{{ url }}" class="btn btn-verde btn-xlg margin--t1"  ng-if="showGetInButton">
-                 Ingresar
-            </a>
-            <a class="btn btn--academy btn-verde btn--right btn-lg btn--ingresar ng-scope" data-toggle="modal" data-target="#js-ingreso" ng-if="!authenticated">INGRESAR</a>
 
             <h3 class="text text--azul_osc text--lg text--xbold text-space1 margin--t1">
                 Lo que dice la gente

@@ -851,8 +851,8 @@ body{font-family:'Raleway',sans-serif;font-size:16px;margin:0;overflow-x:hidden;
 }
 .nav-pills--setps
 {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 2em;
+	margin-bottom: 2em;
 }
 .nav-pills--setps > li
 {
@@ -1134,7 +1134,8 @@ a:focus {
 
 .btnRojo{background:#c75130;color:#fff;}
 .btnSuccess{background:#0F9D58;color:#fff}
-.courseImageCatalog{height:167px; width: 100%; background: #fff;}
+
+.courseImageCatalog{height:167px; max-width: 100%;}
 
 .sidebar-perfil__top > img {
     border: 2px solid #3874b8;
@@ -1142,11 +1143,11 @@ a:focus {
 }
    
 
-.panell {
+.panel {
     margin-bottom: 0px !important;
     background-color: #f5f5f5;
     border: none !important; 
-    border-radius: 0px;
+    border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }

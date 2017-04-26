@@ -6,12 +6,12 @@
                     {{ item.course.name }}
                 </h2>
             </div>
-            <div class="col-xs-4 white--background" >
+            <div class="col-xs-4">
                 <img src="{{ item.course.image }}" alt="" class="img-responsive pull-left courseImageCatalog ">
             </div>
             <div class="col-xs-6">
                 <p class="text text--lite text--gris">
-                    {{ item.course.description  | limitTo:90}}...
+                    {{ item.course.description  | limitTo:35}}
                 </p>
                 <div class="row">
                     <div class="col-xs-6">
